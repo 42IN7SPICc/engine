@@ -7,4 +7,6 @@ set(PROJECT_INCLUDES_DIR ${PROJECT_SOURCE_DIR}/includes)
 
 include_directories(${PROJECT_INCLUDES_DIR}/spic-api-headers)
 
-add_library(${PROJECT_NAME} SHARED engine.cpp)
+file(GLOB_RECURSE SOURCE src/*.cpp ${PROJECT_INCLUDES_DIR}/spic-api-headers/*.cpp)
+
+add_library(${PROJECT_NAME} SHARED ${SOURCE})
