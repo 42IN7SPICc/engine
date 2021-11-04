@@ -17,8 +17,7 @@
           "type": "FILEPATH",
           "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
         },
-        "VCPKG_DEFAULT_TRIPLET": {
-          "type": "STRING",
+        "VCPKG_TARGET_TRIPLET": {
           "value": "$env{VCPKG_DEFAULT_TRIPLET}"
         }
       }
