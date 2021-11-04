@@ -1,0 +1,10 @@
+{
+  "name": "spic-engine",
+  "version": "1.0.0",
+  "dependencies": [
+    "sdl2",
+    "sdl2-image",
+    "sdl2-mixer",
+    "box2d"
+  ]
+}
