@@ -7,9 +7,10 @@ on:
 
 jobs:
   build:
-    name: Build ${{ matrix.name }}
+    name: Build (${{ matrix.name }})
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: windows-latest
@@ -17,7 +18,10 @@ jobs:
             triplet: x64-windows-static
           - os: ubuntu-latest
             name: Linux
-            triplet: x64-linux-static
+            triplet: x64-linux
+
+    env:
+      VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
 
     steps:
       - name: 'Checkout'
@@ -30,8 +34,6 @@ jobs:
         uses: lukka/get-cmake@latest
       - name: 'Setup vcpkg'
         uses: lukka/run-vcpkg@v10
-        env:
-          VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
 
       - name: 'Run CMake'
         uses: lukka/run-cmake@v10
