@@ -16,11 +16,9 @@ jobs:
           - os: windows-latest
             name: Windows
             triplet: x64-windows-static
-            file: spic-engine.lib
           - os: ubuntu-latest
             name: Linux
             triplet: x64-linux
-            file: libspic-engine.a
 
     env:
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
