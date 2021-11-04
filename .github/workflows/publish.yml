@@ -27,12 +27,6 @@ jobs:
           token: ${{ secrets.PAT }}
           submodules: true
 
-      - name: 'Setup env'
-        uses: lukka/set-shell-env@master
-        with:
-          VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
-          filter: ^VCPKG.*
-
       - name: 'Install CMake'
         uses: lukka/get-cmake@latest
       - name: 'Setup vcpkg'
@@ -43,4 +37,5 @@ jobs:
         with:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg
-          cmakeAppendedArgs: '-DVCPKG_TARGET_TRIPLET=${{ env.VCPKG_DEFAULT_TRIPLET }}'
+        env:
+          VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}

@@ -1,6 +1,6 @@
 {
   "name": "spic-engine",
-  "version": "1.0.0",
+  "version-string": "latest",
   "dependencies": [
     "sdl2",
     "sdl2-image",
