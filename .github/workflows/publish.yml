@@ -45,4 +45,8 @@ jobs:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg
 
-      - run: tree
+      - name: 'Upload output'
+        uses: actions/upload-artifact@v2
+        with:
+          name: output-${{ matrix.name.lowercase }}
+          path: builds/ninja-multi-vcpkg/Debug/
