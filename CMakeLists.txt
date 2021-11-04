@@ -14,5 +14,5 @@ include_directories(${PROJECT_INCLUDES_DIR}/spic-api-headers)
 
 file(GLOB_RECURSE SOURCE src/*.cpp ${PROJECT_INCLUDES_DIR}/spic-api-headers/*.cpp)
 
-add_library(${PROJECT_NAME} SHARED ${SOURCE})
+add_library(${PROJECT_NAME} STATIC ${SOURCE})
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2::SDL2-static SDL2::SDL2_image SDL2::SDL2_mixer box2d::box2d)
