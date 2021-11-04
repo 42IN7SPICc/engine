@@ -7,21 +7,23 @@ on:
 
 jobs:
   build:
-    name: Build ${{ matrix.os }}
+    name: Build ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ windows-latest ]
         include:
           - os: windows-latest
+            name: Windows
             triplet: x64-windows-static
           - os: ubuntu-latest
+            name: Linux
             triplet: x64-linux-static
 
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v2
         with:
+          token: ${{ secrets.PAT }}
           submodules: true
 
       - name: 'Install CMake'
