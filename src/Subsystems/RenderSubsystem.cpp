@@ -7,12 +7,10 @@
 using namespace spic;
 
 engine::RenderSubsystem::RenderSubsystem() {
-#ifndef NDEBUG
-    _window = std::make_unique<Window>("POC", 50, 50, 1366, 768, false);
-#endif
-#ifdef NDEBUG
-    _window = std::make_unique<Window>("POC", 50, 50, 1366, 768, true);
-#endif
+    auto &engine = Engine::Instance();
+    auto &windowConfig = engine.Config().window;
+
+    _window = std::make_unique<Window>(windowConfig.title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowConfig.width, windowConfig.height, windowConfig.fullscreen);
 }
 
 void engine::RenderSubsystem::Update() {
