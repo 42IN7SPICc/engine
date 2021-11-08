@@ -33,7 +33,7 @@ Point ZoneUtil::GetCenter(const std::vector<Point>& points) {
     return avgPoint;
 }
 
-double ZoneUtil::GetMaxLength(const std::vector<spic::Point>& points, const spic::Point& center) {
+double ZoneUtil::GetMaxLength(const std::vector<Point>& points, const Point& center) {
     double maxLength = 0;
     if (points.empty()) return maxLength;
 
@@ -46,7 +46,7 @@ double ZoneUtil::GetMaxLength(const std::vector<spic::Point>& points, const spic
     return maxLength;
 }
 
-int ZoneUtil::WindPnPoly(const Point& point, const std::vector<spic::Point>& points) {
+int ZoneUtil::WindPnPoly(const Point& point, const std::vector<Point>& points) {
     auto result = 0;
     int pointsCount = points.size();
     for (int i = 0; i < pointsCount; ++i)
