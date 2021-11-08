@@ -5,7 +5,7 @@
 #include "IMouseListener.hpp"
 
 namespace engine {
-    class ButtonMouseListener : spic::IMouseListener {
+    class ButtonMouseListener : public spic::IMouseListener {
     public:
         explicit ButtonMouseListener(spic::Button* button);
 
