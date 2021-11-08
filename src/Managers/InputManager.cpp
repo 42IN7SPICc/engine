@@ -6,6 +6,17 @@ using namespace spic;
 InputManager InputManager::_instance{};
 
 InputManager::InputManager() : _mousePosition{new Point()} {
+    for (int i = 0; i < SDL_NUM_SCANCODES; i++)
+    {
+        _keysCurrent[i] = false;
+        _keysPrevious[i] = false;
+    }
+    _mouseCurrent[SDL_BUTTON_LEFT] = false;
+    _mouseCurrent[SDL_BUTTON_MIDDLE] = false;
+    _mouseCurrent[SDL_BUTTON_RIGHT] = false;
+    _mouseCurrent[SDL_BUTTON_X1] = false;
+    _mouseCurrent[SDL_BUTTON_X2] = false;
+    _mousePrevious = {_mouseCurrent};
 }
 
 bool InputManager::AnyKeyDown() {
@@ -74,21 +85,25 @@ void InputManager::HandleEvent(const SDL_Event& event) {
         }
         case SDL_MOUSEBUTTONDOWN:
         {
+            _mousePrevious[event.button.button] = _mouseCurrent[event.button.button];
             _mouseCurrent[event.button.button] = true;
             for (const auto& item: Input::_mouseListeners) item->OnMouseClicked();
         }
         case SDL_MOUSEBUTTONUP:
         {
+            _mousePrevious[event.button.button] = _mouseCurrent[event.button.button];
             _mouseCurrent[event.button.button] = false;
             for (const auto& item: Input::_mouseListeners) item->OnMouseReleased();
         }
         case SDL_KEYDOWN:
         {
+            _keysPrevious[event.button.button] = _keysCurrent[event.button.button];
             _keysCurrent[event.key.keysym.scancode] = true;
             for (const auto& item: Input::_keyListeners) item->OnKeyPressed();
         }
         case SDL_KEYUP:
         {
+            _keysPrevious[event.button.button] = _keysCurrent[event.button.button];
             _keysCurrent[event.key.keysym.scancode] = false;
             for (const auto& item: Input::_keyListeners) item->OnKeyReleased();
         }
@@ -104,9 +119,6 @@ void InputManager::Update() {
             break;
         }
     }
-
-    _mousePrevious = {_mouseCurrent};
-    _keysPrevious = {_keysCurrent};
 }
 
 InputManager& InputManager::GetInstance() {
@@ -117,11 +129,11 @@ Uint8 InputManager::ToKey(const spic::Input::MouseButton& mouseButton) {
     switch (mouseButton)
     {
         case spic::Input::MouseButton::LEFT:
-            return SDL_BUTTON_LMASK;
+            return SDL_BUTTON_LEFT;
         case spic::Input::MouseButton::MIDDLE:
-            return SDL_BUTTON_MMASK;
+            return SDL_BUTTON_MIDDLE;
         case spic::Input::MouseButton::RIGHT:
-            return SDL_BUTTON_RMASK;
+            return SDL_BUTTON_RIGHT;
     }
     return 0;
 }
