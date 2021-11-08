@@ -10,5 +10,5 @@ Button::Button(const std::string& name, const std::string& tag, int layer, doubl
     interactable = true;
 
     ButtonMouseListener listener{this};
-    Input::RegisterMouseListener(&listener);
+    Input::RegisterMouseListener(listener);
 }
