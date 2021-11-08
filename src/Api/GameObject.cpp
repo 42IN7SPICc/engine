@@ -6,8 +6,7 @@
 
 using namespace spic;
 
-void spic_GameObject_ListObjects(const std::shared_ptr<GameObject> &gameObject,
-                                 std::vector<std::shared_ptr<GameObject>> &gameObjects, bool includeInactive = false) {
+void spic_GameObject_ListObjects(const std::shared_ptr<GameObject> &gameObject, std::vector<std::shared_ptr<GameObject>> &gameObjects, bool includeInactive = false) {
     if (includeInactive || gameObject->Active()) {
         gameObjects.push_back(gameObject);
     }
@@ -51,8 +50,7 @@ void GameObject::Destroy(std::shared_ptr<GameObject> obj) {
 
     for (auto object: All()) {
         if (object->name == obj->name) {
-            scene->Contents().erase(std::remove(scene->Contents().begin(), scene->Contents().end(), obj),
-                                    scene->Contents().end());
+            scene->Contents().erase(std::remove(scene->Contents().begin(), scene->Contents().end(), obj), scene->Contents().end());
         }
     }
 }
@@ -65,8 +63,7 @@ void GameObject::Destroy(Component *obj) {
     }
 }
 
-GameObject::GameObject(const std::string &name, const std::string &tag, int layer) : active(true), name{name}, tag{tag},
-                                                                                     layer{layer} {
+GameObject::GameObject(const std::string &name, const std::string &tag, int layer) : active(true), name{name}, tag{tag}, layer{layer} {
     _transform = {{0, 0}, 0, 1};
 }
 
