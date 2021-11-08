@@ -1,6 +1,7 @@
+#include "InputSubsystem.hpp"
+
 #include "Engine.hpp"
 
-#include "InputSubsystem.hpp"
 #include "../Managers/InputManager.hpp"
 
 using namespace engine;
