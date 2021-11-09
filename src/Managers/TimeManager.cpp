@@ -8,7 +8,7 @@ const double MAX_DELTA_TIME = 200.0;
 TimeManager TimeManager::_instance{};
 
 double TimeManager::DeltaTime() const {
-    return _deltaTime * 1000;
+    return _deltaTime;
 }
 
 double TimeManager::TimeScale() const {
@@ -34,7 +34,7 @@ void TimeManager::Update() {
         deltaTime = MAX_DELTA_TIME;
     }
 
-    _deltaTime = deltaTime;
+    _deltaTime = deltaTime / 1000;
 }
 
 TimeManager &TimeManager::GetInstance() {
