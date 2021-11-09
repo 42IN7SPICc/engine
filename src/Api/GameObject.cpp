@@ -10,9 +10,9 @@ void spic_GameObject_ListObjects(const std::shared_ptr<GameObject> &gameObject, 
     if (includeInactive || gameObject->Active()) {
         gameObjects.push_back(gameObject);
 
-        for (const auto& gameObject: gameObject->GetChildren())
+        for (const auto& childObject: gameObject->GetChildren())
         {
-            spic_GameObject_ListObjects(gameObject, gameObjects, includeInactive);
+            spic_GameObject_ListObjects(childObject, gameObjects, includeInactive);
         }
     }
 }
