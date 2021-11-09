@@ -24,9 +24,9 @@ Engine &Engine::Instance() {
 
 void Engine::Start() {
     std::vector<std::shared_ptr<engine::ISubsystem>> subsystems = {
-            std::make_shared<engine::AnimatorSubsystem>(),
-            std::make_shared<engine::BehaviourScriptSubsystem>(),
             std::make_shared<engine::InputSubsystem>(),
+            std::make_shared<engine::BehaviourScriptSubsystem>(),
+            std::make_shared<engine::AnimatorSubsystem>(),
             std::make_shared<engine::RenderSubsystem>(),
     };
 
