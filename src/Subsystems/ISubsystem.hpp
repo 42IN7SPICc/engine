@@ -8,5 +8,4 @@ namespace engine {
     };
 }
 
-
 #endif //SPIC_ENGINE_ISUBSYSTEM_HPP
