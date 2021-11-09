@@ -17,6 +17,4 @@ namespace engine {
 }
 
 
-
-
 #endif //SPIC_ENGINE_AUDIOCLIP_HPP
