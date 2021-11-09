@@ -1,10 +1,6 @@
+#include <stdexcept>
 #include "AudioManager.hpp"
-
-#ifndef NDEBUG
-
-#include <iostream>
-
-#endif
+#include "Debug.hpp"
 
 #define MAX_VOLUME 0.75
 
@@ -76,7 +72,6 @@ void AudioManager::ChannelCallback(int channelNumber) {
         auto const&[key, value] = item;
         return value == channelNumber;
     });
-#ifndef NDEBUG
-    std::cout << channelNumber << " channel exited" << std::endl;
-#endif
+
+    spic::Debug::Log(std::to_string(channelNumber) + " channel exited");
 }
