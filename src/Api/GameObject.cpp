@@ -89,7 +89,7 @@ void GameObject::Active(bool flag) {
 
 bool GameObject::IsActiveInWorld() const {
     if (!_parent.expired()) {
-        return _parent.lock()->IsActiveInWorld();
+        return this->Active() && _parent.lock()->IsActiveInWorld();
     }
     return this->Active();
 }
