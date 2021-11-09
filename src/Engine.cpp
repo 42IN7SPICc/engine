@@ -8,6 +8,8 @@ using namespace spic;
 const int TARGET_FPS = 60;
 const double TARGET_FRAME_DELAY = 1000.0 / TARGET_FPS;
 
+Engine Engine::instance{};
+
 void Engine::Init(const EngineConfig &config) {
     _config = config;
 }
