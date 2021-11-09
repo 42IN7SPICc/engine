@@ -6,9 +6,15 @@
 
 using namespace spic;
 
-void spic_GameObject_ListObjects(const std::shared_ptr<GameObject> &gameObject, std::vector<std::shared_ptr<GameObject>> &gameObjects, bool includeInactive = false) {
+void spic_GameObject_ListObjects(const std::shared_ptr<GameObject> gameObject, std::vector<std::shared_ptr<GameObject>> &gameObjects, bool includeInactive = false) {
     if (includeInactive || gameObject->Active()) {
         gameObjects.push_back(gameObject);
+
+
+        for (const auto& childObject: gameObject->Children())
+        {
+            spic_GameObject_ListObjects(childObject, gameObjects, includeInactive);
+        }
     }
 }
 
@@ -139,7 +145,7 @@ int GameObject::Layer() const {
 }
 
 spic::Transform GameObject::AbsoluteTransform() {
-    GameObject object = *this;
+    GameObject &object = *this;
     spic::Transform transform{object.Transform()};
 
     while (!object.Parent().expired()) {

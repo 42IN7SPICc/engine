@@ -8,6 +8,7 @@
 #include "BoxCollider.hpp"
 #include <cmath>
 #include <vector>
+#include <iostream>
 
 using namespace engine;
 using namespace spic;
@@ -80,16 +81,30 @@ void PhysicsSubsystem::Update() {
         auto transform = gameObject->AbsoluteTransform();
 
         for (auto boxCollider: gameObject->GetComponents<BoxCollider>()) {
-            transform.position.x = (body->GetPosition().x - boxCollider->Width() / 2.0) / pixelScale;
-            transform.position.y = (body->GetPosition().y - boxCollider->Height() / 2.0) / pixelScale;
-            transform.rotation = body->GetAngle() * 180 / b2_pi;
+            gameObject->Transform().position.x += ((body->GetPosition().x - boxCollider->Width() / 2.0) / pixelScale) - transform.position.x;
+            gameObject->Transform().position.y += ((body->GetPosition().y - boxCollider->Height() / 2.0) / pixelScale) - transform.position.y;
+            gameObject->Transform().rotation += (body->GetAngle() * 180 / b2_pi) - transform.rotation;
         }
 
         for (auto circleCollider: gameObject->GetComponents<CircleCollider>()) {
-            transform.position.x = (body->GetPosition().x - circleCollider->Radius()) / pixelScale;
-            transform.position.y = (body->GetPosition().y - circleCollider->Radius()) / pixelScale;
-            transform.rotation = body->GetAngle() * 180 / b2_pi;
+            gameObject->Transform().position.x += ((body->GetPosition().x - circleCollider->Radius()) / pixelScale) - transform.position.x;
+            gameObject->Transform().position.y += ((body->GetPosition().y - circleCollider->Radius()) / pixelScale) - transform.position.y;
+            gameObject->Transform().rotation += (body->GetAngle() * 180 / b2_pi) - transform.rotation;
         }
+
+        std::cout << gameObject->Name() << " X: " << gameObject->Transform().position.x << " Y: " << gameObject->Transform().position.y << " AbsX: " << gameObject->AbsoluteTransform().position.x << " AbsY: " << gameObject->AbsoluteTransform().position.y << std::endl;
+
+//        for (auto boxCollider: gameObject->GetComponents<BoxCollider>()) {
+//            gameObject->Transform().position.x = (body->GetPosition().x - boxCollider->Width() / 2.0) / pixelScale;
+//            gameObject->Transform().position.y = (body->GetPosition().y - boxCollider->Height() / 2.0) / pixelScale;
+//            gameObject->Transform().rotation = body->GetAngle() * 180 / b2_pi;
+//        }
+//
+//        for (auto circleCollider: gameObject->GetComponents<CircleCollider>()) {
+//            gameObject->Transform().position.x = (body->GetPosition().x - circleCollider->Radius()) / pixelScale;
+//            gameObject->Transform().position.y = (body->GetPosition().y - circleCollider->Radius()) / pixelScale;
+//            gameObject->Transform().rotation = body->GetAngle() * 180 / b2_pi;
+//        }
     }
 }
 
