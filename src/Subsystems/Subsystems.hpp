@@ -2,7 +2,9 @@
 #define SPIC_ENGINE_SUBSYSTEMS_HPP
 
 #include "ISubsystem.hpp"
-#include "RenderSubsystem.hpp"
+#include "AnimatorSubsystem.hpp"
 #include "BehaviourScriptSubsystem.hpp"
+#include "InputSubsystem.hpp"
+#include "RenderSubsystem.hpp"
 
 #endif //SPIC_ENGINE_SUBSYSTEMS_HPP
