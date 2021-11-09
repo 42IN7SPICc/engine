@@ -1,6 +1,7 @@
 #include "Time.hpp"
 #include "../Managers/TimeManager.hpp"
 
+using namespace engine;
 using namespace spic;
 
 double Time::DeltaTime() {
@@ -12,7 +13,8 @@ double Time::TimeScale() {
 }
 
 void Time::DeltaTime(double newDeltaTime) {
-    TimeManager::GetInstance().DeltaTime(newDeltaTime);
+    // stub for now
+    // this may not be done from the game
 }
 
 void Time::TimeScale(double newTimeScale) {
