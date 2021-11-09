@@ -33,7 +33,7 @@ void engine::RenderSubsystem::Update() {
                                                           SDL_FLIP_NONE);
 
                 auto spriteGameObject = sprite->GameObject().lock();
-                _window->Render(sprite->Texture(), spriteGameObject->AbsoluteTransform(), spriteGameObject->Transform().rotation, flip);
+                _window->Render(sprite->Texture(), spriteGameObject->AbsoluteTransform(), flip);
             }
         }
     }

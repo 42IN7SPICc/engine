@@ -17,7 +17,7 @@ namespace engine {
     public:
         Window(const std::string &title, int xpos, int ypos, int width, int height, bool fullscreen);
 
-        void Render(const std::string &texturePath, const spic::Transform &transform, double &angle, const SDL_RendererFlip &flip);
+        void Render(const std::string &texturePath, const spic::Transform &transform, const SDL_RendererFlip &flip);
 
         void SwapBuffers();
 
