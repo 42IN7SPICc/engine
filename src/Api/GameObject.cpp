@@ -68,7 +68,7 @@ GameObject::GameObject(const std::string &name, const std::string &tag, int laye
 }
 
 GameObject::operator bool() const {
-    return true;
+    return true; // For compatibility with partner group
 }
 
 bool GameObject::operator!=(const GameObject &other) const {
