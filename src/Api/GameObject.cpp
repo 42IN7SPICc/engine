@@ -139,7 +139,7 @@ int GameObject::Layer() const {
 }
 
 spic::Transform GameObject::AbsoluteTransform() {
-    GameObject object = *this;
+    GameObject &object = *this;
     spic::Transform transform{object.Transform()};
 
     while (!object.Parent().expired()) {
