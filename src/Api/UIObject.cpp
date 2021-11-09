@@ -2,7 +2,7 @@
 
 using namespace spic;
 
-UIObject::UIObject(const std::string& name, const std::string& tag, int layer, double width, double height) : GameObject(name, tag, layer) {
+UIObject::UIObject(const std::string& name, const std::string& tag, int layer, double width, double height) : GameObject(name, tag, layer), width{width}, height{height} {
 }
 
 double UIObject::Width() const {
