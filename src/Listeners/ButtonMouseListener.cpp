@@ -5,6 +5,8 @@
 #include "../Utils/RectangleUtil.hpp"
 #include "../Utils/ZoneUtil.hpp"
 
+#include <cmath>
+
 using namespace engine;
 using namespace spic;
 
