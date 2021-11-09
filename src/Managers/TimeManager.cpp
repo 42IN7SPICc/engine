@@ -1,6 +1,5 @@
 #include "TimeManager.hpp"
-#include <iostream>
-#include <Debug.hpp>
+#include "Debug.hpp"
 #include "SDL_timer.h"
 
 using namespace engine;
