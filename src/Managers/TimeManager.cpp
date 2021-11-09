@@ -1,5 +1,6 @@
 #include "TimeManager.hpp"
 #include <iostream>
+#include <Debug.hpp>
 #include "SDL_timer.h"
 
 using namespace engine;
@@ -30,9 +31,7 @@ void TimeManager::Update() {
     auto deltaTime = (double) ((_currentTick - _lastTick) * 1000 / (double) SDL_GetPerformanceFrequency()); // NOLINT(cppcoreguidelines-narrowing-conversions)
 
     if (deltaTime > MAX_DELTA_TIME) {
-#ifndef NDEBUG
-        std::cout << "Can't keep up! Did the system time change, or is the application overloaded? Running " << deltaTime << "ms behind, skipping ticks" << std::endl;
-#endif
+        spic::Debug::Log("Can't keep up! Did the system time change, or is the application overloaded? Running " + std::to_string(deltaTime) + "ms behind, skipping ticks");
         deltaTime = MAX_DELTA_TIME;
     }
 

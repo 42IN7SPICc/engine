@@ -1,18 +1,11 @@
 #include "Texture.hpp"
-
-#ifndef NDEBUG
-
-#include "iostream"
-
-#endif
+#include "Debug.hpp"
 
 using namespace engine;
 
 void DestructTexture(SDL_Texture *tex) {
     SDL_DestroyTexture(tex);
-#ifndef NDEBUG
-    std::cout << "Destroying texture" << std::endl;
-#endif
+    spic::Debug::Log("Destroying texture");
 }
 
 Texture::Texture(SDL_Surface *surface, SDL_Texture *texture) : _surface(surface, &SDL_FreeSurface),
