@@ -107,23 +107,9 @@ b2BodyType PhysicsSubsystem::TranslateBodyType(spic::BodyType bodyType) {
 b2Body *PhysicsSubsystem::MakeBody(const RigidBody &rigidBody, GameObject &gameObject, double width, double height) {
     b2BodyDef bodyDef;
     bodyDef.type = TranslateBodyType(rigidBody.Type());
-    auto position = GetAbsolutePosition(gameObject);
-    //setting the position of the box2d body
-    bodyDef.position.Set((float) (position.x + width / 2.0) * pixelScale,
-                         (float) (position.y + height / 2.0) * pixelScale);
+    auto transform = gameObject.AbsoluteTransform();
+    bodyDef.position.Set((float) (transform.position.x + width / 2.0) * pixelScale,
+                         (float) (transform.position.y + height / 2.0) * pixelScale);
     bodyDef.angle = (float)gameObject.Transform().rotation * b2_pi / 180;
     return _physicsWorld->CreateBody(&bodyDef);
-}
-
-spic::Point PhysicsSubsystem::GetAbsolutePosition(GameObject &gameObject) {
-    GameObject object = gameObject;
-    spic::Point point{gameObject.Transform().position.x, gameObject.Transform().position.y};
-
-    while (!object.Parent().expired()) {
-        object = *object.Parent().lock();
-        point.x += object.Transform().position.x;
-        point.y += object.Transform().position.y;
-    }
-
-    return point;
 }

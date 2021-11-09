@@ -14,7 +14,6 @@ namespace engine {
         std::unique_ptr<b2World> _physicsWorld;
         b2BodyType TranslateBodyType(spic::BodyType bodyType);
         b2Body* MakeBody(const spic::RigidBody &rigidBody, spic::GameObject &gameObject, double width, double height);
-        spic::Point GetAbsolutePosition(spic::GameObject &gameObject);
     public:
         void Update() override;
         PhysicsSubsystem();
