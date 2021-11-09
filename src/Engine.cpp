@@ -1,5 +1,6 @@
 #include "Engine.hpp"
 #include "Subsystems/Subsystems.hpp"
+#include "Subsystems/PhysicsSubsystem.hpp"
 #include "Managers/TimeManager.hpp"
 #include "SDL_timer.h"
 
@@ -25,6 +26,7 @@ Engine &Engine::Instance() {
 void Engine::Start() {
     std::vector<std::shared_ptr<engine::ISubsystem>> subsystems = {
             std::make_shared<engine::RenderSubsystem>(),
+            std::make_shared<engine::PhysicsSubsystem>()
     };
 
     while (!_scenes.empty()) {
