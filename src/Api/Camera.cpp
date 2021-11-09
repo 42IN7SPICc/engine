@@ -25,5 +25,5 @@ void spic::Camera::AspectHeight(double newAspectHeight) {
 }
 
 void spic::Camera::Render() const {
-
+    // stub
 }

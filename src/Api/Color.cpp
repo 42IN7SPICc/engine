@@ -1,4 +1,5 @@
 #include "Color.hpp"
+
 using namespace spic;
 
 const Color& Color::purple() {
