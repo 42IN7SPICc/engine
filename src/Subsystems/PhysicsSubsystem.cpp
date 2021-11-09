@@ -23,8 +23,10 @@ PhysicsSubsystem::PhysicsSubsystem() {
 }
 
 void PhysicsSubsystem::Update() {
-    //Define Box2D object for all GameObjects
-    //TODO don't recreate the physics world, physics don't get calculated based on the previous positions
+    // Currently, all the gameObject and the PhysicsWorld get rebuild every Update tick.
+    // The reason for this is because of the complex implementation of Box2D inside the SPIC API
+    // We needed a lot of extra variables and function to get updated correctly working.
+    // The only problem with the current setup is a little performance loss, and some physics inaccuracy
     b2Vec2 gravity(0.0f, 0.8f);
     _physicsWorld = std::make_unique<b2World>(gravity);
     std::vector<std::tuple<b2Body *, std::shared_ptr<GameObject>>> newObjectLocations;
