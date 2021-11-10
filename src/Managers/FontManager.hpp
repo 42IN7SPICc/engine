@@ -10,22 +10,18 @@
 namespace engine {
     class FontManager {
     private:
-        static FontManager _instance;
-
         std::map<std::string, std::shared_ptr<Font>> _fonts;
 
-        static std::string GetKey(const std::string &path, int size);
+        static std::string GetKey(const std::string& path, int size);
 
     public:
         FontManager();
 
-        void LoadFont(const std::string &path, int size);
+        void LoadFont(const std::string& path, int size);
 
-        std::shared_ptr<Font> GetFont(const std::string &path, int size);
+        std::shared_ptr<Font> GetFont(const std::string& path, int size);
 
-        [[nodiscard]] bool Contains(const std::string &path, int size) const;
-
-        static FontManager &GetInstance();
+        [[nodiscard]] bool Contains(const std::string& path, int size) const;
     };
 }
 

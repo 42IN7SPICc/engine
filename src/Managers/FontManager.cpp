@@ -6,16 +6,14 @@
 
 using namespace engine;
 
-FontManager FontManager::_instance{};
-
 FontManager::FontManager() {
     if (TTF_Init() != 0) {
         throw std::runtime_error("SDL_ttf: Font could not be initialised");
     }
 }
 
-void FontManager::LoadFont(const std::string &path, int size) {
-    TTF_Font *font = TTF_OpenFont(path.c_str(), size);
+void FontManager::LoadFont(const std::string& path, int size) {
+    TTF_Font* font = TTF_OpenFont(path.c_str(), size);
     if (font == nullptr) {
         throw std::runtime_error("SDL_ttf: Font file could not be loaded");
     }
@@ -24,7 +22,7 @@ void FontManager::LoadFont(const std::string &path, int size) {
     _fonts[GetKey(path, size)] = ttfFont;
 }
 
-std::shared_ptr<Font> FontManager::GetFont(const std::string &path, int size) {
+std::shared_ptr<Font> FontManager::GetFont(const std::string& path, int size) {
     auto key = GetKey(path, size);
     if (Contains(path, size)) return _fonts[key];
 
@@ -32,14 +30,10 @@ std::shared_ptr<Font> FontManager::GetFont(const std::string &path, int size) {
     return _fonts[key];
 }
 
-bool FontManager::Contains(const std::string &path, int size) const {
+bool FontManager::Contains(const std::string& path, int size) const {
     return _fonts.count(GetKey(path, size)) > 0;
 }
 
-std::string FontManager::GetKey(const std::string &path, int size) {
+std::string FontManager::GetKey(const std::string& path, int size) {
     return {path + "_" + std::to_string(size)};
-}
-
-FontManager &FontManager::GetInstance() {
-    return _instance;
 }
