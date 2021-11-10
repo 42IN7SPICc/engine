@@ -31,7 +31,7 @@ Window::Window(const std::string &title, int xpos, int ypos, int width, int heig
         throw std::runtime_error(SDL_GetError());
 }
 
-void Window::Render(const std::string &texturePath, const spic::Transform &transform, double &angle, const SDL_RendererFlip &flip) {
+void Window::Render(const std::string &texturePath, const spic::Transform &transform, const SDL_RendererFlip &flip) {
     auto texture = _textureManager->GetTexture(_renderer.get(), texturePath);
     SDL_Rect rect;
     rect.x = transform.position.x;

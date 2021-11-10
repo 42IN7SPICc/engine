@@ -139,15 +139,15 @@ int GameObject::Layer() const {
 }
 
 spic::Transform GameObject::AbsoluteTransform() {
-    GameObject object = *this;
-    spic::Transform transform{object.Transform()};
+    GameObject *object = this;
+    spic::Transform transform{object->Transform()};
 
-    while (!object.Parent().expired()) {
-        object = *object.Parent().lock();
-        transform.position.x += object.Transform().position.x;
-        transform.position.y += object.Transform().position.y;
-        transform.rotation += object.Transform().rotation;
-        transform.scale *= object.Transform().scale;
+    while (!object->Parent().expired()) {
+        object = object->Parent().lock().get();
+        transform.position.x += object->Transform().position.x;
+        transform.position.y += object->Transform().position.y;
+        transform.rotation += object->Transform().rotation;
+        transform.scale *= object->Transform().scale;
     }
 
     transform.rotation = std::fmod(transform.rotation, 360);
