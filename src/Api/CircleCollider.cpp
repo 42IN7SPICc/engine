@@ -3,6 +3,9 @@
 using namespace spic;
 
 CircleCollider::CircleCollider() : CircleCollider(0) {
+    IsTrigger(false);
 }
 
-CircleCollider::CircleCollider(double radius) : radius(radius) {}
+CircleCollider::CircleCollider(double radius) : radius(radius) {
+    IsTrigger(false);
+}
