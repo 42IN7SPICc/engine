@@ -2,7 +2,9 @@
 
 using namespace spic;
 
-RigidBody::RigidBody(double mass, double gravityScale, const BodyType &bodyType) : mass(mass), gravityScale(gravityScale), bodyType(bodyType) {}
+RigidBody::RigidBody(double mass, double gravityScale, const BodyType &bodyType) : mass(mass), gravityScale(gravityScale), bodyType(bodyType) {
+    _point = std::make_unique<spic::Point>();
+}
 
 BodyType RigidBody::Type() const {
     return bodyType;
