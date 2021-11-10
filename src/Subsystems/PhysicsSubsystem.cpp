@@ -19,19 +19,17 @@ const int32 positionIterations = 2;
 const float timeStep = 1.0f / 60.0f;
 const double pixelScale = 1.0;
 
-PhysicsSubsystem::PhysicsSubsystem() {
-    b2Vec2 gravity(0.0f, -0.1f);
-    _physicsWorld = std::make_unique<b2World>(gravity);
-}
+PhysicsSubsystem::PhysicsSubsystem() : _contactListener(std::make_unique<ContactListener>()), _physicsWorld(nullptr) {}
 
 void PhysicsSubsystem::Update() {
     // Currently, all the gameObject and the PhysicsWorld get rebuild every Update tick.
     // The reason for this is because of the complex implementation of Box2D inside the SPIC API
     // We needed a lot of extra variables and function to get updated correctly working.
     // The only problem with the current setup is a little performance loss, and some physics inaccuracy
-    b2Vec2 gravity(0.0f, 1.0f);
+    b2Vec2 gravity(0.0f, 2.0f);
     _physicsWorld = std::make_unique<b2World>(gravity);
-    std::vector<std::tuple<b2Body*, std::shared_ptr<GameObject>>> newObjectLocations;
+    _physicsWorld->SetContactListener(_contactListener.get());
+    std::vector<std::tuple<b2Body *, std::shared_ptr<GameObject>>> newObjectLocations;
     std::map<std::shared_ptr<GameObject>, Transform> oldTransforms;
 
     for (std::shared_ptr<GameObject> gameObject: GameObject::All()) {
@@ -48,9 +46,28 @@ void PhysicsSubsystem::Update() {
                 fixtureDef.shape = &circleShape;
                 double area = b2_pi * std::sqrt(circleCollider->Radius());
                 fixtureDef.density = (float) rigidBody->Mass() / (float) area;
+                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(circleCollider.get());
+
+                if (circleCollider->IsTrigger()) {
+                    fixtureDef.isSensor = true;
+                    std::hash<std::string> hash;
+                    fixtureDef.filter.categoryBits = hash(gameObject->Tag());
+                }
+
                 body->CreateFixture(&fixtureDef);
             } else {
-                body->CreateFixture(&circleShape, 0.0f);
+                b2FixtureDef fixtureDef;
+                fixtureDef.shape = &circleShape;
+                fixtureDef.density = 0.0f;
+                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(circleCollider.get());
+
+                if (circleCollider->IsTrigger()) {
+                    fixtureDef.isSensor = true;
+                    std::hash<std::string> hash;
+                    fixtureDef.filter.categoryBits = hash(gameObject->Tag());
+                }
+
+                body->CreateFixture(&fixtureDef);
             }
         }
         for (auto boxCollider: gameObject->GetComponents<BoxCollider>()) { //Box
@@ -63,9 +80,28 @@ void PhysicsSubsystem::Update() {
                 fixtureDef.shape = &boxShape;
                 double area = boxCollider->Width() * boxCollider->Height();
                 fixtureDef.density = (float) rigidBody->Mass() / (float) area;
+                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(boxCollider.get());
+
+                if (boxCollider->IsTrigger()) {
+                    fixtureDef.isSensor = true;
+                    std::hash<std::string> hash;
+                    fixtureDef.filter.categoryBits = hash(gameObject->Tag());
+                }
+
                 body->CreateFixture(&fixtureDef);
             } else {
-                body->CreateFixture(&boxShape, .0f);
+                b2FixtureDef fixtureDef;
+                fixtureDef.shape = &boxShape;
+                fixtureDef.density = 0.0f;
+                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(boxCollider.get());
+
+                if (boxCollider->IsTrigger()) {
+                    fixtureDef.isSensor = true;
+                    std::hash<std::string> hash;
+                    fixtureDef.filter.categoryBits = hash(gameObject->Tag());
+                }
+
+                body->CreateFixture(&fixtureDef);
             }
         }
 
@@ -74,7 +110,7 @@ void PhysicsSubsystem::Update() {
     }
 
     //run physics simulation
-    for(int32 i = 0; i < 60; ++i) {
+    for (int32 i = 0; i < 60; ++i) {
         _physicsWorld->Step(timeStep, velocityIterations, positionIterations);
     }
 
@@ -116,6 +152,6 @@ b2Body *PhysicsSubsystem::MakeBody(const RigidBody &rigidBody, GameObject &gameO
     auto transform = gameObject.AbsoluteTransform();
     bodyDef.position.Set((float) (transform.position.x + width / 2.0) * pixelScale,
                          (float) (transform.position.y + height / 2.0) * pixelScale);
-    bodyDef.angle = (float)gameObject.Transform().rotation * b2_pi / 180;
+    bodyDef.angle = (float) gameObject.Transform().rotation * b2_pi / 180;
     return _physicsWorld->CreateBody(&bodyDef);
 }
