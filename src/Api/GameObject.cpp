@@ -10,7 +10,6 @@ void spic_GameObject_ListObjects(const std::shared_ptr<GameObject> gameObject, s
     if (includeInactive || gameObject->Active()) {
         gameObjects.push_back(gameObject);
 
-
         for (const auto& childObject: gameObject->Children())
         {
             spic_GameObject_ListObjects(childObject, gameObjects, includeInactive);
@@ -74,7 +73,7 @@ GameObject::GameObject(const std::string &name, const std::string &tag, int laye
 }
 
 GameObject::operator bool() const {
-    return true; // For compatibility with partner group
+    return IsActiveInWorld();
 }
 
 bool GameObject::operator!=(const GameObject &other) const {
@@ -129,6 +128,7 @@ void GameObject::AddChild(std::shared_ptr<GameObject> child) {
 void GameObject::RemoveChild(std::shared_ptr<GameObject> child) {
     if (std::find(_children.begin(), _children.end(), child) == _children.end()) {
         _children.erase(std::remove(_children.begin(), _children.end(), child), _children.end());
+        child->_parent.reset();
     }
 }
 
