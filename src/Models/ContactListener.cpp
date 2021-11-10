@@ -4,8 +4,8 @@
 #include <BehaviourScript.hpp>
 
 void ContactListener::BeginContact(b2Contact *contact) {
-    spic::Component *entityA{};
-    spic::Component *entityB{};
+    spic::Component *entityA;
+    spic::Component *entityB;
     if (GetEntities(contact, entityA, entityB)) {
         if (entityA->GameObject().expired() || entityB->GameObject().expired()) return;
         auto gameObjectA = entityA->GameObject().lock();
@@ -19,8 +19,8 @@ void ContactListener::BeginContact(b2Contact *contact) {
 }
 
 void ContactListener::EndContact(b2Contact *contact) {
-    spic::Component *entityA{};
-    spic::Component *entityB{};
+    spic::Component *entityA;
+    spic::Component *entityB;
     if (GetEntities(contact, entityA, entityB)) {
         if (entityA->GameObject().expired() || entityB->GameObject().expired()) return;
         auto gameObjectA = entityA->GameObject().lock();
@@ -43,21 +43,18 @@ bool ContactListener::GetEntities(b2Contact *contact, spic::Component *&entityA,
     if (!(sensorA ^ sensorB))
         return false;
 
-//    b2Body *bodyA = fixtureA->GetBody();
-//    b2Body *bodyB = fixtureB->GetBody();
-
     b2FixtureUserData &objectA = fixtureA->GetUserData();
     b2FixtureUserData &objectB = fixtureB->GetUserData();
 
-    auto &componentA = reinterpret_cast<spic::Component &>(objectA);
-    auto &componentB = reinterpret_cast<spic::Component &>(objectB);
+    auto componentA = reinterpret_cast<spic::Component *>(objectA.pointer);
+    auto componentB = reinterpret_cast<spic::Component *>(objectB.pointer);
 
     if (sensorA) { //fixtureB must be an enemy aircraft
-        entityA = &componentA;
-        entityB = &componentB;
+        entityA = componentA;
+        entityB = componentB;
     } else { //fixtureA must be an enemy aircraft
-        entityA = &componentB;
-        entityB = &componentA;
+        entityA = componentB;
+        entityB = componentA;
     }
     return true;
 }
