@@ -19,10 +19,7 @@ const int32 positionIterations = 2;
 const float timeStep = 1.0f / 60.0f;
 const double pixelScale = 1.0;
 
-PhysicsSubsystem::PhysicsSubsystem() : _contactListener(std::make_unique<ContactListener>()) {
-    b2Vec2 gravity(0.0f, 2.0f);
-    _physicsWorld = std::make_unique<b2World>(gravity);
-}
+PhysicsSubsystem::PhysicsSubsystem() : _contactListener(std::make_unique<ContactListener>()), _physicsWorld(nullptr) {}
 
 void PhysicsSubsystem::Update() {
     // Currently, all the gameObject and the PhysicsWorld get rebuild every Update tick.
