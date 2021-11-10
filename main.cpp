@@ -74,14 +74,14 @@ int main(int argc, char *args[]) {
     auto leftBoundary = create_boundary("left", boundaryWidth, screenHeight, 0, 0, true);
     auto rightBoundary = create_boundary("right", boundaryWidth, screenHeight, screenWidth - boundaryWidth, 0, true, false, true);
 
-    auto ball = create_dynamic_shape("ball0", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2,screenHeight / 2 - ballSize / 2);
-    auto ball1 = create_dynamic_shape("ball1", ballSize / 2, 1, ballSize,  220,-220, false, 400, true);
+    auto ball = create_dynamic_shape("ball0", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2,0);
+    auto ball1 = create_dynamic_shape("ball1", ballSize / 2, 1, ballSize,  0,-0, false, 400, true);
 //    auto ball2 = create_dynamic_shape("ball2", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 - 10,(screenHeight / 2 - ballSize / 2) - 600);
 //    auto ball3 = create_dynamic_shape("ball3", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 15,(screenHeight / 2 - ballSize / 2) - 900);
 //    auto ball4 = create_dynamic_shape("ball4", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 - 15,(screenHeight / 2 - ballSize / 2) - 1200);
 //    auto ball5 = create_dynamic_shape("ball5", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 5,(screenHeight / 2 - ballSize / 2) - 1500);
 //
-//    auto box = create_dynamic_shape("ball5", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 5,(screenHeight / 2 - ballSize / 2) - 1800, true, 999999);
+    auto box = create_dynamic_shape("ball5", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 5,(screenHeight / 2 - ballSize / 2) - 1800, true, 999999);
     ball1->Parent(std::weak_ptr<GameObject>(ball));
     ball->AddChild(ball1);
 

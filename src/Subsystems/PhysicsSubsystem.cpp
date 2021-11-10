@@ -1,14 +1,15 @@
 #include "PhysicsSubsystem.hpp"
 
 #include <memory>
+#include <cmath>
+#include <vector>
+#include <iostream>
+
 #include "GameObject.hpp"
 #include "Collider.hpp"
 #include "RigidBody.hpp"
 #include "CircleCollider.hpp"
 #include "BoxCollider.hpp"
-#include <cmath>
-#include <vector>
-#include <iostream>
 
 using namespace engine;
 using namespace spic;
@@ -92,7 +93,8 @@ void PhysicsSubsystem::Update() {
             gameObject->Transform().rotation += (body->GetAngle() * 180 / b2_pi) - transform.rotation;
         }
 
-        std::cout << gameObject->Name() << " X: " << gameObject->Transform().position.x << " Y: " << gameObject->Transform().position.y << " AbsX: " << gameObject->AbsoluteTransform().position.x << " AbsY: " << gameObject->AbsoluteTransform().position.y << std::endl;
+        if(gameObject->Name() == "ball0" || gameObject->Name() == "ball1")
+            std::cout << gameObject->Name() << " X: " << gameObject->Transform().position.x << " Y: " << gameObject->Transform().position.y << " AbsX: " << gameObject->AbsoluteTransform().position.x << " AbsY: " << gameObject->AbsoluteTransform().position.y << std::endl;
 
 //        for (auto boxCollider: gameObject->GetComponents<BoxCollider>()) {
 //            gameObject->Transform().position.x = (body->GetPosition().x - boxCollider->Width() / 2.0) / pixelScale;
@@ -106,6 +108,7 @@ void PhysicsSubsystem::Update() {
 //            gameObject->Transform().rotation = body->GetAngle() * 180 / b2_pi;
 //        }
     }
+    std::cout << "================================================" << std::endl;
 }
 
 b2BodyType PhysicsSubsystem::TranslateBodyType(spic::BodyType bodyType) {
