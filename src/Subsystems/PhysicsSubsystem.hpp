@@ -7,17 +7,21 @@
 #include "RigidBody.hpp"
 #include <vector>
 #include "GameObject.hpp"
-#include "../Models/ContactListener.hpp"
+#include "../Listeners/ContactListener.hpp"
 
 namespace engine {
     class PhysicsSubsystem : public ISubsystem {
     private:
         std::unique_ptr<ContactListener> _contactListener;
         std::unique_ptr<b2World> _physicsWorld;
+
         b2BodyType TranslateBodyType(spic::BodyType bodyType);
-        b2Body* MakeBody(const spic::RigidBody &rigidBody, spic::GameObject &gameObject, double width, double height);
+
+        b2Body* MakeBody(const spic::RigidBody& rigidBody, spic::GameObject& gameObject, double width, double height);
+
     public:
         void Update() override;
+
         PhysicsSubsystem();
     };
 }
