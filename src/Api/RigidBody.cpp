@@ -28,7 +28,14 @@ void RigidBody::GravityScale(double newGravityScale) {
     gravityScale = newGravityScale;
 }
 
-void RigidBody::AddForce(const Point &forceDirection) {
-    //TODO implement
+void RigidBody::AddForce(const spic::Point &forceDirection) {
+    Point(forceDirection);
 }
 
+void RigidBody::Point(const spic::Point &point) {
+    _point = std::make_unique<spic::Point>(point);
+}
+
+spic::Point& RigidBody::Point() const {
+    return *_point;
+}
