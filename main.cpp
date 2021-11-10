@@ -9,7 +9,6 @@ int main(int argc, char* args[]) {
 
     auto scene = std::make_shared<Scene>();
     engine.PushScene(scene);
-
     engine.Start();
 
     return 0;
