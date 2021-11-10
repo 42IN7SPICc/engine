@@ -30,8 +30,9 @@ void Engine::Start() {
             std::make_shared<engine::RenderSubsystem>(),
             std::make_shared<engine::PhysicsSubsystem>()
     };
+    _running = true;
 
-    while (!_scenes.empty()) {
+    while (!_scenes.empty() && _running) {
         auto &timeManager = engine::TimeManager::GetInstance();
         timeManager.Update();
 
@@ -45,7 +46,9 @@ void Engine::Start() {
         }
     }
 
-    Shutdown();
+    while (!_scenes.empty()) {
+        _scenes.pop();
+    }
 }
 
 void Engine::PushScene(const std::shared_ptr<Scene> &scene) {
@@ -64,7 +67,5 @@ void Engine::PopScene() {
 }
 
 void Engine::Shutdown() {
-    while (!_scenes.empty()) {
-        _scenes.pop();
-    }
+    _running = false;
 }
