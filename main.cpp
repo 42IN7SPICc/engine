@@ -1,12 +1,8 @@
 #include "Api.hpp"
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
 
 using namespace spic;
 
-static std::shared_ptr<GameObject> create_boundary(const std::string &name, float width, float height, float x, float y, bool is_vertical, bool flip_y = false, bool flip_x = false) {
+static std::shared_ptr<GameObject> create_boundary(const std::string& name, float width, float height, float x, float y, bool is_vertical, bool flip_y = false, bool flip_x = false) {
     auto boundary = std::make_shared<GameObject>(name + "Boundary", "default", 0);
     boundary->Transform().position.x = x;
     boundary->Transform().position.y = y;
@@ -26,7 +22,7 @@ static std::shared_ptr<GameObject> create_boundary(const std::string &name, floa
     return boundary;
 }
 
-static std::shared_ptr<GameObject> create_dynamic_shape(const std::string &name, float radius, float ball_scale, float ball_size, float x, float y, bool is_box = false, const std::string &tag = "default", bool trigger = false) {
+static std::shared_ptr<GameObject> create_dynamic_shape(const std::string& name, float radius, float ball_scale, float ball_size, float x, float y, bool is_box = false, const std::string& tag = "default", bool trigger = false) {
     auto ball = std::make_shared<GameObject>(name, tag, 0);
     ball->Transform().position.x = x;
     ball->Transform().position.y = y;
@@ -55,8 +51,8 @@ static std::shared_ptr<GameObject> create_dynamic_shape(const std::string &name,
     return ball;
 }
 
-int main(int argc, char *args[]) {
-    Engine &engine = Engine::Instance();
+int main(int argc, char* args[]) {
+    Engine& engine = Engine::Instance();
     EngineConfig engineConfig{WindowConfig{"Engine Test Window", 1366, 768, false}};
     engine.Init(engineConfig);
 
@@ -98,7 +94,6 @@ int main(int argc, char *args[]) {
     engine.PushScene(scene);
     engine.Start();
 
-    auto test = new spic::RigidBody(2.0, 2.0, spic::BodyType::staticBody);
-    _CrtDumpMemoryLeaks();
+    auto test = new spic::RigidBody(69.0, 69.0, spic::BodyType::staticBody);
     return 0;
 }
