@@ -75,8 +75,8 @@ int main(int argc, char *args[]) {
     auto rightBoundary = create_boundary("right", boundaryWidth, screenHeight, screenWidth - boundaryWidth, 0, true, false, true);
 
     auto ball = create_dynamic_shape("ball0", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2,0);
-    auto ball1 = create_dynamic_shape("ball1", ballSize / 2, 1, ballSize,  0,-0, false, 400, true);
-//    auto ball2 = create_dynamic_shape("ball2", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 - 10,(screenHeight / 2 - ballSize / 2) - 600);
+    auto ball1 = create_dynamic_shape("ball1", ballSize / 2, 1, ballSize,  220,-220, false, 400, true);
+    auto ball2 = create_dynamic_shape("ball2", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 - 50,(screenHeight / 2 - ballSize / 2) - 600);
 //    auto ball3 = create_dynamic_shape("ball3", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 15,(screenHeight / 2 - ballSize / 2) - 900);
 //    auto ball4 = create_dynamic_shape("ball4", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 - 15,(screenHeight / 2 - ballSize / 2) - 1200);
 //    auto ball5 = create_dynamic_shape("ball5", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 5,(screenHeight / 2 - ballSize / 2) - 1500);
@@ -91,7 +91,7 @@ int main(int argc, char *args[]) {
     scene->Contents().push_back(rightBoundary);
     scene->Contents().push_back(ball);
     //scene->Contents().push_back(ball1);
-//    scene->Contents().push_back(ball2);
+    scene->Contents().push_back(ball2);
 //    scene->Contents().push_back(ball3);
 //    scene->Contents().push_back(ball4);
 //    scene->Contents().push_back(ball5);

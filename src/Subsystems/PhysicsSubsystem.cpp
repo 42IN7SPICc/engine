@@ -4,6 +4,7 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+#include <map>
 
 #include "GameObject.hpp"
 #include "Collider.hpp"
@@ -31,7 +32,8 @@ void PhysicsSubsystem::Update() {
     // The only problem with the current setup is a little performance loss, and some physics inaccuracy
     b2Vec2 gravity(0.0f, 0.8f);
     _physicsWorld = std::make_unique<b2World>(gravity);
-    std::vector<std::tuple<b2Body *, std::shared_ptr<GameObject>>> newObjectLocations;
+    std::vector<std::tuple<b2Body*, std::shared_ptr<GameObject>>> newObjectLocations;
+    std::map<std::shared_ptr<GameObject>, Transform> oldTransforms;
 
     for (std::shared_ptr<GameObject> gameObject: GameObject::All()) {
 
@@ -69,6 +71,7 @@ void PhysicsSubsystem::Update() {
         }
 
         newObjectLocations.emplace_back(std::make_tuple(body, gameObject));
+        oldTransforms.insert(std::make_pair(gameObject, gameObject->AbsoluteTransform()));
     }
 
     //run physics simulation
@@ -79,7 +82,7 @@ void PhysicsSubsystem::Update() {
     //update location of game objects
     for (const auto &newObjectLocation: newObjectLocations) {
         const auto&[body, gameObject] = newObjectLocation;
-        auto transform = gameObject->AbsoluteTransform();
+        auto transform = oldTransforms[gameObject];
 
         for (auto boxCollider: gameObject->GetComponents<BoxCollider>()) {
             gameObject->Transform().position.x += ((body->GetPosition().x - boxCollider->Width() / 2.0) / pixelScale) - transform.position.x;
@@ -93,8 +96,8 @@ void PhysicsSubsystem::Update() {
             gameObject->Transform().rotation += (body->GetAngle() * 180 / b2_pi) - transform.rotation;
         }
 
-        if(gameObject->Name() == "ball0" || gameObject->Name() == "ball1")
-            std::cout << gameObject->Name() << " X: " << gameObject->Transform().position.x << " Y: " << gameObject->Transform().position.y << " AbsX: " << gameObject->AbsoluteTransform().position.x << " AbsY: " << gameObject->AbsoluteTransform().position.y << std::endl;
+//        if(gameObject->Name() == "ball0" || gameObject->Name() == "ball1")
+//            std::cout << gameObject->Name() << " X: " << gameObject->Transform().position.x << " Y: " << gameObject->Transform().position.y << " AbsX: " << gameObject->AbsoluteTransform().position.x << " AbsY: " << gameObject->AbsoluteTransform().position.y << std::endl;
 
 //        for (auto boxCollider: gameObject->GetComponents<BoxCollider>()) {
 //            gameObject->Transform().position.x = (body->GetPosition().x - boxCollider->Width() / 2.0) / pixelScale;
@@ -108,7 +111,7 @@ void PhysicsSubsystem::Update() {
 //            gameObject->Transform().rotation = body->GetAngle() * 180 / b2_pi;
 //        }
     }
-    std::cout << "================================================" << std::endl;
+    //std::cout << "================================================" << std::endl;
 }
 
 b2BodyType PhysicsSubsystem::TranslateBodyType(spic::BodyType bodyType) {
