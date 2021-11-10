@@ -80,32 +80,36 @@ void InputManager::HandleEvent(const SDL_Event& event) {
         {
             _mousePosition->x = event.motion.x;
             _mousePosition->y = event.motion.y;
-
             for (const auto& listener: Input::_mouseListeners) listener->OnMouseMoved();
+            break;
         }
         case SDL_MOUSEBUTTONDOWN:
         {
             _mousePrevious[event.button.button] = _mouseCurrent[event.button.button];
             _mouseCurrent[event.button.button] = true;
             for (const auto& listener: Input::_mouseListeners) listener->OnMouseClicked();
+            break;
         }
         case SDL_MOUSEBUTTONUP:
         {
             _mousePrevious[event.button.button] = _mouseCurrent[event.button.button];
             _mouseCurrent[event.button.button] = false;
             for (const auto& listener: Input::_mouseListeners) listener->OnMouseReleased();
+            break;
         }
         case SDL_KEYDOWN:
         {
-            _keysPrevious[event.button.button] = _keysCurrent[event.button.button];
+            _keysPrevious[event.key.keysym.scancode] = _keysCurrent[event.key.keysym.scancode];
             _keysCurrent[event.key.keysym.scancode] = true;
             for (const auto& listener: Input::_keyListeners) listener->OnKeyPressed();
+            break;
         }
         case SDL_KEYUP:
         {
-            _keysPrevious[event.button.button] = _keysCurrent[event.button.button];
+            _keysPrevious[event.key.keysym.scancode] = _keysCurrent[event.key.keysym.scancode];
             _keysCurrent[event.key.keysym.scancode] = false;
             for (const auto& listener: Input::_keyListeners) listener->OnKeyReleased();
+            break;
         }
     }
 }
@@ -119,6 +123,8 @@ void InputManager::Update() {
             break;
         }
     }
+
+    _keysPrevious = _keysCurrent;
 }
 
 InputManager& InputManager::GetInstance() {
