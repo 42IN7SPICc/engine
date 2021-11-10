@@ -49,7 +49,7 @@ void PhysicsSubsystem::Update() {
                 fixtureDef.shape = &circleShape;
                 double area = b2_pi * std::sqrt(circleCollider->Radius());
                 fixtureDef.density = (float) rigidBody->Mass() / (float) area;
-                fixtureDef.userData = *reinterpret_cast<b2FixtureUserData *>(circleCollider.get());
+                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(circleCollider.get());
 
                 if (circleCollider->IsTrigger()) {
                     fixtureDef.isSensor = true;
@@ -62,7 +62,7 @@ void PhysicsSubsystem::Update() {
                 b2FixtureDef fixtureDef;
                 fixtureDef.shape = &circleShape;
                 fixtureDef.density = 0.0f;
-                fixtureDef.userData = *reinterpret_cast<b2FixtureUserData *>(circleCollider.get());
+                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(circleCollider.get());
 
                 if (circleCollider->IsTrigger()) {
                     fixtureDef.isSensor = true;
@@ -83,7 +83,7 @@ void PhysicsSubsystem::Update() {
                 fixtureDef.shape = &boxShape;
                 double area = boxCollider->Width() * boxCollider->Height();
                 fixtureDef.density = (float) rigidBody->Mass() / (float) area;
-                fixtureDef.userData = *reinterpret_cast<b2FixtureUserData *>(boxCollider.get());
+                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(boxCollider.get());
 
                 if (boxCollider->IsTrigger()) {
                     fixtureDef.isSensor = true;
@@ -96,7 +96,7 @@ void PhysicsSubsystem::Update() {
                 b2FixtureDef fixtureDef;
                 fixtureDef.shape = &boxShape;
                 fixtureDef.density = 0.0f;
-                fixtureDef.userData = *reinterpret_cast<b2FixtureUserData *>(boxCollider.get());
+                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(boxCollider.get());
 
                 if (boxCollider->IsTrigger()) {
                     fixtureDef.isSensor = true;
