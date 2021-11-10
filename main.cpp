@@ -77,9 +77,9 @@ int main(int argc, char *args[]) {
     auto ball = create_dynamic_shape("ball0", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2,0);
     auto ball1 = create_dynamic_shape("ball1", ballSize / 2, 1, ballSize,  220,-220, false, 400, true);
     auto ball2 = create_dynamic_shape("ball2", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 - 50,(screenHeight / 2 - ballSize / 2) - 600);
-//    auto ball3 = create_dynamic_shape("ball3", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 15,(screenHeight / 2 - ballSize / 2) - 900);
-//    auto ball4 = create_dynamic_shape("ball4", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 - 15,(screenHeight / 2 - ballSize / 2) - 1200);
-//    auto ball5 = create_dynamic_shape("ball5", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 5,(screenHeight / 2 - ballSize / 2) - 1500);
+    auto ball3 = create_dynamic_shape("ball3", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 15,(screenHeight / 2 - ballSize / 2) - 900, false, 9999999);
+    auto ball4 = create_dynamic_shape("ball4", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 - 15,(screenHeight / 2 - ballSize / 2) - 1200, false, 9999999);
+    auto ball5 = create_dynamic_shape("ball5", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 5,(screenHeight / 2 - ballSize / 2) - 1500, false, 9999999);
 //
     auto box = create_dynamic_shape("ball5", ballSize / 2, ballScale, ballSize, screenWidth / 2 - ballSize / 2 + 5,(screenHeight / 2 - ballSize / 2) - 1800, true, 999999);
     ball1->Parent(std::weak_ptr<GameObject>(ball));
@@ -92,9 +92,9 @@ int main(int argc, char *args[]) {
     scene->Contents().push_back(ball);
     //scene->Contents().push_back(ball1);
     scene->Contents().push_back(ball2);
-//    scene->Contents().push_back(ball3);
-//    scene->Contents().push_back(ball4);
-//    scene->Contents().push_back(ball5);
+    scene->Contents().push_back(ball3);
+    scene->Contents().push_back(ball4);
+    scene->Contents().push_back(ball5);
 //    scene->Contents().push_back(box);
 
     engine.Start();
