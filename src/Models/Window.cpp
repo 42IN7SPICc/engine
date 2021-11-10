@@ -8,9 +8,10 @@
 
 using namespace engine;
 
-Window::Window(const std::string &title, int xpos, int ypos, int width, int height, bool fullscreen) : _window(nullptr, &SDL_DestroyWindow),
+Window::Window(const std::string& title, int xpos, int ypos, int width, int height, bool fullscreen) : _window(nullptr, &SDL_DestroyWindow),
                                                                                                        _renderer(nullptr, &SDL_DestroyRenderer),
-                                                                                                       _textureManager(new TextureManager) {
+                                                                                                       _textureManager(new TextureManager),
+                                                                                                       _fontManager(new FontManager) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) throw std::runtime_error("SDL2 could not be initialized");
 
     if (fullscreen) {
@@ -31,7 +32,7 @@ Window::Window(const std::string &title, int xpos, int ypos, int width, int heig
         throw std::runtime_error(SDL_GetError());
 }
 
-void Window::Render(const std::string &texturePath, const spic::Transform &transform, const SDL_RendererFlip &flip) {
+void Window::Render(const std::string& texturePath, const spic::Transform& transform, const SDL_RendererFlip& flip) {
     auto texture = _textureManager->GetTexture(_renderer.get(), texturePath);
     SDL_Rect rect;
     rect.x = transform.position.x;
@@ -40,6 +41,29 @@ void Window::Render(const std::string &texturePath, const spic::Transform &trans
     rect.h = texture->Height() * transform.scale;
 
     SDL_RenderCopyEx(_renderer.get(), texture->Get(), nullptr, &rect, std::fmod(transform.rotation, 360), nullptr, flip);
+}
+
+void Window::RenderText(const std::string& text, const spic::Transform& transform, const std::string& fontPath, int size, spic::Alignment alignment, spic::Color color, double maxWidth) {
+    auto font = _fontManager->GetFont(fontPath, size);
+    SDL_Color sdlColor{(Uint8) (color.R() * 255), (Uint8) (color.G() * 255), (Uint8) (color.B() * 255), (Uint8) (color.A() * 255)};
+    SDL_Surface* surface = TTF_RenderText_Blended_Wrapped(font->GetFont(), text.c_str(), sdlColor, maxWidth);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer.get(), surface);
+
+    auto newTransform = transform;
+    if (alignment == spic::Alignment::center || alignment == spic::Alignment::right) {
+        double widthDiff = maxWidth - surface->w;
+        if (widthDiff < 0) widthDiff = 0;
+
+        newTransform.position.x += (widthDiff / (alignment == spic::Alignment::center ? 2 : 1)) * newTransform.scale;
+    }
+
+    SDL_Rect rect;
+    rect.x = newTransform.position.x;
+    rect.y = newTransform.position.y;
+    rect.w = surface->w * newTransform.scale;
+    rect.h = surface->h * newTransform.scale;
+
+    SDL_RenderCopy(_renderer.get(), texture, nullptr, &rect);
 }
 
 void Window::SwapBuffers() {
