@@ -12,7 +12,11 @@ Window::Window(const std::string& title, int xpos, int ypos, int width, int heig
                                                                                                        _renderer(nullptr, &SDL_DestroyRenderer),
                                                                                                        _textureManager(new TextureManager),
                                                                                                        _fontManager(new FontManager) {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) throw std::runtime_error("SDL2 could not be initialized");
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+        auto temp = std::string{SDL_GetError()};
+        throw std::runtime_error(temp);
+    }
 
     if (fullscreen) {
         SDL_DisplayMode DM;

@@ -3,7 +3,7 @@ name: 'Publish'
 on:
   push:
     branches:
-      - main
+      - main2
 
 jobs:
   build:
@@ -70,5 +70,5 @@ jobs:
           destination-github-username: 42IN7SPICc
           destination-repository-name: engine-builds
           user-email: 41898282+github-actions[bot]@users.noreply.github.com
-          target-branch: main
+          target-branch: ${{ github.ref_name }}
           commit-message: ${{ github.sha }}
