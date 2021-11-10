@@ -8,6 +8,27 @@ BodyType RigidBody::Type() const {
     return bodyType;
 }
 
+void RigidBody::Type(BodyType newBodyType) {
+    bodyType = newBodyType;
+}
+
 double RigidBody::Mass() const {
     return mass;
 }
+
+void RigidBody::Mass(double newMass) {
+    mass = newMass;
+}
+
+double RigidBody::GravityScale() const {
+    return gravityScale;
+}
+
+void RigidBody::GravityScale(double newGravityScale) {
+    gravityScale = newGravityScale;
+}
+
+void RigidBody::AddForce(const Point &forceDirection) {
+    //TODO implement
+}
+
