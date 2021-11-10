@@ -6,5 +6,6 @@
 #include "BehaviourScriptSubsystem.hpp"
 #include "InputSubsystem.hpp"
 #include "RenderSubsystem.hpp"
+#include "PhysicsSubsystem.hpp"
 
 #endif //SPIC_ENGINE_SUBSYSTEMS_HPP
