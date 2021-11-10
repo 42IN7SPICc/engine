@@ -20,5 +20,5 @@ file(GLOB_RECURSE SOURCE src/*.cpp ${PROJECT_INCLUDES_DIR}/spic-api-headers/*.cp
 add_library(${PROJECT_NAME} STATIC ${SOURCE})
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2::SDL2-static SDL2::SDL2_image SDL2::SDL2_mixer SDL2::SDL2_ttf box2d::box2d)
 
-add_executable(${PROJECT_NAME}-exec main.cpp ForceBehaviour.cpp)
+add_executable(${PROJECT_NAME}-exec main.cpp)
 target_link_libraries(${PROJECT_NAME}-exec ${PROJECT_NAME})
