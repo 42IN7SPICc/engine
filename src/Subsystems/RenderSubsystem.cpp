@@ -21,8 +21,7 @@ void engine::RenderSubsystem::Update() {
 
     for (std::shared_ptr<GameObject> gameObject: GameObject::All()) // NOLINT(performance-for-range-copy)
     {
-        for (std::shared_ptr<Component> component: gameObject->GetComponents<Sprite>()) {
-            auto sprite = std::dynamic_pointer_cast<Sprite>(component);
+        for (std::shared_ptr<Sprite> sprite: gameObject->GetComponents<Sprite>()) {
             if (sprite->Active()) {
                 auto flip = static_cast<SDL_RendererFlip>(sprite->FlipX() && sprite->FlipY() ?
                                                           SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL :
@@ -32,8 +31,7 @@ void engine::RenderSubsystem::Update() {
                                                           SDL_FLIP_VERTICAL :
                                                           SDL_FLIP_NONE);
 
-                auto spriteGameObject = sprite->GameObject().lock();
-                _window->Render(sprite->Texture(), spriteGameObject->AbsoluteTransform(), spriteGameObject->Transform().rotation, flip);
+                _window->Render(sprite->Texture(), gameObject->AbsoluteTransform(), flip);
             }
         }
     }
