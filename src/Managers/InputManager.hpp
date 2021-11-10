@@ -13,45 +13,47 @@
 #include <memory>
 #include <vector>
 
-namespace engine {
-    class InputManager {
-    private:
-        std::map<unsigned char, bool> _keysCurrent;
-        std::map<unsigned char, bool> _keysPrevious;
-        std::map<Uint8, bool> _mouseCurrent;
-        std::map<Uint8, bool> _mousePrevious;
-        std::unique_ptr<spic::Point> _mousePosition;
-        static InputManager _instance;
-    public:
-        InputManager();
+namespace engine
+{
+    class InputManager
+    {
+        private:
+            std::vector<unsigned char> _keysCurrent;
+            std::vector<unsigned char> _keysPrevious;
+            Uint32 _mouseCurrent;
+            Uint32 _mousePrevious;
+            std::unique_ptr<spic::Point> _mousePosition;
+            static InputManager _instance;
+        public:
+            InputManager();
 
-        bool AnyKeyDown();
+            bool AnyKeyDown();
 
-        bool AnyKey() const;
+            [[nodiscard]] bool AnyKey() const;
 
-        bool KeyDown(const spic::Input::KeyCode& keyCode);
+            bool KeyDown(const spic::Input::KeyCode& keyCode);
 
-        bool KeyFrameDown(const spic::Input::KeyCode& keyCode);
+            bool KeyFrameDown(const spic::Input::KeyCode& keyCode);
 
-        bool KeyFrameUp(const spic::Input::KeyCode& keyCode);
+            bool KeyFrameUp(const spic::Input::KeyCode& keyCode);
 
-        bool MouseDown(const spic::Input::MouseButton& button);
+            [[nodiscard]] bool MouseDown(const spic::Input::MouseButton& button) const;
 
-        bool MouseFrameDown(const spic::Input::MouseButton& button);
+            [[nodiscard]] bool MouseFrameDown(const spic::Input::MouseButton& button) const;
 
-        bool MouseFrameUp(const spic::Input::MouseButton& button);
+            [[nodiscard]] bool MouseFrameUp(const spic::Input::MouseButton& button) const;
 
-        const spic::Point& MousePosition() const;
+            [[nodiscard]] const spic::Point& MousePosition() const;
 
-        void HandleEvent(const SDL_Event& event);
+            void HandleEvent(const SDL_Event& event);
 
-        void Update();
+            void Update();
 
-        static InputManager& GetInstance();
+            static InputManager& GetInstance();
 
-        static unsigned char ToKey(const spic::Input::KeyCode& key);
+            static unsigned char ToKey(const spic::Input::KeyCode& key);
 
-        static Uint8 ToKey(const spic::Input::MouseButton& button);
+            static Uint8 ToKey(const spic::Input::MouseButton& button);
     };
 }
 

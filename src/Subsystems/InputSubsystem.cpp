@@ -7,7 +7,10 @@
 using namespace engine;
 using namespace spic;
 
-void InputSubsystem::Update() {
+void InputSubsystem::Update()
+{
+    InputManager::GetInstance().Update();
+
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
@@ -25,9 +28,8 @@ void InputSubsystem::Update() {
             case SDL_KEYUP:
             {
                 InputManager::GetInstance().HandleEvent(event);
+                break;
             }
         }
     }
-
-    InputManager::GetInstance().Update();
 }
