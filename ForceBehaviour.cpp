@@ -9,7 +9,7 @@ void ForceBehaviour::OnStart() {
 }
 
 void ForceBehaviour::OnUpdate() {
-    if(Input::GetKeyDown(Input::KeyCode::SPACE)) {
+    if(Input::GetKey(Input::KeyCode::SPACE)) {
         if(!this->GameObject().expired()) {
             auto ball = this->GameObject().lock();
             auto rigidBody = ball->GetComponent<RigidBody>();
