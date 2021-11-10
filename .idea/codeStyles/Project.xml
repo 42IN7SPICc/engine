@@ -1,6 +1,21 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
     <Objective-C>
+      <option name="INDENT_CLASS_MEMBERS" value="8" />
+      <option name="INDENT_VISIBILITY_KEYWORDS" value="4" />
+      <option name="NAMESPACE_BRACE_PLACEMENT" value="2" />
+      <option name="FUNCTION_BRACE_PLACEMENT" value="2" />
+      <option name="FUNCTION_NON_TOP_AFTER_RETURN_TYPE_WRAP" value="0" />
+      <option name="FUNCTION_PARAMETERS_WRAP" value="0" />
+      <option name="FUNCTION_CALL_ARGUMENTS_WRAP" value="0" />
+      <option name="SHIFT_OPERATION_WRAP" value="0" />
+      <option name="TEMPLATE_DECLARATION_STRUCT_WRAP" value="0" />
+      <option name="TEMPLATE_DECLARATION_FUNCTION_WRAP" value="0" />
+      <option name="CLASS_CONSTRUCTOR_INIT_LIST_WRAP" value="0" />
+      <option name="CLASS_CONSTRUCTOR_INIT_LIST_NEW_LINE_BEFORE_COLON" value="0" />
+      <option name="SUPERCLASS_LIST_WRAP" value="0" />
+      <option name="SUPERCLASS_LIST_BEFORE_COLON" value="0" />
+      <option name="ALIGN_INIT_LIST_IN_COLUMNS" value="false" />
       <option name="SPACE_BEFORE_POINTER_IN_DECLARATION" value="false" />
       <option name="SPACE_AFTER_POINTER_IN_DECLARATION" value="true" />
       <option name="SPACE_BEFORE_REFERENCE_IN_DECLARATION" value="false" />
@@ -12,7 +27,17 @@
       </extensions>
     </Objective-C-extensions>
     <codeStyleSettings language="ObjectiveC">
-      <option name="RIGHT_MARGIN" value="999" />
+      <option name="RIGHT_MARGIN" value="120" />
+      <option name="KEEP_LINE_BREAKS" value="false" />
+      <option name="BRACE_STYLE" value="2" />
+      <option name="CLASS_BRACE_STYLE" value="2" />
+      <option name="ELSE_ON_NEW_LINE" value="true" />
+      <option name="CATCH_ON_NEW_LINE" value="true" />
+      <option name="BINARY_OPERATION_WRAP" value="0" />
+      <option name="TERNARY_OPERATION_WRAP" value="0" />
+      <option name="ARRAY_INITIALIZER_WRAP" value="0" />
+      <option name="PLACE_ASSIGNMENT_SIGN_ON_NEXT_LINE" value="true" />
+      <option name="ENUM_CONSTANTS_WRAP" value="2" />
     </codeStyleSettings>
   </code_scheme>
 </component>
