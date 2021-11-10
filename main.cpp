@@ -1,4 +1,3 @@
-#include <BoxCollider.hpp>
 #include "Api.hpp"
 
 using namespace spic;
