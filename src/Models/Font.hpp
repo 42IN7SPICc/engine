@@ -11,9 +11,9 @@ namespace engine {
         std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)> _font;
 
     public:
-        explicit Font(TTF_Font *font);
+        explicit Font(TTF_Font* font);
 
-        [[nodiscard]] TTF_Font *GetFont() const;
+        [[nodiscard]] TTF_Font* GetFont() const;
     };
 }
 
