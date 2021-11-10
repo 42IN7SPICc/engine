@@ -5,133 +5,132 @@ using namespace spic;
 
 InputManager InputManager::_instance{};
 
-InputManager::InputManager() : _mousePosition{new Point()} {
-    for (int i = 0; i < SDL_NUM_SCANCODES; i++)
-    {
-        _keysCurrent[i] = false;
-        _keysPrevious[i] = false;
-    }
-    _mouseCurrent[SDL_BUTTON_LEFT] = false;
-    _mouseCurrent[SDL_BUTTON_MIDDLE] = false;
-    _mouseCurrent[SDL_BUTTON_RIGHT] = false;
-    _mouseCurrent[SDL_BUTTON_X1] = false;
-    _mouseCurrent[SDL_BUTTON_X2] = false;
-    _mousePrevious = {_mouseCurrent};
+InputManager::InputManager() : _mousePosition{new Point()}, _mousePrevious{0}, _mouseCurrent{0}
+{
 }
 
-bool InputManager::AnyKeyDown() {
-    for (const auto& key: _keysCurrent)
-    {
-        if (key.second && !_keysPrevious[key.first]) return true;
-    }
+bool InputManager::AnyKeyDown()
+{
+    for (int i = 0; i < _keysCurrent.size(); ++i)
+        if (_keysCurrent[i] == 1 && _keysPrevious[i] == 0) return true;
     return false;
 }
 
-bool InputManager::AnyKey() const {
-    for (const auto& key: _keysCurrent)
-        if (key.second) return true;
+bool InputManager::AnyKey() const
+{
+    for (auto key: _keysCurrent)
+        if (key == 1) return true;
     return false;
 }
 
-bool InputManager::KeyDown(const Input::KeyCode& keyCode) {
+bool InputManager::KeyDown(const Input::KeyCode& keyCode)
+{
     auto key = ToKey(keyCode);
-    if (_keysPrevious.empty()) return _keysCurrent[key];
-    return _keysPrevious[key] && _keysCurrent[key];
+    if (_keysPrevious.empty()) return _keysCurrent[key] == 1;
+    return _keysPrevious[key] == 1 && _keysCurrent[key] == 1;
 }
 
-bool InputManager::KeyFrameDown(const Input::KeyCode& keyCode) {
+bool InputManager::KeyFrameDown(const Input::KeyCode& keyCode)
+{
     auto key = ToKey(keyCode);
-    if (_keysPrevious.empty()) return _keysCurrent[key];
-    return !_keysPrevious[key] && _keysCurrent[key];
+    if (_keysPrevious.empty()) return _keysCurrent[key] == 1;
+    return _keysPrevious[key] == 0 && _keysCurrent[key] == 1;
 }
 
-bool InputManager::KeyFrameUp(const Input::KeyCode& keyCode) {
+bool InputManager::KeyFrameUp(const Input::KeyCode& keyCode)
+{
     auto key = ToKey(keyCode);
     if (_keysPrevious.empty()) return false;
-    return _keysPrevious[key] && !_keysCurrent[key];
+    return _keysPrevious[key] == 1 && _keysCurrent[key] == 0;
 }
 
-bool InputManager::MouseDown(const Input::MouseButton& mouseButton) {
+bool InputManager::MouseDown(const Input::MouseButton& mouseButton) const
+{
     auto mouse = ToKey(mouseButton);
-    if (_mousePrevious.empty()) return _mouseCurrent[mouse];
-    return _mousePrevious[mouse] && _mouseCurrent[mouse];
+    if (_mousePrevious == 0) return (_mouseCurrent & mouse) != 0;
+    return (_mousePrevious & mouse) != 0 && (_mouseCurrent & mouse) != 0;
 }
 
-bool InputManager::MouseFrameDown(const Input::MouseButton& mouseButton) {
+bool InputManager::MouseFrameDown(const Input::MouseButton& mouseButton) const
+{
     auto mouse = ToKey(mouseButton);
-    if (_mousePrevious.empty()) return _mouseCurrent[mouse];
-    return !_mousePrevious[mouse] && _mouseCurrent[mouse];
+    if (_mousePrevious == 0) return (_mouseCurrent & mouse) != 0;
+    return (_mousePrevious & mouse) == 0 && (_mouseCurrent & mouse) != 0;
 }
 
-bool InputManager::MouseFrameUp(const Input::MouseButton& mouseButton) {
+bool InputManager::MouseFrameUp(const Input::MouseButton& mouseButton) const
+{
     auto mouse = ToKey(mouseButton);
-    if (_mousePrevious.empty()) return false;
-    return _mousePrevious[mouse] && !_mouseCurrent[mouse];
+    if (_mousePrevious == 0) return false;
+    return (_mousePrevious & mouse) != 0 && (_mouseCurrent & mouse) == 0;
 }
 
-const spic::Point& InputManager::MousePosition() const {
+const spic::Point& InputManager::MousePosition() const
+{
     return *_mousePosition;
 }
 
-void InputManager::HandleEvent(const SDL_Event& event) {
+void InputManager::Update()
+{
+    SDL_PumpEvents();
+
+    int x, y;
+    _mousePrevious = _mouseCurrent;
+    _mouseCurrent = SDL_GetMouseState(&x, &y);
+
+    _mousePosition->x = x;
+    _mousePosition->y = y;
+
+    _keysPrevious = std::move(_keysCurrent);
+    int length;
+    const unsigned char* keysBuffer = SDL_GetKeyboardState(&length);
+
+    _keysCurrent = {keysBuffer, keysBuffer + length};
+
+    if (_mouseCurrent != 0) {
+        for (const auto& listener: Input::_mouseListeners) listener->OnMousePressed();
+    }
+}
+
+void InputManager::HandleEvent(const SDL_Event& event)
+{
     switch (event.type)
     {
         case SDL_MOUSEMOTION:
         {
-            _mousePosition->x = event.motion.x;
-            _mousePosition->y = event.motion.y;
             for (const auto& listener: Input::_mouseListeners) listener->OnMouseMoved();
             break;
         }
         case SDL_MOUSEBUTTONDOWN:
         {
-            _mousePrevious[event.button.button] = _mouseCurrent[event.button.button];
-            _mouseCurrent[event.button.button] = true;
             for (const auto& listener: Input::_mouseListeners) listener->OnMouseClicked();
             break;
         }
         case SDL_MOUSEBUTTONUP:
         {
-            _mousePrevious[event.button.button] = _mouseCurrent[event.button.button];
-            _mouseCurrent[event.button.button] = false;
             for (const auto& listener: Input::_mouseListeners) listener->OnMouseReleased();
             break;
         }
         case SDL_KEYDOWN:
         {
-            _keysPrevious[event.key.keysym.scancode] = _keysCurrent[event.key.keysym.scancode];
-            _keysCurrent[event.key.keysym.scancode] = true;
             for (const auto& listener: Input::_keyListeners) listener->OnKeyPressed();
             break;
         }
         case SDL_KEYUP:
         {
-            _keysPrevious[event.key.keysym.scancode] = _keysCurrent[event.key.keysym.scancode];
-            _keysCurrent[event.key.keysym.scancode] = false;
             for (const auto& listener: Input::_keyListeners) listener->OnKeyReleased();
             break;
         }
     }
 }
 
-void InputManager::Update() {
-    for (const auto& mouse: _mouseCurrent)
-    {
-        if (mouse.second)
-        {
-            for (const auto& listener: Input::_mouseListeners) listener->OnMousePressed();
-            break;
-        }
-    }
-
-    _keysPrevious = _keysCurrent;
-}
-
-InputManager& InputManager::GetInstance() {
+InputManager& InputManager::GetInstance()
+{
     return _instance;
 }
 
-Uint8 InputManager::ToKey(const spic::Input::MouseButton& mouseButton) {
+Uint8 InputManager::ToKey(const spic::Input::MouseButton& mouseButton)
+{
     switch (mouseButton)
     {
         case spic::Input::MouseButton::LEFT:
@@ -144,6 +143,7 @@ Uint8 InputManager::ToKey(const spic::Input::MouseButton& mouseButton) {
     return 0;
 }
 
-unsigned char InputManager::ToKey(const spic::Input::KeyCode& key) {
+unsigned char InputManager::ToKey(const spic::Input::KeyCode& key)
+{
     return static_cast<char>(key);
 }
