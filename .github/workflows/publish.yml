@@ -72,3 +72,9 @@ jobs:
           user-email: 41898282+github-actions[bot]@users.noreply.github.com
           target-branch: main
           commit-message: ${{ github.sha }}
+
+      - name: 'Delete output'
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: output
+          failOnError: false
