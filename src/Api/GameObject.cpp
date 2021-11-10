@@ -6,7 +6,7 @@
 
 using namespace spic;
 
-void spic_GameObject_ListObjects(const std::shared_ptr<GameObject> &gameObject, std::vector<std::shared_ptr<GameObject>> &gameObjects, bool includeInactive = false) {
+void spic_GameObject_ListObjects(const std::shared_ptr<GameObject> gameObject, std::vector<std::shared_ptr<GameObject>> &gameObjects, bool includeInactive = false) {
     if (includeInactive || gameObject->Active()) {
         gameObjects.push_back(gameObject);
 
