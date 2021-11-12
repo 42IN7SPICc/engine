@@ -1,5 +1,7 @@
 #include "InputManager.hpp"
 
+#include <algorithm>
+
 using namespace engine;
 using namespace spic;
 
@@ -122,6 +124,22 @@ void InputManager::HandleEvent(const SDL_Event& event)
             break;
         }
     }
+}
+
+void InputManager::RegisterKeyListener(IKeyListener& listener) {
+    _keyListeners.push_back(&listener);
+}
+
+void InputManager::UnregisterKeyListener(IKeyListener& listener) {
+    std::remove(_keyListeners.begin(), _keyListeners.end(), &listener);
+}
+
+void InputManager::RegisterMouseListener(IMouseListener& listener) {
+    _mouseListeners.push_back(&listener);
+}
+
+void InputManager::UnregisterMouseListener(IMouseListener& listener) {
+    std::remove(_mouseListeners.begin(), _mouseListeners.end(), &listener);
 }
 
 InputManager& InputManager::GetInstance()
