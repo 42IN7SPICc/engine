@@ -10,7 +10,7 @@
 namespace engine {
     class TextureManager {
     private:
-        std::map<std::string, std::shared_ptr<Texture>> _textures;
+        std::map<std::string, std::shared_ptr<Texture>> _textures = {};
     public:
         void LoadTexture(SDL_Renderer *renderer, const std::string &path);
 
