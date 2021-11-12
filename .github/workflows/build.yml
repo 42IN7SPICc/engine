@@ -1,0 +1,33 @@
+name: 'Build'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    name: 'Build'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          submodules: true
+
+      - name: 'Install CMake'
+        uses: lukka/get-cmake@latest
+
+      - name: 'Setup vcpkg'
+        uses: lukka/run-vcpkg@v10
+        with:
+          appendedCacheKey: -${{ runner.os }}
+
+      - name: 'Run CMake'
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: ninja-multi-vcpkg
+          buildPreset: ninja-multi-vcpkg
