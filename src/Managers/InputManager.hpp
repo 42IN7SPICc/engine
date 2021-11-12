@@ -18,11 +18,13 @@ namespace engine
     class InputManager
     {
         private:
-            std::vector<unsigned char> _keysCurrent;
-            std::vector<unsigned char> _keysPrevious;
-            Uint32 _mouseCurrent;
-            Uint32 _mousePrevious;
-            std::unique_ptr<spic::Point> _mousePosition;
+            std::vector<unsigned char> _keysCurrent = {};
+            std::vector<unsigned char> _keysPrevious = {};
+            Uint32 _mouseCurrent = 0;
+            Uint32 _mousePrevious = 0;
+            std::unique_ptr<spic::Point> _mousePosition = {};
+            std::vector<spic::IMouseListener*> _mouseListeners = {};
+            std::vector<spic::IKeyListener*> _keyListeners = {};
             static InputManager _instance;
         public:
             InputManager();
@@ -48,6 +50,14 @@ namespace engine
             void HandleEvent(const SDL_Event& event);
 
             void Update();
+
+            void RegisterKeyListener(spic::IKeyListener& listener);
+
+            void UnregisterKeyListener(spic::IKeyListener& listener);
+
+            void RegisterMouseListener(spic::IMouseListener& listener);
+
+            void UnregisterMouseListener(spic::IMouseListener& listener);
 
             static InputManager& GetInstance();
 
