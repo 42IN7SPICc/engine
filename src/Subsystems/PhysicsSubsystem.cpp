@@ -28,6 +28,8 @@ void PhysicsSubsystem::Update() {
     // The only problem with the current setup is a little performance loss, and some physics inaccuracy
     b2Vec2 gravity(0.0f, 2.0f);
     _physicsWorld = std::make_unique<b2World>(gravity);
+
+    _contactListener->StartNewPhysicsSession();
     _physicsWorld->SetContactListener(_contactListener.get());
     std::vector<std::tuple<b2Body *, std::shared_ptr<GameObject>>> newObjectLocations;
     std::map<std::shared_ptr<GameObject>, Transform> oldTransforms;
