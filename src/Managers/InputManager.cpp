@@ -100,27 +100,27 @@ void InputManager::HandleEvent(const SDL_Event& event)
     {
         case SDL_MOUSEMOTION:
         {
-            for (const auto& listener: Input::_mouseListeners) listener->OnMouseMoved();
+            for (const auto& listener: _mouseListeners) listener->OnMouseMoved();
             break;
         }
         case SDL_MOUSEBUTTONDOWN:
         {
-            for (const auto& listener: Input::_mouseListeners) listener->OnMouseClicked();
+            for (const auto& listener: _mouseListeners) listener->OnMouseClicked();
             break;
         }
         case SDL_MOUSEBUTTONUP:
         {
-            for (const auto& listener: Input::_mouseListeners) listener->OnMouseReleased();
+            for (const auto& listener: _mouseListeners) listener->OnMouseReleased();
             break;
         }
         case SDL_KEYDOWN:
         {
-            for (const auto& listener: Input::_keyListeners) listener->OnKeyPressed();
+            for (const auto& listener: _keyListeners) listener->OnKeyPressed();
             break;
         }
         case SDL_KEYUP:
         {
-            for (const auto& listener: Input::_keyListeners) listener->OnKeyReleased();
+            for (const auto& listener: _keyListeners) listener->OnKeyReleased();
             break;
         }
     }
