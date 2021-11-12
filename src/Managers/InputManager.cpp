@@ -90,7 +90,7 @@ void InputManager::Update()
     _keysCurrent = {keysBuffer, keysBuffer + length};
 
     if (_mouseCurrent != 0) {
-        for (const auto& listener: Input::_mouseListeners) listener->OnMousePressed();
+        for (const auto& listener: _mouseListeners) listener->OnMousePressed();
     }
 }
 
