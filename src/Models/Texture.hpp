@@ -12,8 +12,8 @@ namespace engine {
         std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)> _surface;
         std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> _texture;
 
-        int _width;
-        int _height;
+        int _width = 0;
+        int _height = 0;
 
     public:
         Texture(SDL_Surface *surface, SDL_Texture *texture);
