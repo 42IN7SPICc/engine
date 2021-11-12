@@ -8,8 +8,17 @@ on:
 
 jobs:
   build:
-    name: 'Build'
-    runs-on: ubuntu-latest
+    name: Build (${{ runner.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            triplet: x64-linux
+
+    env:
+      VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
 
     steps:
       - name: 'Checkout'
@@ -24,7 +33,7 @@ jobs:
       - name: 'Setup vcpkg'
         uses: lukka/run-vcpkg@v10
         with:
-          appendedCacheKey: -${{ runner.os }}
+          appendedCacheKey: -${{ matrix.triplet }}
 
       - name: 'Run CMake'
         uses: lukka/run-cmake@v10
