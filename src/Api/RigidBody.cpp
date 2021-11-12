@@ -2,8 +2,7 @@
 
 using namespace spic;
 
-RigidBody::RigidBody(double mass, double gravityScale, const BodyType &bodyType) : mass(mass), gravityScale(gravityScale), bodyType(bodyType) {
-    _point = std::make_unique<spic::Point>();
+RigidBody::RigidBody(double mass, double gravityScale, const BodyType &bodyType) : mass(mass), gravityScale(gravityScale), bodyType(bodyType), _point(std::make_unique<spic::Point>()) {
 }
 
 BodyType RigidBody::Type() const {
@@ -31,7 +30,8 @@ void RigidBody::GravityScale(double newGravityScale) {
 }
 
 void RigidBody::AddForce(const spic::Point &forceDirection) {
-    Point(forceDirection);
+    _point->x += forceDirection.x;
+    _point->y += forceDirection.y;
 }
 
 void RigidBody::Point(const spic::Point &point) {
