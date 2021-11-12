@@ -28,7 +28,7 @@ void PhysicsSubsystem::Update()
     // The reason for this is because of the complex implementation of Box2D inside the SPIC API
     // We needed a lot of extra variables and function to get updated correctly working.
     // The only problem with the current setup is a little performance loss, and some physics inaccuracy
-    b2Vec2 gravity(0.0f, 3.0f);
+    b2Vec2 gravity(0.0f, 0.0f);
     _physicsWorld = std::make_unique<b2World>(gravity);
 
     _contactListener->StartNewPhysicsSession();
@@ -124,6 +124,10 @@ void PhysicsSubsystem::Update()
             }
         }
 
+        auto location = rigidBody->Point();
+        if (location.y != 0.0 && location.x != 0.0)
+            body->ApplyLinearImpulse(b2Vec2((float) location.x * 1000, (float) location.y * 1000), body->GetWorldCenter(), true);
+
         newObjectLocations.emplace_back(std::make_tuple(body, gameObject));
         oldTransforms.insert(std::make_pair(gameObject, gameObject->AbsoluteTransform()));
     }
@@ -153,6 +157,9 @@ void PhysicsSubsystem::Update()
             gameObject->Transform().position.y += ((body->GetPosition().y - circleCollider->Radius()) / pixelScale) - transform.position.y;
             gameObject->Transform().rotation = (body->GetAngle() * 180 / b2_pi);// - transform.rotation;
         }
+
+        auto rigidBody = gameObject->GetComponent<RigidBody>();
+        rigidBody->Point(Point());
     }
 }
 

@@ -10,8 +10,8 @@ namespace engine {
     class AudioManager {
     private:
         static AudioManager _instance;
-        std::map<std::string, std::shared_ptr<AudioClip>> _audioClips;
-        std::map<std::string, int> _channels;
+        std::map<std::string, std::shared_ptr<AudioClip>> _audioClips = {};
+        std::map<std::string, int> _channels = {};
 
         static void ChannelCallback(int channelNumber);
 
