@@ -36,7 +36,7 @@ void Engine::Start()
 
     while (!_scenes.empty() && _running)
     {
-        std::shared_ptr<Scene> currentScene = PeekScene();
+        _currentScene = PeekScene();
         auto& timeManager = engine::TimeManager::GetInstance();
         timeManager.Update();
 
@@ -65,11 +65,8 @@ void Engine::PushScene(const std::shared_ptr<Scene>& scene)
 
 std::shared_ptr<Scene> Engine::PeekScene() const
 {
-    if (_scenes.empty())
-    {
-        return {};
-    }
-    return _scenes.top();
+    if (!_currentScene) throw std::exception("There is no current scene, something went wrong");
+    return _currentScene;
 }
 
 void Engine::PopScene()
