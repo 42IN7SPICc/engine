@@ -18,9 +18,9 @@ void ButtonMouseListener::OnMouseReleased() {
     {
         if (_button != nullptr)
         {
-            if (_button->Interactable() && _button->IsActiveInWorld() && !_button->Parent().expired())
+            if (_button->Interactable() && _button->IsActiveInWorld())
             {
-                auto transform = _button->Parent().lock()->AbsoluteTransform();
+                auto transform = _button->AbsoluteTransform();
                 auto width = _button->Width() * transform.scale;
                 auto height = _button->Height() * transform.scale;
 
