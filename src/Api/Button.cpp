@@ -6,11 +6,11 @@
 using namespace engine;
 using namespace spic;
 
-Button::Button(const std::string& name, const std::string& tag, int layer, double width, double height) : UIObject(name, tag, layer, width, height), _listener{nullptr, &Button::DestroyListener}
+Button::Button(const std::string& name, const std::string& tag, int layer, double width, double height) : UIObject(name, tag, layer, width, height),
+                                                                                                          _listener{new ButtonMouseListener{this}, &Button::DestroyListener},
+                                                                                                          onClick{[]() {}},
+                                                                                                          interactable{true}
 {
-    interactable = true;
-
-    _listener.reset(new ButtonMouseListener{this});
     Input::RegisterMouseListener(*_listener);
 }
 
