@@ -1,5 +1,9 @@
 #include <Collider.hpp>
 
+spic::Collider::Collider() : _isTrigger{false}
+{
+}
+
 bool spic::Collider::IsTrigger() const
 {
     return _isTrigger;
