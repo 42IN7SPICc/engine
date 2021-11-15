@@ -1,22 +1,32 @@
 #ifndef SPIC_ENGINE_PHYSICSSUBSYSTEM_H
 #define SPIC_ENGINE_PHYSICSSUBSYSTEM_H
 
-#include "ISubsystem.hpp"
 #include <box2d/box2d.h>
 #include <memory>
-#include "RigidBody.hpp"
+#include <RigidBody.hpp>
 #include <vector>
-#include "GameObject.hpp"
+#include <GameObject.hpp>
+#include "ISubsystem.hpp"
+#include "../Listeners/ContactListener.hpp"
 
-namespace engine {
-    class PhysicsSubsystem : public ISubsystem {
-    private:
-        std::unique_ptr<b2World> _physicsWorld;
-        b2BodyType TranslateBodyType(spic::BodyType bodyType);
-        b2Body* MakeBody(const spic::RigidBody &rigidBody, spic::GameObject &gameObject, double width, double height);
-    public:
-        void Update() override;
-        PhysicsSubsystem();
+namespace engine
+{
+    class PhysicsSubsystem : public ISubsystem
+    {
+        private:
+            std::hash<std::string> _hasher = {};
+            std::unique_ptr<ContactListener> _contactListener = {};
+            std::unique_ptr<b2World> _physicsWorld = {};
+
+            static b2BodyType TranslateBodyType(spic::BodyType bodyType);
+            void RegisterTrigger(b2FixtureDef& fixtureDef, const std::shared_ptr<spic::Collider>& collider);
+
+            b2Body* MakeBody(const spic::RigidBody& rigidBody, spic::GameObject& gameObject, double width, double height);
+
+        public:
+            void Update() override;
+
+            PhysicsSubsystem();
     };
 }
 
