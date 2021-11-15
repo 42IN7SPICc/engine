@@ -39,7 +39,7 @@ void PhysicsSubsystem::Update()
     for (const auto& gameObject: GameObject::All())
     {
         auto rigidBody = gameObject->GetComponent<RigidBody>();
-        if(!rigidBody) return;
+        if(!rigidBody) continue;
         b2Body* body = nullptr;
 
         for (const auto& circleCollider: gameObject->GetComponents<CircleCollider>())
