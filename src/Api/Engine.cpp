@@ -36,7 +36,7 @@ void Engine::Start()
 
     while (!_scenes.empty() && _running)
     {
-        _currentScene = PeekScene();
+        _currentScene = _scenes.top();
         auto& timeManager = engine::TimeManager::GetInstance();
         timeManager.Update();
 
