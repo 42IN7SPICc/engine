@@ -15,7 +15,7 @@ Window::Window(const std::string& title, int xpos, int ypos, int width, int heig
     if (SDL_Init(SDL_INIT_VIDEO) != 0) throw std::runtime_error("SDL2 could not be initialized");
 
     if (fullscreen) {
-        SDL_DisplayMode DM;
+        SDL_DisplayMode DM{};
         if (SDL_GetDesktopDisplayMode(0, &DM) != 0) throw std::runtime_error("SDL2 Desktop display mode could not be determined");
         _window.reset(SDL_CreateWindow(title.c_str(), 0, 0, DM.w, DM.h, SDL_WINDOW_BORDERLESS));
     } else {
