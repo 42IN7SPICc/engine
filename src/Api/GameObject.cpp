@@ -18,7 +18,7 @@ void spic_GameObject_ListObjects(const std::shared_ptr<GameObject> gameObject, s
 }
 
 std::vector<std::shared_ptr<GameObject>> GameObject::All(bool includeInactive) {
-    std::vector<std::shared_ptr<GameObject>> gameObjects;
+    std::vector<std::shared_ptr<GameObject>> gameObjects{};
     auto scene = Engine::Instance().PeekScene();
 
     for (const auto &gameObject: scene->Contents()) {
@@ -29,7 +29,7 @@ std::vector<std::shared_ptr<GameObject>> GameObject::All(bool includeInactive) {
 }
 
 std::vector<std::shared_ptr<GameObject>> GameObject::FindGameObjectsWithTag(const std::string &tag) {
-    auto list = std::vector<std::shared_ptr<GameObject>>();
+    std::vector<std::shared_ptr<GameObject>> list{};
 
     for (auto obj: All()) {
         if (obj->tag == tag && obj->Active()) {
@@ -152,7 +152,7 @@ spic::Transform GameObject::AbsoluteTransform() const {
         object = object->Parent().lock().get();
         transform.position.x += object->Transform().position.x;
         transform.position.y += object->Transform().position.y;
-        transform.rotation += object->Transform().rotation;
+//        transform.rotation += object->Transform().rotation;
         transform.scale *= object->Transform().scale;
     }
 

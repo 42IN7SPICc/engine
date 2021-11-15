@@ -34,7 +34,7 @@ Window::Window(const std::string& title, int xpos, int ypos, int width, int heig
 
 void Window::Render(const std::string& texturePath, const spic::Transform& transform, const SDL_RendererFlip& flip) {
     auto texture = _textureManager->GetTexture(_renderer.get(), texturePath);
-    SDL_Rect rect;
+    SDL_Rect rect{};
     rect.x = transform.position.x;
     rect.y = transform.position.y;
     rect.w = texture->Width() * transform.scale;
@@ -57,7 +57,7 @@ void Window::RenderText(const std::string& text, const spic::Transform& transfor
         newTransform.position.x += (widthDiff / (alignment == spic::Alignment::center ? 2 : 1)) * newTransform.scale;
     }
 
-    SDL_Rect rect;
+    SDL_Rect rect{};
     rect.x = newTransform.position.x;
     rect.y = newTransform.position.y;
     rect.w = surface->w * newTransform.scale;

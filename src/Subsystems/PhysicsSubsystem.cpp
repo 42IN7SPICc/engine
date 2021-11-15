@@ -27,14 +27,14 @@ void PhysicsSubsystem::Update()
     // The reason for this is because of the complex implementation of Box2D inside the SPIC API
     // We needed a lot of extra variables and function to get updated correctly working.
     // The only problem with the current setup is a little performance loss, and some physics inaccuracy
-    const b2Vec2 gravity(0.0f, 3.0f);
+    const b2Vec2 gravity(0.0f, 0.0f);
     _physicsWorld = std::make_unique<b2World>(gravity);
 
     _contactListener->StartNewPhysicsSession();
     _physicsWorld->SetContactListener(_contactListener.get());
 
-    std::vector<std::tuple<b2Body*, std::shared_ptr<GameObject>>> newObjectLocations;
-    std::map<std::shared_ptr<GameObject>, Transform> oldTransforms;
+    std::vector<std::tuple<b2Body*, std::shared_ptr<GameObject>>> newObjectLocations{};
+    std::map<std::shared_ptr<GameObject>, Transform> oldTransforms{};
 
     for (const auto& gameObject: GameObject::All())
     {
@@ -44,12 +44,12 @@ void PhysicsSubsystem::Update()
         for (const auto& circleCollider: gameObject->GetComponents<CircleCollider>())
         {
             body = MakeBody(*rigidBody, *gameObject, circleCollider->Radius() * 2, circleCollider->Radius() * 2);
-            b2CircleShape circleShape;
+            b2CircleShape circleShape{};
             circleShape.m_radius = (float) circleCollider->Radius();
 
             if (rigidBody->Type() != BodyType::staticBody)
             {
-                b2FixtureDef fixtureDef;
+                b2FixtureDef fixtureDef{};
                 fixtureDef.shape = &circleShape;
                 double area = b2_pi * std::sqrt(circleCollider->Radius());
                 fixtureDef.density = (float) rigidBody->Mass() / (float) area;
@@ -60,7 +60,7 @@ void PhysicsSubsystem::Update()
             }
             else
             {
-                b2FixtureDef fixtureDef;
+                b2FixtureDef fixtureDef{};
                 fixtureDef.shape = &circleShape;
                 fixtureDef.density = 0.0f;
                 fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(circleCollider.get());
@@ -73,12 +73,12 @@ void PhysicsSubsystem::Update()
         for (const auto& boxCollider: gameObject->GetComponents<BoxCollider>())
         {
             body = MakeBody(*rigidBody, *gameObject, boxCollider->Width(), boxCollider->Height());
-            b2PolygonShape boxShape;
+            b2PolygonShape boxShape{};
             boxShape.SetAsBox((float) boxCollider->Width() / 2, (float) boxCollider->Height() / 2);
 
             if (rigidBody->Type() != BodyType::staticBody)
             {
-                b2FixtureDef fixtureDef;
+                b2FixtureDef fixtureDef{};
                 fixtureDef.shape = &boxShape;
                 double area = boxCollider->Width() * boxCollider->Height();
                 fixtureDef.density = (float) rigidBody->Mass() / (float) area;
@@ -89,7 +89,7 @@ void PhysicsSubsystem::Update()
             }
             else
             {
-                b2FixtureDef fixtureDef;
+                b2FixtureDef fixtureDef{};
                 fixtureDef.shape = &boxShape;
                 fixtureDef.density = 0.0f;
                 fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(boxCollider.get());
@@ -155,7 +155,7 @@ b2BodyType PhysicsSubsystem::TranslateBodyType(spic::BodyType bodyType)
 
 b2Body* PhysicsSubsystem::MakeBody(const RigidBody& rigidBody, GameObject& gameObject, double width, double height)
 {
-    b2BodyDef bodyDef;
+    b2BodyDef bodyDef{};
     bodyDef.type = TranslateBodyType(rigidBody.Type());
     auto transform = gameObject.AbsoluteTransform();
     bodyDef.position.Set((float) (transform.position.x + width / 2.0) * pixelScale, (float) (transform.position.y + height / 2.0) * pixelScale);
