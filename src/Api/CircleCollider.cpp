@@ -8,5 +8,4 @@ CircleCollider::CircleCollider() : CircleCollider(0)
 
 CircleCollider::CircleCollider(double radius) : radius(radius)
 {
-    IsTrigger(false);
 }
