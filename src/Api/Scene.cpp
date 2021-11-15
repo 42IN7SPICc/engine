@@ -2,10 +2,16 @@
 
 using namespace spic;
 
-void Scene::RenderScene() {
+Scene::Scene() : _contents{}
+{
+}
+
+void Scene::RenderScene()
+{
     // Stub method
 }
 
-std::vector<std::shared_ptr<GameObject>> &Scene::Contents() {
+std::vector<std::shared_ptr<GameObject>>& Scene::Contents()
+{
     return _contents;
 }
