@@ -24,7 +24,7 @@ void ButtonMouseListener::OnMouseReleased() {
                 auto width = _button->Width() * transform.scale;
                 auto height = _button->Height() * transform.scale;
 
-                Point center{transform.position.x - (width / 2), transform.position.y - (height / 2)};
+                Point center{transform.position.x + (width / 2), transform.position.y + (height / 2)};
 
                 auto points = RectangleUtil::Rotate(center, width, height, std::fmod(transform.rotation, 360));
 
