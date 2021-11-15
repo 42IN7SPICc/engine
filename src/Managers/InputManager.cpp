@@ -131,7 +131,9 @@ void InputManager::RegisterKeyListener(IKeyListener& listener) {
 }
 
 void InputManager::UnregisterKeyListener(IKeyListener& listener) {
-    std::remove(_keyListeners.begin(), _keyListeners.end(), &listener);
+    auto iterator = std::find(_keyListeners.begin(), _keyListeners.end(), &listener);
+    if (iterator != _keyListeners.end())
+        _keyListeners.erase(iterator);
 }
 
 void InputManager::RegisterMouseListener(IMouseListener& listener) {
@@ -139,7 +141,9 @@ void InputManager::RegisterMouseListener(IMouseListener& listener) {
 }
 
 void InputManager::UnregisterMouseListener(IMouseListener& listener) {
-    std::remove(_mouseListeners.begin(), _mouseListeners.end(), &listener);
+    auto iterator = std::find(_mouseListeners.begin(), _mouseListeners.end(), &listener);
+    if (iterator != _mouseListeners.end())
+        _mouseListeners.erase(iterator);
 }
 
 InputManager& InputManager::GetInstance()
