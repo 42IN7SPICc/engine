@@ -3,6 +3,8 @@
 #include <GameObject.hpp>
 #include <BehaviourScript.hpp>
 
+using namespace engine;
+
 void ContactListener::BeginContact(b2Contact* contact)
 {
     spic::Component* entityA;
