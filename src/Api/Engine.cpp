@@ -36,6 +36,7 @@ void Engine::Start()
 
     while (!_scenes.empty() && _running)
     {
+        std::shared_ptr<Scene> currentScene = PeekScene();
         auto& timeManager = engine::TimeManager::GetInstance();
         timeManager.Update();
 
