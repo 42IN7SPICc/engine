@@ -55,13 +55,7 @@ void PhysicsSubsystem::Update()
                 fixtureDef.density = (float) rigidBody->Mass() / (float) area;
                 fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(circleCollider.get());
 
-                if (circleCollider->IsTrigger())
-                {
-                    fixtureDef.isSensor = true;
-                    std::hash<std::string> hash;
-                    fixtureDef.filter.categoryBits = hash(gameObject->Tag());
-                }
-
+                RegisterTrigger(fixtureDef, circleCollider);
                 body->CreateFixture(&fixtureDef);
             }
             else
@@ -71,13 +65,7 @@ void PhysicsSubsystem::Update()
                 fixtureDef.density = 0.0f;
                 fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(circleCollider.get());
 
-                if (circleCollider->IsTrigger())
-                {
-                    fixtureDef.isSensor = true;
-                    std::hash<std::string> hash;
-                    fixtureDef.filter.categoryBits = hash(gameObject->Tag());
-                }
-
+                RegisterTrigger(fixtureDef, circleCollider);
                 body->CreateFixture(&fixtureDef);
             }
         }
@@ -96,13 +84,7 @@ void PhysicsSubsystem::Update()
                 fixtureDef.density = (float) rigidBody->Mass() / (float) area;
                 fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(boxCollider.get());
 
-                if (boxCollider->IsTrigger())
-                {
-                    fixtureDef.isSensor = true;
-                    std::hash<std::string> hash;
-                    fixtureDef.filter.categoryBits = hash(gameObject->Tag());
-                }
-
+                RegisterTrigger(fixtureDef, boxCollider);
                 body->CreateFixture(&fixtureDef);
             }
             else
@@ -112,13 +94,7 @@ void PhysicsSubsystem::Update()
                 fixtureDef.density = 0.0f;
                 fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(boxCollider.get());
 
-                if (boxCollider->IsTrigger())
-                {
-                    fixtureDef.isSensor = true;
-                    std::hash<std::string> hash;
-                    fixtureDef.filter.categoryBits = hash(gameObject->Tag());
-                }
-
+                RegisterTrigger(fixtureDef, boxCollider);
                 body->CreateFixture(&fixtureDef);
             }
         }
@@ -185,4 +161,13 @@ b2Body* PhysicsSubsystem::MakeBody(const RigidBody& rigidBody, GameObject& gameO
     bodyDef.position.Set((float) (transform.position.x + width / 2.0) * pixelScale, (float) (transform.position.y + height / 2.0) * pixelScale);
     bodyDef.angle = (float) gameObject.Transform().rotation * b2_pi / 180;
     return _physicsWorld->CreateBody(&bodyDef);
+}
+
+void PhysicsSubsystem::RegisterTrigger(b2FixtureDef& fixtureDef, const std::shared_ptr<spic::Collider>& collider)
+{
+    if (collider->IsTrigger())
+    {
+        fixtureDef.isSensor = true;
+        fixtureDef.filter.categoryBits = _hasher(collider->GameObject().lock()->Tag());
+    }
 }

@@ -14,10 +14,12 @@ namespace engine
     class PhysicsSubsystem : public ISubsystem
     {
         private:
-            std::unique_ptr<ContactListener> _contactListener;
-            std::unique_ptr<b2World> _physicsWorld;
+            std::hash<std::string> _hasher = {};
+            std::unique_ptr<ContactListener> _contactListener = {};
+            std::unique_ptr<b2World> _physicsWorld = {};
 
             static b2BodyType TranslateBodyType(spic::BodyType bodyType);
+            void RegisterTrigger(b2FixtureDef& fixtureDef, const std::shared_ptr<spic::Collider>& collider);
 
             b2Body* MakeBody(const spic::RigidBody& rigidBody, spic::GameObject& gameObject, double width, double height);
 
