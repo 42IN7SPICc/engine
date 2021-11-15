@@ -19,7 +19,7 @@ const Color& Color::transparent() {
 }
 
 void Color::SetColor(double red, double green, double blue) {
-    SetColor(red, green, blue, 1.0);
+    SetColor(red, green, blue, a);
 }
 
 void Color::SetColor(double red, double green, double blue, double alpha) {

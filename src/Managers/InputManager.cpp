@@ -84,7 +84,7 @@ void InputManager::Update()
     _mousePosition->y = y;
 
     _keysPrevious = std::move(_keysCurrent);
-    int length;
+    int length = 0;
     const unsigned char* keysBuffer = SDL_GetKeyboardState(&length);
 
     _keysCurrent = {keysBuffer, keysBuffer + length};
