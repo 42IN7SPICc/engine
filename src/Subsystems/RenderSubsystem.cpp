@@ -5,6 +5,10 @@
 #include "Sprite.hpp"
 #include "Text.hpp"
 
+#include <algorithm>
+#include <map>
+#include <tuple>
+
 using namespace spic;
 
 engine::RenderSubsystem::RenderSubsystem()
@@ -22,23 +26,52 @@ void engine::RenderSubsystem::Update()
 
     _window->Clear();
 
-    for (std::shared_ptr<GameObject> gameObject: GameObject::All()) // NOLINT(performance-for-range-copy)
+    std::map<int, std::vector<std::shared_ptr<GameObject>>> objectLayers{};
+    for (const auto& gameObject: GameObject::All())
     {
-        auto transform = gameObject->AbsoluteTransform();
-        for (std::shared_ptr<Sprite> sprite: gameObject->GetComponents<Sprite>())
-        {
-            if (sprite->Active())
-            {
-                auto flip = static_cast<SDL_RendererFlip>(sprite->FlipX() && sprite->FlipY() ? SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL : sprite->FlipX() ? SDL_FLIP_HORIZONTAL : sprite->FlipY() ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
+        int layer = gameObject->Layer();
 
-                _window->Render(sprite->Texture(), transform, flip);
+        if (!objectLayers.contains(layer))
+        {
+            objectLayers.insert(std::make_pair(layer, std::vector<std::shared_ptr<GameObject>>{}));
+        }
+        objectLayers[layer].push_back(gameObject);
+    }
+
+    for (const auto& layer: objectLayers)
+    {
+        std::vector<std::shared_ptr<Sprite>> sprites{};
+        for (const auto& gameObject: layer.second)
+        {
+            for (const auto& sprite: gameObject->GetComponents<Sprite>())
+            {
+                if (sprite->Active()) sprites.push_back(sprite);
             }
         }
 
-        auto textObject = std::dynamic_pointer_cast<Text>(gameObject);
-        if (textObject)
+        std::sort(sprites.begin(), sprites.end(), [](const std::shared_ptr<Sprite>& lhs, const std::shared_ptr<Sprite>& rhs) {
+            int lSort = lhs->SortingLayer();
+            int lOrder = lhs->OrderInLayer();
+            int rSort = rhs->SortingLayer();
+            int rOrder = rhs->OrderInLayer();
+
+            return std::tie(lSort, lOrder) < std::tie(rSort, rOrder);
+        });
+
+        for (const auto& sprite: sprites)
         {
-            _window->RenderText(textObject->Content(), transform, textObject->Font(), textObject->Size(), textObject->TextAlignment(), textObject->TextColor(), textObject->Width());
+            auto flip = static_cast<SDL_RendererFlip>(sprite->FlipX() && sprite->FlipY() ? SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL : sprite->FlipX() ? SDL_FLIP_HORIZONTAL : sprite->FlipY() ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
+
+            _window->Render(sprite->Texture(), sprite->GameObject().lock()->AbsoluteTransform(), flip);
+        }
+
+        for (const auto& gameObject: layer.second)
+        {
+            auto textObject = std::dynamic_pointer_cast<Text>(gameObject);
+            if (textObject)
+            {
+                _window->RenderText(textObject->Content(), textObject->AbsoluteTransform(), textObject->Font(), textObject->Size(), textObject->TextAlignment(), textObject->TextColor(), textObject->Width());
+            }
         }
     }
 
