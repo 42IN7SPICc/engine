@@ -2,6 +2,7 @@
 #include "../Subsystems/Subsystems.hpp"
 #include "../Managers/TimeManager.hpp"
 #include "SDL_timer.h"
+#include <stdexcept>
 
 using namespace spic;
 
