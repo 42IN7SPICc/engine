@@ -101,8 +101,7 @@ void PhysicsSubsystem::Update()
         }
 
         auto location = rigidBody->Point();
-        if (location.y != 0.0 && location.x != 0.0)
-            body->ApplyLinearImpulse(b2Vec2((float) location.x * 1000, (float) location.y * 1000), body->GetWorldCenter(), true);
+        body->ApplyLinearImpulse(b2Vec2((float) location.x * 1000, (float) location.y * 1000), body->GetWorldCenter(), true);
 
         newObjectLocations.emplace_back(std::make_tuple(body, gameObject));
         oldTransforms.insert(std::make_pair(gameObject, gameObject->AbsoluteTransform()));
