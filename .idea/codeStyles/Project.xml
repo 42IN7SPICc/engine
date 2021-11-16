@@ -35,7 +35,9 @@
       <option name="BINARY_OPERATION_WRAP" value="0" />
       <option name="TERNARY_OPERATION_WRAP" value="0" />
       <option name="KEEP_SIMPLE_METHODS_IN_ONE_LINE" value="false" />
-      <option name="ARRAY_INITIALIZER_WRAP" value="0" />
+      <option name="ARRAY_INITIALIZER_WRAP" value="5" />
+      <option name="ARRAY_INITIALIZER_LBRACE_ON_NEXT_LINE" value="true" />
+      <option name="ARRAY_INITIALIZER_RBRACE_ON_NEXT_LINE" value="true" />
       <option name="PLACE_ASSIGNMENT_SIGN_ON_NEXT_LINE" value="true" />
       <option name="ENUM_CONSTANTS_WRAP" value="2" />
     </codeStyleSettings>
