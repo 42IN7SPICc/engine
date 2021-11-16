@@ -121,6 +121,11 @@ void GameObject::Active(bool flag)
 
 bool GameObject::IsActiveInWorld() const
 {
+    if (!_parent.expired())
+    {
+        return this->Active() && _parent.lock()->IsActiveInWorld();
+    }
+
     bool found = false;
     for (const auto& object: All())
     {
@@ -129,11 +134,6 @@ bool GameObject::IsActiveInWorld() const
             found = true;
             break;
         }
-    }
-
-    if (!_parent.expired())
-    {
-        return found && this->Active() && _parent.lock()->IsActiveInWorld();
     }
 
     return found && this->Active();
