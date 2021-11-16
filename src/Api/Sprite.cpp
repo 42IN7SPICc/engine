@@ -27,7 +27,7 @@ const Color &Sprite::Color() const {
 }
 
 void Sprite::FlipX(bool flipX) {
-    this->flipY = flipX;
+    this->flipX = flipX;
 }
 
 void Sprite::FlipY(bool flipY) {
