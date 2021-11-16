@@ -121,11 +121,22 @@ void GameObject::Active(bool flag)
 
 bool GameObject::IsActiveInWorld() const
 {
+    if (!Active()) return false;
+
     if (!_parent.expired())
     {
-        return this->Active() && _parent.lock()->IsActiveInWorld();
+        return _parent.lock()->IsActiveInWorld();
     }
-    return this->Active();
+
+    for (const auto& object: All())
+    {
+        if (object->name == this->name)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 const spic::Transform& GameObject::Transform() const
