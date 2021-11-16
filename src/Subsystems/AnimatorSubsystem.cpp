@@ -13,7 +13,7 @@ void AnimatorSubsystem::Update() {
             if (animator->Active() && animator->Playing) {
                 animator->FrameTime += Time::DeltaTime();
 
-                if (animator->FrameDuration <= 0) return;
+                if (animator->FrameDuration <= 0) continue;
 
                 if (animator->FrameTime > animator->FrameDuration) {
                     animator->ActivateFrame(animator->CurrentFrame);
