@@ -18,13 +18,13 @@ void ButtonMouseListener::OnMouseReleased() {
     {
         if (_button != nullptr)
         {
-            if (_button->Interactable() && _button->IsActiveInWorld() && !_button->Parent().expired())
+            if (_button->Interactable() && _button->IsActiveInWorld())
             {
-                auto transform = _button->Parent().lock()->AbsoluteTransform();
+                auto transform = _button->AbsoluteTransform();
                 auto width = _button->Width() * transform.scale;
                 auto height = _button->Height() * transform.scale;
 
-                Point center{transform.position.x - (width / 2), transform.position.y - (height / 2)};
+                Point center{transform.position.x + (width / 2), transform.position.y + (height / 2)};
 
                 auto points = RectangleUtil::Rotate(center, width, height, std::fmod(transform.rotation, 360));
 
