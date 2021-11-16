@@ -66,7 +66,7 @@ void Engine::PushScene(const std::shared_ptr<Scene>& scene)
 
 std::shared_ptr<Scene> Engine::PeekScene() const
 {
-    if (!_currentScene) throw std::exception("There is no current scene, something went wrong");
+    if (!_currentScene) throw std::runtime_error("There is no current scene, something went wrong");
     return _currentScene;
 }
 
