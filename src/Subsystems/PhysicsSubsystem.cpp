@@ -19,7 +19,8 @@ const float timeStep = 1.0f / 60.0f;
 const double pixelScale = 1.0;
 
 PhysicsSubsystem::PhysicsSubsystem() : _contactListener(std::make_unique<ContactListener>()), _physicsWorld(nullptr)
-{}
+{
+}
 
 void PhysicsSubsystem::Update()
 {
@@ -39,38 +40,17 @@ void PhysicsSubsystem::Update()
     for (const auto& gameObject: GameObject::All())
     {
         auto rigidBody = gameObject->GetComponent<RigidBody>();
-        if(!rigidBody) continue;
+        if (!rigidBody) continue;
         b2Body* body = nullptr;
-        bool is_circle = false;
 
         for (const auto& circleCollider: gameObject->GetComponents<CircleCollider>())
         {
-            is_circle = true;
             body = MakeBody(*rigidBody, *gameObject, circleCollider->Radius() * 2, circleCollider->Radius() * 2);
             b2CircleShape circleShape{};
             circleShape.m_radius = (float) circleCollider->Radius();
 
-            if (rigidBody->Type() != BodyType::staticBody)
-            {
-                b2FixtureDef fixtureDef{};
-                fixtureDef.shape = &circleShape;
-                double area = b2_pi * std::sqrt(circleCollider->Radius());
-                fixtureDef.density = (float) rigidBody->Mass() / (float) area;
-                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(circleCollider.get());
-
-                RegisterTrigger(fixtureDef, circleCollider);
-                body->CreateFixture(&fixtureDef);
-            }
-            else
-            {
-                b2FixtureDef fixtureDef{};
-                fixtureDef.shape = &circleShape;
-                fixtureDef.density = 0.0f;
-                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(circleCollider.get());
-
-                RegisterTrigger(fixtureDef, circleCollider);
-                body->CreateFixture(&fixtureDef);
-            }
+            double area = rigidBody->Type() != BodyType::staticBody ? ((circleCollider->Radius() * circleCollider->Radius()) * 2) : 0.0f;
+            AddPhysicsToShape(body, &circleShape, rigidBody, circleCollider, area);
         }
 
         for (const auto& boxCollider: gameObject->GetComponents<BoxCollider>())
@@ -79,35 +59,12 @@ void PhysicsSubsystem::Update()
             b2PolygonShape boxShape{};
             boxShape.SetAsBox((float) boxCollider->Width() / 2, (float) boxCollider->Height() / 2);
 
-            if (rigidBody->Type() != BodyType::staticBody)
-            {
-                b2FixtureDef fixtureDef{};
-                fixtureDef.shape = &boxShape;
-                double area = boxCollider->Width() * boxCollider->Height();
-                fixtureDef.density = (float) rigidBody->Mass() / (float) area;
-                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(boxCollider.get());
-
-                RegisterTrigger(fixtureDef, boxCollider);
-                body->CreateFixture(&fixtureDef);
-            }
-            else
-            {
-                b2FixtureDef fixtureDef{};
-                fixtureDef.shape = &boxShape;
-                fixtureDef.density = 0.0f;
-                fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(boxCollider.get());
-
-                RegisterTrigger(fixtureDef, boxCollider);
-                body->CreateFixture(&fixtureDef);
-            }
+            double area = rigidBody->Type() != BodyType::staticBody ? (boxCollider->Width() * boxCollider->Height()) : 0.0f;
+            AddPhysicsToShape(body, &boxShape, rigidBody, boxCollider, area);
         }
 
         auto location = rigidBody->Point();
-        if(is_circle) {
-            body->ApplyLinearImpulse(b2Vec2((float)location.x * 1000, (float)location.y * 1000), body->GetWorldCenter(), true);
-        } else {
-            body->ApplyLinearImpulse(b2Vec2((float)location.x, (float)location.y), body->GetWorldCenter(), true);
-        }
+        body->ApplyLinearImpulse(b2Vec2((float) location.x, (float) location.y), body->GetWorldCenter(), true);
 
         newObjectLocations.emplace_back(std::make_tuple(body, gameObject));
         oldTransforms.insert(std::make_pair(gameObject, gameObject->AbsoluteTransform()));
@@ -176,4 +133,21 @@ void PhysicsSubsystem::RegisterTrigger(b2FixtureDef& fixtureDef, const std::shar
         fixtureDef.isSensor = true;
         fixtureDef.filter.categoryBits = _hasher(collider->GameObject().lock()->Tag());
     }
+}
+
+void PhysicsSubsystem::AddPhysicsToShape(b2Body* body, b2Shape* shape, const std::shared_ptr<spic::RigidBody>& rigidBody, const std::shared_ptr<spic::Collider>& collider, double area)
+{
+    b2FixtureDef fixtureDef{};
+    fixtureDef.shape = shape;
+    if (rigidBody->Type() != BodyType::staticBody)
+    {
+        fixtureDef.density = (float) rigidBody->Mass() / (float) area;
+    }
+    else
+    {
+        fixtureDef.density = 0.0f;
+    }
+    fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(collider.get());
+    RegisterTrigger(fixtureDef, collider);
+    body->CreateFixture(&fixtureDef);
 }
