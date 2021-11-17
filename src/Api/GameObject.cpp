@@ -198,21 +198,32 @@ int GameObject::Layer() const
 
 spic::Transform GameObject::AbsoluteTransform() const
 {
-    const GameObject* object = this;
-    spic::Transform transform{object->Transform()};
+    std::vector<spic::Transform> transforms{};
+    auto parent = Parent();
 
-    while (!object->Parent().expired())
+    if (parent.expired()) return Transform();
+
+    while (!parent.expired())
     {
-        object = object->Parent().lock().get();
-        transform.position.x += object->Transform().position.x;
-        transform.position.y += object->Transform().position.y;
-//        transform.rotation += object->Transform().rotation;
-        transform.scale *= object->Transform().scale;
+        auto wParent = parent.lock();
+        transforms.push_back(wParent->Transform());
+        parent = wParent->Parent();
+    }
+    transforms.push_back(Transform());
+
+    spic::Transform absTransform{{0, 0}, 0, 1};
+
+    for (const auto& transform: transforms)
+    {
+        absTransform.position.x += transform.position.x;
+        absTransform.position.y += transform.position.y;
+        absTransform.rotation += transform.rotation;
+        absTransform.scale *= transform.scale;
     }
 
-    transform.rotation = std::fmod(transform.rotation, 360);
+    absTransform.rotation = fmod(absTransform.rotation, 360);
 
-    return transform;
+    return absTransform;
 }
 
 void GameObject::RemoveComponent(std::shared_ptr<Component> component)
