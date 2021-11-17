@@ -41,9 +41,11 @@ void PhysicsSubsystem::Update()
         auto rigidBody = gameObject->GetComponent<RigidBody>();
         if(!rigidBody) continue;
         b2Body* body = nullptr;
+        bool is_circle = false;
 
         for (const auto& circleCollider: gameObject->GetComponents<CircleCollider>())
         {
+            is_circle = true;
             body = MakeBody(*rigidBody, *gameObject, circleCollider->Radius() * 2, circleCollider->Radius() * 2);
             b2CircleShape circleShape{};
             circleShape.m_radius = (float) circleCollider->Radius();
@@ -101,7 +103,11 @@ void PhysicsSubsystem::Update()
         }
 
         auto location = rigidBody->Point();
-        body->ApplyLinearImpulse(b2Vec2((float) location.x * 1000, (float) location.y * 1000), body->GetWorldCenter(), true);
+        if(is_circle) {
+            body->ApplyLinearImpulse(b2Vec2((float)location.x * 1000, (float)location.y * 1000), body->GetWorldCenter(), true);
+        } else {
+            body->ApplyLinearImpulse(b2Vec2((float)location.x, (float)location.y), body->GetWorldCenter(), true);
+        }
 
         newObjectLocations.emplace_back(std::make_tuple(body, gameObject));
         oldTransforms.insert(std::make_pair(gameObject, gameObject->AbsoluteTransform()));
