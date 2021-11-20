@@ -8,6 +8,7 @@ namespace engine {
     class FpsCounterSubsystem : public ISubsystem {
         private:
             Window* _window;
+            bool _enabled;
         public:
             explicit FpsCounterSubsystem(Window* window);
 
