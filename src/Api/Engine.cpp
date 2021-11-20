@@ -59,8 +59,7 @@ void Engine::Start()
         }
         window->SwapBuffers();
 
-        uint64_t end = SDL_GetPerformanceCounter();
-        float elapsedMs = (end - start) / (float) SDL_GetPerformanceFrequency() * 1000.0f; // NOLINT(cppcoreguidelines-narrowing-conversions)
+        float elapsedMs = (SDL_GetPerformanceCounter() - start) / static_cast<float>(SDL_GetPerformanceFrequency()) * 1000.0f; // NOLINT(cppcoreguidelines-narrowing-conversions)
         if (TARGET_FRAME_DELAY > elapsedMs)
         {
             SDL_Delay(TARGET_FRAME_DELAY - elapsedMs); // NOLINT(cppcoreguidelines-narrowing-conversions)
