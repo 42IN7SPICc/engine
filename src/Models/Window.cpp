@@ -64,6 +64,8 @@ void Window::RenderText(const std::string& text, const spic::Transform& transfor
     rect.h = surface->h * newTransform.scale;
 
     SDL_RenderCopy(_renderer.get(), texture, nullptr, &rect);
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(surface);
 }
 
 void Window::SwapBuffers() {
