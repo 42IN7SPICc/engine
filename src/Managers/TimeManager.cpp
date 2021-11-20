@@ -12,11 +12,6 @@ double TimeManager::DeltaTime() const
     return _deltaTime;
 }
 
-double TimeManager::RawDeltaTime() const
-{
-    return _rawDeltaTime;
-}
-
 double TimeManager::TimeScale() const
 {
     return _timeScale;
@@ -38,7 +33,6 @@ void TimeManager::Update()
     }
 
     auto deltaTime = (double) ((_currentTick - _lastTick) * 1000 / (double) SDL_GetPerformanceFrequency()); // NOLINT(cppcoreguidelines-narrowing-conversions)
-    _rawDeltaTime = deltaTime;
 
     if (deltaTime > MAX_DELTA_TIME)
     {

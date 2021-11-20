@@ -11,8 +11,6 @@ namespace engine {
 
         [[nodiscard]] double DeltaTime() const;
 
-        [[nodiscard]] double RawDeltaTime() const;
-
         [[nodiscard]] double TimeScale() const;
 
         void TimeScale(double newTimeScale);
@@ -26,7 +24,6 @@ namespace engine {
         uint64_t _currentTick = -1;
         uint64_t _lastTick = -1;
         double _deltaTime = 0.0;
-        double _rawDeltaTime = 0.0;
         double _timeScale = 1.0;
     };
 }
