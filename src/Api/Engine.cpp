@@ -47,6 +47,7 @@ void Engine::Start()
 
     while (!_scenes.empty() && _running)
     {
+        uint64_t start = SDL_GetPerformanceCounter();
         _currentScene = _scenes.top();
         auto& timeManager = engine::TimeManager::GetInstance();
         timeManager.Update();
@@ -58,10 +59,11 @@ void Engine::Start()
         }
         window->SwapBuffers();
 
-        auto deltaTimeMs = timeManager.DeltaTime() * 1000;
-        if (TARGET_FRAME_DELAY > deltaTimeMs)
+        uint64_t end = SDL_GetPerformanceCounter();
+        float elapsedMs = (end - start) / (float) SDL_GetPerformanceFrequency() * 1000.0f; // NOLINT(cppcoreguidelines-narrowing-conversions)
+        if (TARGET_FRAME_DELAY > elapsedMs)
         {
-            SDL_Delay(TARGET_FRAME_DELAY - deltaTimeMs); // NOLINT(cppcoreguidelines-narrowing-conversions)
+            SDL_Delay(TARGET_FRAME_DELAY - elapsedMs); // NOLINT(cppcoreguidelines-narrowing-conversions)
         }
     }
 
