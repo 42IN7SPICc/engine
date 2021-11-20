@@ -22,7 +22,7 @@ namespace engine
             void RegisterTrigger(b2FixtureDef& fixtureDef, const std::shared_ptr<spic::Collider>& collider);
 
             b2Body* MakeBody(const spic::RigidBody& rigidBody, spic::GameObject& gameObject, double width, double height);
-
+            void AddPhysicsToShape(b2Body* body, b2Shape* shape, const std::shared_ptr<spic::RigidBody>& rigidBody, const std::shared_ptr<spic::Collider>& collider, double area);
         public:
             void Update() override;
 

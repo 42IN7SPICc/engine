@@ -62,14 +62,17 @@ std::shared_ptr<GameObject> GameObject::FindWithTag(const std::string& tag)
 
 void GameObject::Destroy(std::shared_ptr<GameObject> obj)
 {
-    auto scene = Engine::Instance().PeekScene();
-
-    for (auto object: All())
+    if (obj->Parent().expired())
     {
-        if (object->name == obj->name)
-        {
-            scene->Contents().erase(std::remove(scene->Contents().begin(), scene->Contents().end(), obj), scene->Contents().end());
-        }
+        auto& contents = Engine::Instance().PeekScene()->Contents();
+
+        auto iterator = std::find(contents.begin(), contents.end(), obj);
+        if (iterator != contents.end())
+            contents.erase(iterator);
+    }
+    else
+    {
+        obj->Parent().lock()->RemoveChild(obj);
     }
 }
 
@@ -121,11 +124,22 @@ void GameObject::Active(bool flag)
 
 bool GameObject::IsActiveInWorld() const
 {
+    if (!Active()) return false;
+
     if (!_parent.expired())
     {
-        return this->Active() && _parent.lock()->IsActiveInWorld();
+        return _parent.lock()->IsActiveInWorld();
     }
-    return this->Active();
+
+    for (const auto& object: All())
+    {
+        if (object->name == this->name)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 const spic::Transform& GameObject::Transform() const
@@ -163,10 +177,11 @@ void GameObject::AddChild(std::shared_ptr<GameObject> child)
 
 void GameObject::RemoveChild(std::shared_ptr<GameObject> child)
 {
-    if (std::find(_children.begin(), _children.end(), child) == _children.end())
+    auto iterator = std::find(_children.begin(), _children.end(), child);
+    if (iterator != _children.end())
     {
-        _children.erase(std::remove(_children.begin(), _children.end(), child), _children.end());
         child->_parent.reset();
+        _children.erase(iterator);
     }
 }
 
