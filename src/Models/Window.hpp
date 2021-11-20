@@ -27,6 +27,10 @@ namespace engine {
 
         void RenderText(const std::string& text, const spic::Transform& transform, const std::string& fontPath, int size, spic::Alignment alignment, spic::Color color, double maxWidth);
 
+        void RenderTextRaw(const std::string& text, double x, double y, const std::string& fontPath, int size);
+
+        [[nodiscard]] spic::Point WindowSize() const;
+
         void SwapBuffers();
 
         void Clear();

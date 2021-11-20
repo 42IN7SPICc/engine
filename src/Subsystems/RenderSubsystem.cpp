@@ -11,20 +11,14 @@
 
 using namespace spic;
 
-engine::RenderSubsystem::RenderSubsystem()
+engine::RenderSubsystem::RenderSubsystem(Window* window) : _window(window)
 {
-    auto& engine = Engine::Instance();
-    auto& windowConfig = engine.Config().window;
-
-    _window = std::make_unique<Window>(windowConfig.title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowConfig.width, windowConfig.height, windowConfig.fullscreen);
 }
 
 void engine::RenderSubsystem::Update()
 {
     Engine& engine = Engine::Engine::Instance();
     auto scene = engine.PeekScene();
-
-    _window->Clear();
 
     std::map<int, std::vector<std::shared_ptr<GameObject>>> objectLayers{};
     for (const auto& gameObject: GameObject::All())
@@ -74,6 +68,4 @@ void engine::RenderSubsystem::Update()
             }
         }
     }
-
-    _window->SwapBuffers();
 }
