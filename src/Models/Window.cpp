@@ -82,7 +82,7 @@ void Window::RenderText(const std::string& text, const spic::Transform& transfor
 
 void Window::RenderTextRaw(const std::string& text, double x, double y, const std::string& fontPath, int size)
 {
-    RenderText(text, spic::Transform{{x, y}, 1, 1}, "resources/fonts/capture_it.otf", size, spic::Alignment::left, spic::Color::white(), 1000);
+    RenderText(text, spic::Transform{{x, y}, 1, 1}, fontPath, size, spic::Alignment::left, spic::Color::white(), 1000);
 }
 
 spic::Point Window::WindowSize() const
