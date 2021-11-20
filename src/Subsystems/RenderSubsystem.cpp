@@ -7,11 +7,7 @@
 
 using namespace spic;
 
-engine::RenderSubsystem::RenderSubsystem() {
-    auto& engine = Engine::Instance();
-    auto& windowConfig = engine.Config().window;
-
-    _window = std::make_unique<Window>(windowConfig.title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowConfig.width, windowConfig.height, windowConfig.fullscreen);
+engine::RenderSubsystem::RenderSubsystem(Window* window) : _window(window) {
 }
 
 void engine::RenderSubsystem::Update() {

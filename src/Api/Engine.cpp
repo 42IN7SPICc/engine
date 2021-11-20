@@ -32,11 +32,14 @@ Engine& Engine::Instance()
 
 void Engine::Start()
 {
+    auto& windowConfig = Config().window;
+    auto window = std::make_unique<engine::Window>(windowConfig.title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowConfig.width, windowConfig.height, windowConfig.fullscreen);
+
     std::vector<std::shared_ptr<engine::ISubsystem>> subsystems = {std::make_shared<engine::InputSubsystem>(),
                                                                    std::make_shared<engine::AnimatorSubsystem>(),
                                                                    std::make_shared<engine::BehaviourScriptSubsystem>(),
                                                                    std::make_shared<engine::PhysicsSubsystem>(),
-                                                                   std::make_shared<engine::RenderSubsystem>()};
+                                                                   std::make_shared<engine::RenderSubsystem>(window.get())};
     _running = true;
 
     while (!_scenes.empty() && _running)
