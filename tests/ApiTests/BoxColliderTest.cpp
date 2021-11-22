@@ -16,5 +16,5 @@ TEST(BoxColliderTest, TestHeightProperty) {
 
 TEST(BoxColliderTest, TestIsTriggerProperty) {
     boxCollider.IsTrigger(true);
-    ASSERT_EQ(true, boxCollider.IsTrigger());
+    ASSERT_TRUE(boxCollider.IsTrigger());
 }

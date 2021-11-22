@@ -22,18 +22,18 @@ TEST(AnimatorTest, TestFPSProperty) {
 
 TEST(AnimatorTest, PlayMethodWithLoop) {
     animator.Play(true);
-    ASSERT_EQ(true, animator.Playing);
-    ASSERT_EQ(true, animator.Looping);
+    ASSERT_TRUE(animator.Playing);
+    ASSERT_TRUE(animator.Looping);
 }
 
 TEST(AnimatorTest, PlayMethodWithoutLoop) {
     animator.Play(false);
-    ASSERT_EQ(true, animator.Playing);
-    ASSERT_EQ(false, animator.Looping);
+    ASSERT_FALSE(animator.Playing);
+    ASSERT_FALSE(animator.Looping);
 }
 
 TEST(AnimatorTest, StopMethod) {
     animator.Play(false);
     animator.Stop();
-    ASSERT_EQ(false, animator.Playing);
+    ASSERT_FALSE(animator.Playing);
 }

@@ -5,7 +5,7 @@ spic::Button button {"test_btn", "test", 1, 0,0};
 
 TEST(ButtonTest, TestInteractableProperty) {
     button.Interactable(false);
-    ASSERT_EQ(false, button.Interactable());
+    ASSERT_FALSE(button.Interactable());
 }
 
 TEST(ButtonTest, TestOnClickMethod) {
