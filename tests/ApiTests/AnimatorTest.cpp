@@ -28,7 +28,7 @@ TEST(AnimatorTest, PlayMethodWithLoop) {
 
 TEST(AnimatorTest, PlayMethodWithoutLoop) {
     animator.Play(false);
-    ASSERT_FALSE(animator.Playing);
+    ASSERT_TRUE(animator.Playing);
     ASSERT_FALSE(animator.Looping);
 }
 
