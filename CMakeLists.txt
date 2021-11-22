@@ -27,6 +27,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2::SD
 
 set(PROJECT_NAME_TESTS ${PROJECT_NAME}-tests)
 add_executable(${PROJECT_NAME_TESTS} ${TEST_SOURCE})
+add_dependencies(${PROJECT_NAME_TESTS} ${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME_TESTS} PRIVATE ${PROJECT_NAME} GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
 gtest_discover_tests(${PROJECT_NAME_TESTS})
 
