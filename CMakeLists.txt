@@ -7,19 +7,26 @@ set(PROJECT_INCLUDES_DIR ${PROJECT_SOURCE_DIR}/includes)
 
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
+set(TESTS ${PROJECT_NAME}-tests)
+
 find_package(SDL2 CONFIG REQUIRED)
 find_package(sdl2-image CONFIG REQUIRED)
 find_package(sdl2-mixer CONFIG REQUIRED)
 find_package(sdl2-ttf CONFIG REQUIRED)
 find_package(box2d CONFIG REQUIRED)
-find_package(gtest CONFIG REQUIRED)
+find_package(GTest CONFIG REQUIRED)
 
 include_directories(${PROJECT_INCLUDES_DIR}/spic-api-headers)
 
 file(GLOB_RECURSE SOURCE src/*.cpp ${PROJECT_INCLUDES_DIR}/spic-api-headers/*.cpp)
+file(GLOB_RECURSE TEST_SOURCE LIST_DIRECTORIES false tests/*.cpp tests/*.hpp)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE})
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2::SDL2-static SDL2::SDL2_image SDL2::SDL2_mixer SDL2::SDL2_ttf box2d::box2d gtest:gtest)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2::SDL2-static SDL2::SDL2_image SDL2::SDL2_mixer SDL2::SDL2_ttf box2d::box2d)
 
 add_executable(${PROJECT_NAME}-exec main.cpp)
 target_link_libraries(${PROJECT_NAME}-exec ${PROJECT_NAME})
+
+add_executable(${TESTS} ${TEST_SOURCE})
+add_test(Google_Tests_run ${TESTS} COMMAND ${BINARY})
+target_link_libraries(${TESTS} PRIVATE ${PROJECT_NAME} GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
