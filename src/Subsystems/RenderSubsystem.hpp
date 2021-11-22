@@ -7,9 +7,9 @@
 namespace engine {
     class RenderSubsystem : public ISubsystem {
     private:
-        std::unique_ptr<Window> _window;
+        Window* _window;
     public:
-        RenderSubsystem();
+        explicit RenderSubsystem(Window* window);
 
         void Update() override;
     };

@@ -7,6 +7,7 @@
 #include "InputSubsystem.hpp"
 #include "RenderSubsystem.hpp"
 #include "PhysicsSubsystem.hpp"
+#include "FpsCounterSubsystem.hpp"
 #include "GameSpeedSubsystem.hpp"
 
 #endif //SPIC_ENGINE_SUBSYSTEMS_HPP
