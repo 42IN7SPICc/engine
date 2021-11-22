@@ -22,10 +22,13 @@ file(GLOB_RECURSE TEST_SOURCE tests/*.cpp tests/*.hpp)
 add_library(${PROJECT_NAME} STATIC ${SOURCE})
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2::SDL2-static SDL2::SDL2_image SDL2::SDL2_mixer SDL2::SDL2_ttf box2d::box2d)
 
+enable_testing()
 set(PROJECT_NAME_TESTS ${PROJECT_NAME}-tests)
 add_executable(${PROJECT_NAME_TESTS} ${TEST_SOURCE})
 add_test(Google_Tests_run ${PROJECT_NAME_TESTS} COMMAND ${BINARY})
 target_link_libraries(${PROJECT_NAME_TESTS} PRIVATE ${PROJECT_NAME} GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
+include(GoogleTest)
+gtest_discover_tests(${PROJECT_NAME_TESTS})
 
 add_executable(${PROJECT_NAME}-exec main.cpp)
 target_link_libraries(${PROJECT_NAME}-exec ${PROJECT_NAME})
