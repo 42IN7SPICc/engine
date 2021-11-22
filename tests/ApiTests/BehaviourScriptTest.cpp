@@ -1,7 +1,7 @@
-#include <gtest/gtest.h
+#include <gtest/gtest.h>
 #include "BehaviourScript.hpp"
 
-spic::BehaviourScript script {false};
+spic::BehaviourScript script {};
 
 TEST(BehaviourScriptTest, TestStartedProperty) {
     script.Started(true);
