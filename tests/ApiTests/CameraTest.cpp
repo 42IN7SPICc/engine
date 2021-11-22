@@ -2,7 +2,7 @@
 #include "Camera.hpp"
 #include "Color.hpp"
 
-spic::Camera camera {"camera", (int) 1, spic::Color::black(), 0, 0};
+spic::Camera camera {"camera", 1, spic::Color::black(), 0, 0};
 
 TEST(CameraTest, TestAspectWidthProperty) {
     camera.AspectWidth(100);

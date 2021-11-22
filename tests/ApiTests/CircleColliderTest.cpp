@@ -9,6 +9,6 @@ TEST(CircleColliderTest, TestRadiusProperty) {
 }
 
 TEST(CircleColliderTest, TestIsTriggerProperty) {
-    boxCollider.IsTrigger(true);
-    ASSERT_TRUE(boxCollider.IsTrigger());
+    circleCollider.IsTrigger(true);
+    ASSERT_TRUE(circleCollider.IsTrigger());
 }
