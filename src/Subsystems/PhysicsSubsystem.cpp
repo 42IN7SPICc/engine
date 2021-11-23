@@ -28,7 +28,7 @@ void PhysicsSubsystem::Update()
     // The reason for this is because of the complex implementation of Box2D inside the SPIC API
     // We needed a lot of extra variables and function to get updated correctly working.
     // The only problem with the current setup is a little performance loss, and some physics inaccuracy
-    const b2Vec2 gravity(0.0f, 1.0f);
+    const b2Vec2 gravity(0.0f, 0.0f);
     _physicsWorld = std::make_unique<b2World>(gravity);
 
     _contactListener->StartNewPhysicsSession();
