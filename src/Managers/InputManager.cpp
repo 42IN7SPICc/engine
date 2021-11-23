@@ -89,7 +89,8 @@ void InputManager::Update()
 
     _keysCurrent = {keysBuffer, keysBuffer + length};
 
-    if (_mouseCurrent != 0) {
+    if (_mouseCurrent != 0)
+    {
         for (const auto& listener: _mouseListeners) listener->OnMousePressed();
     }
 }
@@ -100,47 +101,61 @@ void InputManager::HandleEvent(const SDL_Event& event)
     {
         case SDL_MOUSEMOTION:
         {
-            for (const auto& listener: _mouseListeners) listener->OnMouseMoved();
+            std::vector<spic::IMouseListener*> listeners = _mouseListeners;
+            for (const auto& listener: listeners)
+                listener->OnMouseMoved();
             break;
         }
         case SDL_MOUSEBUTTONDOWN:
         {
-            for (const auto& listener: _mouseListeners) listener->OnMouseClicked();
+            std::vector<spic::IMouseListener*> listeners = _mouseListeners;
+            for (const auto& listener: listeners)
+                listener->OnMouseClicked();
             break;
         }
         case SDL_MOUSEBUTTONUP:
         {
-            for (const auto& listener: _mouseListeners) listener->OnMouseReleased();
+            std::vector<spic::IMouseListener*> listeners = _mouseListeners;
+            for (const auto& listener: listeners)
+                listener->OnMouseReleased();
             break;
         }
         case SDL_KEYDOWN:
         {
-            for (const auto& listener: _keyListeners) listener->OnKeyPressed();
+            std::vector<spic::IKeyListener*> listeners = _keyListeners;
+            for (const auto& listener: listeners)
+                listener->OnKeyPressed();
             break;
         }
         case SDL_KEYUP:
         {
-            for (const auto& listener: _keyListeners) listener->OnKeyReleased();
+            std::vector<spic::IKeyListener*> listeners = _keyListeners;
+            for (const auto& listener: listeners)
+                listener->OnKeyReleased();
             break;
         }
     }
 }
 
-void InputManager::RegisterKeyListener(IKeyListener& listener) {
+void InputManager::RegisterKeyListener(IKeyListener& listener)
+{
     _keyListeners.push_back(&listener);
 }
 
-void InputManager::UnregisterKeyListener(IKeyListener& listener) {
+void InputManager::UnregisterKeyListener(IKeyListener& listener)
+{
     auto iterator = std::find(_keyListeners.begin(), _keyListeners.end(), &listener);
     if (iterator != _keyListeners.end())
         _keyListeners.erase(iterator);
 }
 
-void InputManager::RegisterMouseListener(IMouseListener& listener) {
+void InputManager::RegisterMouseListener(IMouseListener& listener)
+{
     _mouseListeners.push_back(&listener);
 }
 
-void InputManager::UnregisterMouseListener(IMouseListener& listener) {
+void InputManager::UnregisterMouseListener(IMouseListener& listener)
+{
     auto iterator = std::find(_mouseListeners.begin(), _mouseListeners.end(), &listener);
     if (iterator != _mouseListeners.end())
         _mouseListeners.erase(iterator);
