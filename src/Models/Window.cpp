@@ -39,23 +39,23 @@ Window::Window(const std::string& title, int xpos, int ypos, int width, int heig
 void Window::Render(const std::string& texturePath, const spic::Transform& transform, const SDL_RendererFlip& flip)
 {
     auto texture = _textureManager->GetTexture(_renderer.get(), texturePath);
-    SDL_Rect rect{};
-    rect.x = transform.position.x;
-    rect.y = transform.position.y;
+    SDL_FRect rect{};
     rect.w = texture->Width() * transform.scale;
     rect.h = texture->Height() * transform.scale;
+    rect.x = transform.position.x - rect.w / 2.0;
+    rect.y = transform.position.y - rect.h / 2.0;
 
-    SDL_RenderCopyEx(_renderer.get(), texture->Get(), nullptr, &rect, std::fmod(transform.rotation, 360), nullptr, flip);
+    SDL_RenderCopyExF(_renderer.get(), texture->Get(), nullptr, &rect, std::fmod(transform.rotation, 360), nullptr, flip);
 }
 
 void Window::RenderText(const std::string& text, const spic::Transform& transform, const std::string& fontPath, int size, spic::Alignment alignment, spic::Color color, double maxWidth)
 {
     auto font = _fontManager->GetFont(fontPath, size);
     SDL_Color sdlColor{
-            (Uint8) (color.R() * 255),
-            (Uint8) (color.G() * 255),
-            (Uint8) (color.B() * 255),
-            (Uint8) (color.A() * 255)
+            static_cast<Uint8>(color.R() * 255),
+            static_cast<Uint8>(color.G() * 255),
+            static_cast<Uint8>(color.B() * 255),
+            static_cast<Uint8>(color.A() * 255)
     };
     SDL_Surface* surface = TTF_RenderText_Blended_Wrapped(font->GetFont(), text.c_str(), sdlColor, maxWidth);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer.get(), surface);
@@ -70,10 +70,10 @@ void Window::RenderText(const std::string& text, const spic::Transform& transfor
     }
 
     SDL_Rect rect{};
-    rect.x = newTransform.position.x;
-    rect.y = newTransform.position.y;
     rect.w = surface->w * newTransform.scale;
     rect.h = surface->h * newTransform.scale;
+    rect.x = newTransform.position.x - rect.w / 2.0;
+    rect.y = newTransform.position.y - rect.h / 2.0;
 
     SDL_RenderCopy(_renderer.get(), texture, nullptr, &rect);
     SDL_DestroyTexture(texture);
@@ -102,4 +102,5 @@ void Window::Clear()
 {
     SDL_RenderClear(_renderer.get());
 }
+
 #pragma clang diagnostic pop

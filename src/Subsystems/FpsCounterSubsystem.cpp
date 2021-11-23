@@ -21,6 +21,6 @@ void FpsCounterSubsystem::Update()
     if (_enabled)
     {
         auto size = _window->WindowSize();
-        _window->RenderTextRaw(std::to_string(static_cast<int>(1 / TimeManager::GetInstance().DeltaTime())), size.x - 25, 2, "resources/fonts/arial.ttf", 18);
+        _window->RenderTextRaw(std::to_string(static_cast<int>(1 / TimeManager::GetInstance().DeltaTime())), size.x - 25, 25, "resources/fonts/arial.ttf", 18);
     }
 }
