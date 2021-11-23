@@ -3,7 +3,8 @@
 #include "Debug.hpp"
 #include "string"
 
-TEST(DebugTest, TestLog) {
+TEST(DebugTest, TestLog)
+{
     testing::internal::CaptureStdout();
     spic::Debug::Log("basic test log");
     std::string output = testing::internal::GetCapturedStdout();
@@ -11,7 +12,8 @@ TEST(DebugTest, TestLog) {
     ASSERT_THAT(output, ::testing::HasSubstr("INFO"));
 }
 
-TEST(DebugTest, TestLogError) {
+TEST(DebugTest, TestLogError)
+{
     testing::internal::CaptureStderr();
     spic::Debug::LogError("basic test error");
     std::string output = testing::internal::GetCapturedStderr();
@@ -19,7 +21,8 @@ TEST(DebugTest, TestLogError) {
     ASSERT_THAT(output, ::testing::HasSubstr("ERROR"));
 }
 
-TEST(DebugTest, TestLogWarning) {
+TEST(DebugTest, TestLogWarning)
+{
     testing::internal::CaptureStderr();
     spic::Debug::LogWarning("basic test warn");
     std::string output = testing::internal::GetCapturedStderr();

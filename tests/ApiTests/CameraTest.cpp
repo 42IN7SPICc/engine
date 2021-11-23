@@ -2,14 +2,16 @@
 #include "Camera.hpp"
 #include "Color.hpp"
 
-spic::Camera camera {"camera", 1, spic::Color::black(), 0, 0};
+spic::Camera camera{"camera", 1, spic::Color::black(), 0, 0};
 
-TEST(CameraTest, TestAspectWidthProperty) {
+TEST(CameraTest, TestAspectWidthProperty)
+{
     camera.AspectWidth(100);
     ASSERT_EQ(100, camera.AspectWidth());
 }
 
-TEST(CameraTest, TestAspectHeightProperty) {
+TEST(CameraTest, TestAspectHeightProperty)
+{
     camera.AspectWidth(67);
     ASSERT_EQ(67, camera.AspectWidth());
 }

@@ -8,33 +8,39 @@ auto ballObject = std::make_shared<spic::GameObject>("ball", "main", 0);
 auto leftWall = std::make_shared<spic::GameObject>("leftWall", "main", 12);
 auto rightWall = std::make_shared<spic::GameObject>("righWall", "main", 0);
 
-TEST(GameObjectTest, TestActiveProperty) {
+TEST(GameObjectTest, TestActiveProperty)
+{
     ballObject->Active(false);
     ASSERT_FALSE(ballObject->Active());
     ballObject->Active(true);
     ASSERT_TRUE(ballObject->Active());
 }
 
-TEST(GameObjectTest, CheckAddChildMethod) {
+TEST(GameObjectTest, CheckAddChildMethod)
+{
     leftWall->AddChild(ballObject);
     ASSERT_EQ(ballObject->Name(), leftWall->Children()[0]->Name());
 }
 
-TEST(GameObjectTest, RemoveChildMethod) {
+TEST(GameObjectTest, RemoveChildMethod)
+{
     leftWall->AddChild(ballObject);
     leftWall->RemoveChild(ballObject);
     ASSERT_EQ(0, leftWall->Children().size());
 }
 
-TEST(GameObjectTest, CheckTagProperty) {
+TEST(GameObjectTest, CheckTagProperty)
+{
     ASSERT_EQ("main", rightWall->Tag());
 }
 
-TEST(GameObjectTest, CheckLayerProperty) {
+TEST(GameObjectTest, CheckLayerProperty)
+{
     ASSERT_EQ(12, leftWall->Layer());
 }
 
-TEST(GameObjectTest, CheckTransformProperty) {
+TEST(GameObjectTest, CheckTransformProperty)
+{
     ballObject->Transform().scale = 0.2;
     ballObject->Transform().rotation = 90;
     ballObject->Transform().position.x = 12.5;
@@ -45,7 +51,8 @@ TEST(GameObjectTest, CheckTransformProperty) {
     ASSERT_EQ(50, ballObject->Transform().position.y);
 }
 
-TEST(GameObjectTest, CheckComponentMethods) {
+TEST(GameObjectTest, CheckComponentMethods)
+{
     auto component = std::make_shared<spic::BehaviourScript>();
     ballObject->AddComponent(component);
     ASSERT_EQ(ballObject->GetComponent<spic::BehaviourScript>(), component);
@@ -53,12 +60,14 @@ TEST(GameObjectTest, CheckComponentMethods) {
     ASSERT_EQ(0, ballObject->GetComponents<spic::BehaviourScript>().size());
 }
 
-TEST(GameObjectTest, CheckParentMethods) {
+TEST(GameObjectTest, CheckParentMethods)
+{
     ballObject->Parent(rightWall);
     ASSERT_EQ(ballObject->Parent().lock().get()->Name(), rightWall->Name());
 }
 
-TEST(GameObjectTest, CheckAbsoluteTransform) {
+TEST(GameObjectTest, CheckAbsoluteTransform)
+{
     rightWall->Parent(leftWall);
     leftWall->AddChild(rightWall);
 

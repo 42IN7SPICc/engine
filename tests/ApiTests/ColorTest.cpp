@@ -1,16 +1,18 @@
 #include <gtest/gtest.h>
 #include "Color.hpp"
 
-spic::Color color {1.0,1.0, 1.0, 1.0};
+spic::Color color{1.0, 1.0, 1.0, 1.0};
 
-TEST(ColorTest, TestSetColorProperties) {
+TEST(ColorTest, TestSetColorProperties)
+{
     color.SetColor(0.5, 0.2, 0.3);
     ASSERT_EQ(0.5, color.R());
     ASSERT_EQ(0.2, color.G());
     ASSERT_EQ(0.3, color.B());
 }
 
-TEST(ColorTest, TestWhiteColor) {
+TEST(ColorTest, TestWhiteColor)
+{
     color = spic::Color::white();
     ASSERT_EQ(1.0, color.R());
     ASSERT_EQ(1.0, color.G());
@@ -18,7 +20,8 @@ TEST(ColorTest, TestWhiteColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestRedColor) {
+TEST(ColorTest, TestRedColor)
+{
     color = spic::Color::red();
     ASSERT_EQ(1.0, color.R());
     ASSERT_EQ(0.0, color.G());
@@ -26,7 +29,8 @@ TEST(ColorTest, TestRedColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestGreenColor) {
+TEST(ColorTest, TestGreenColor)
+{
     color = spic::Color::green();
     ASSERT_EQ(0.0, color.R());
     ASSERT_EQ(1.0, color.G());
@@ -34,7 +38,8 @@ TEST(ColorTest, TestGreenColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestBlueColor) {
+TEST(ColorTest, TestBlueColor)
+{
     color = spic::Color::blue();
     ASSERT_EQ(0.0, color.R());
     ASSERT_EQ(0.0, color.G());
@@ -42,7 +47,8 @@ TEST(ColorTest, TestBlueColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestCyanColor) {
+TEST(ColorTest, TestCyanColor)
+{
     color = spic::Color::cyan();
     ASSERT_EQ(0.0, color.R());
     ASSERT_EQ(1.0, color.G());
@@ -50,7 +56,8 @@ TEST(ColorTest, TestCyanColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestMagentaColor) {
+TEST(ColorTest, TestMagentaColor)
+{
     color = spic::Color::magenta();
     ASSERT_EQ(1.0, color.R());
     ASSERT_EQ(0.0, color.G());
@@ -58,7 +65,8 @@ TEST(ColorTest, TestMagentaColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestYellowColor) {
+TEST(ColorTest, TestYellowColor)
+{
     color = spic::Color::yellow();
     ASSERT_EQ(1.0, color.R());
     ASSERT_EQ(1.0, color.G());
@@ -66,7 +74,8 @@ TEST(ColorTest, TestYellowColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestBlackColor) {
+TEST(ColorTest, TestBlackColor)
+{
     color = spic::Color::black();
     ASSERT_EQ(0.0, color.R());
     ASSERT_EQ(0.0, color.G());
@@ -74,7 +83,8 @@ TEST(ColorTest, TestBlackColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestPurpleColor) {
+TEST(ColorTest, TestPurpleColor)
+{
     color = spic::Color::purple();
     ASSERT_EQ(0.5, color.R());
     ASSERT_EQ(0.0, color.G());
@@ -82,7 +92,8 @@ TEST(ColorTest, TestPurpleColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestLimeColor) {
+TEST(ColorTest, TestLimeColor)
+{
     color = spic::Color::lime();
     ASSERT_EQ(0.75, color.R());
     ASSERT_EQ(1.0, color.G());
@@ -90,7 +101,8 @@ TEST(ColorTest, TestLimeColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestOrangeColor) {
+TEST(ColorTest, TestOrangeColor)
+{
     color = spic::Color::orange();
     ASSERT_EQ(1.0, color.R());
     ASSERT_EQ(0.6, color.G());
@@ -98,7 +110,8 @@ TEST(ColorTest, TestOrangeColor) {
     ASSERT_EQ(1.0, color.A());
 }
 
-TEST(ColorTest, TestTransparantColor) {
+TEST(ColorTest, TestTransparantColor)
+{
     color = spic::Color::transparent();
     ASSERT_EQ(0.0, color.R());
     ASSERT_EQ(0.0, color.G());
