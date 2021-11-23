@@ -15,7 +15,11 @@ void engine::GameSpeedSubsystem::Update()
         if (timeScale < MAX_TIME_SCALE)
             spic::Time::TimeScale(timeScale + TIME_SCALE_STEP);
         else
+        {
+#ifndef NDEBUG
             spic::Debug::LogWarning("Maximum time scale has been reached. Not increasing time scale");
+#endif
+        }
     }
     else if (spic::Input::GetKeyDown(spic::Input::KeyCode::PAGE_DOWN))
     {
@@ -23,7 +27,11 @@ void engine::GameSpeedSubsystem::Update()
         if (timeScale > MIN_TIME_SCALE)
             spic::Time::TimeScale(timeScale - TIME_SCALE_STEP);
         else
+        {
+#ifndef NDEBUG
             spic::Debug::LogWarning("Minimum time scale has been reached. Not decreasing time scale");
+#endif
+        }
     }
     else if (spic::Input::GetKeyDown(spic::Input::KeyCode::HOME))
     {
