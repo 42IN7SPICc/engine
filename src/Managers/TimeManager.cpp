@@ -4,7 +4,7 @@
 
 using namespace engine;
 
-const double MAX_DELTA_TIME = 200.0;
+const double MAX_DELTA_TIME = 100.0;
 TimeManager TimeManager::_instance{};
 
 double TimeManager::DeltaTime() const

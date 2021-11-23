@@ -8,15 +8,15 @@
 #include <RigidBody.hpp>
 #include <CircleCollider.hpp>
 #include <BoxCollider.hpp>
+#include <Time.hpp>
 
 using namespace engine;
 using namespace spic;
 
-const int32 velocityIterations = 6;
-const int32 positionIterations = 2;
-const int timeIterations = 60;
-const float timeStep = 1.0f / 60.0f;
-const double pixelScale = 1.0;
+const int32 VelocityIterations = 24;
+const int32 PositionIterations = 8;
+const int TimeIterations = 60;
+const double PixelScale = 0.5;
 
 PhysicsSubsystem::PhysicsSubsystem() : _contactListener(std::make_unique<ContactListener>()), _physicsWorld(nullptr)
 {
@@ -47,7 +47,7 @@ void PhysicsSubsystem::Update()
         {
             body = MakeBody(*rigidBody, *gameObject, circleCollider->Radius() * 2, circleCollider->Radius() * 2);
             b2CircleShape circleShape{};
-            circleShape.m_radius = (float) circleCollider->Radius();
+            circleShape.m_radius = static_cast<float>(circleCollider->Radius() * PixelScale);
 
             double area = rigidBody->Type() != BodyType::staticBody ? ((circleCollider->Radius() * circleCollider->Radius()) * 2) : 0.0f;
             AddPhysicsToShape(body, &circleShape, rigidBody, circleCollider, area);
@@ -57,7 +57,7 @@ void PhysicsSubsystem::Update()
         {
             body = MakeBody(*rigidBody, *gameObject, boxCollider->Width(), boxCollider->Height());
             b2PolygonShape boxShape{};
-            boxShape.SetAsBox((float) boxCollider->Width() / 2, (float) boxCollider->Height() / 2);
+            boxShape.SetAsBox(static_cast<float>(boxCollider->Width() / 2.0 * PixelScale), static_cast<float>(boxCollider->Height() / 2.0 * PixelScale));
 
             double area = rigidBody->Type() != BodyType::staticBody ? (boxCollider->Width() * boxCollider->Height()) : 0.0f;
             AddPhysicsToShape(body, &boxShape, rigidBody, boxCollider, area);
@@ -71,9 +71,9 @@ void PhysicsSubsystem::Update()
     }
 
     //run physics simulation
-    for (short i = 0; i < timeIterations; ++i)
+    for (short i = 0; i < TimeIterations; ++i)
     {
-        _physicsWorld->Step(timeStep, velocityIterations, positionIterations);
+        _physicsWorld->Step(static_cast<float>(spic::Time::DeltaTime() * spic::Time::TimeScale()), VelocityIterations, PositionIterations);
     }
 
     //update location of game objects
@@ -84,15 +84,15 @@ void PhysicsSubsystem::Update()
 
         for (const auto& boxCollider: gameObject->GetComponents<BoxCollider>())
         {
-            gameObject->Transform().position.x += ((body->GetPosition().x - boxCollider->Width() / 2.0) / pixelScale) - transform.position.x;
-            gameObject->Transform().position.y += ((body->GetPosition().y - boxCollider->Height() / 2.0) / pixelScale) - transform.position.y;
+            gameObject->Transform().position.x += (body->GetPosition().x / PixelScale) - transform.position.x;
+            gameObject->Transform().position.y += (body->GetPosition().y / PixelScale) - transform.position.y;
             gameObject->Transform().rotation = (body->GetAngle() * 180 / b2_pi);// - transform.rotation;
         }
 
         for (const auto& circleCollider: gameObject->GetComponents<CircleCollider>())
         {
-            gameObject->Transform().position.x += ((body->GetPosition().x - circleCollider->Radius()) / pixelScale) - transform.position.x;
-            gameObject->Transform().position.y += ((body->GetPosition().y - circleCollider->Radius()) / pixelScale) - transform.position.y;
+            gameObject->Transform().position.x += (body->GetPosition().x / PixelScale) - transform.position.x;
+            gameObject->Transform().position.y += (body->GetPosition().y / PixelScale) - transform.position.y;
             gameObject->Transform().rotation = (body->GetAngle() * 180 / b2_pi);// - transform.rotation;
         }
 
@@ -121,7 +121,7 @@ b2Body* PhysicsSubsystem::MakeBody(const RigidBody& rigidBody, GameObject& gameO
     b2BodyDef bodyDef{};
     bodyDef.type = TranslateBodyType(rigidBody.Type());
     auto transform = gameObject.AbsoluteTransform();
-    bodyDef.position.Set((float) (transform.position.x + width / 2.0) * pixelScale, (float) (transform.position.y + height / 2.0) * pixelScale);
+    bodyDef.position.Set(static_cast<float>((transform.position.x) * PixelScale), static_cast<float>((transform.position.y) * PixelScale));
     bodyDef.angle = (float) gameObject.Transform().rotation * b2_pi / 180;
     return _physicsWorld->CreateBody(&bodyDef);
 }
