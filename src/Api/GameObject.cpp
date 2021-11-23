@@ -208,6 +208,8 @@ spic::Transform GameObject::AbsoluteTransform() const
     while (!object->Parent().expired())
     {
         object = object->Parent().lock().get();
+        transform.position.x *= object->Transform().scale;
+        transform.position.y *= object->Transform().scale;
         transform.position.x += object->Transform().position.x;
         transform.position.y += object->Transform().position.y;
 //        transform.rotation += object->Transform().rotation;
