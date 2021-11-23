@@ -61,21 +61,21 @@ void Window::RenderText(const std::string& text, const spic::Transform& transfor
     SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer.get(), surface);
 
     auto newTransform = transform;
-    if (alignment == spic::Alignment::center || alignment == spic::Alignment::right)
+    if (alignment == spic::Alignment::left || alignment == spic::Alignment::right)
     {
         double widthDiff = maxWidth - surface->w;
         if (widthDiff < 0) widthDiff = 0;
 
-        newTransform.position.x += (widthDiff / (alignment == spic::Alignment::center ? 2 : 1)) * newTransform.scale;
+        newTransform.position.x += (alignment == spic::Alignment::left ? -(widthDiff / 2) : widthDiff / 2) * newTransform.scale;
     }
 
-    SDL_Rect rect{};
+    SDL_FRect rect{};
     rect.w = surface->w * newTransform.scale;
     rect.h = surface->h * newTransform.scale;
-    rect.x = newTransform.position.x - rect.w;
-    rect.y = newTransform.position.y - rect.h;
+    rect.x = newTransform.position.x - rect.w / 2.0;
+    rect.y = newTransform.position.y - rect.h / 2.0;
 
-    SDL_RenderCopy(_renderer.get(), texture, nullptr, &rect);
+    SDL_RenderCopyF(_renderer.get(), texture, nullptr, &rect);
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface);
 }
