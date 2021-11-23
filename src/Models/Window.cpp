@@ -72,8 +72,8 @@ void Window::RenderText(const std::string& text, const spic::Transform& transfor
     SDL_Rect rect{};
     rect.w = surface->w * newTransform.scale;
     rect.h = surface->h * newTransform.scale;
-    rect.x = newTransform.position.x - rect.w / 2.0;
-    rect.y = newTransform.position.y - rect.h / 2.0;
+    rect.x = newTransform.position.x - rect.w / 4.0;
+    rect.y = newTransform.position.y - rect.h / 4.0;
 
     SDL_RenderCopy(_renderer.get(), texture, nullptr, &rect);
     SDL_DestroyTexture(texture);
