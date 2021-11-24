@@ -1,4 +1,5 @@
 #include "Api.hpp"
+#include "src/Api/JsonFacade.hpp"
 
 using namespace spic;
 
