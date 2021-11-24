@@ -225,3 +225,17 @@ void GameObject::RemoveComponent(std::shared_ptr<Component> component)
 {
     _components.erase(std::remove(_components.begin(), _components.end(), component), _components.end());
 }
+
+std::shared_ptr<GameObject> GameObject::Find(const std::string& name)
+{
+    auto scene = Engine::Instance().PeekScene();
+
+    auto found = std::find_if(scene->Contents().begin(), scene->Contents().end(), [&name](const std::shared_ptr<GameObject>& gameObject) {
+        return gameObject->name == name;
+    });
+
+    if (found != scene->Contents().end())
+        return *found;
+
+    return {};
+}
