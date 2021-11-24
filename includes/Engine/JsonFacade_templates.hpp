@@ -1,7 +1,5 @@
 #include "JsonFacade.hpp"
-
 #include <cereal/archives/json.hpp>
-
 #include <sstream>
 
 template<class T>
