@@ -17,6 +17,7 @@ const int32 VelocityIterations = 24;
 const int32 PositionIterations = 8;
 const int TimeIterations = 60;
 const double PixelScale = 0.5;
+const double GravityScale = 3.0;
 
 PhysicsSubsystem::PhysicsSubsystem() : _contactListener(std::make_unique<ContactListener>()), _physicsWorld(nullptr)
 {
@@ -41,6 +42,14 @@ void PhysicsSubsystem::Update()
     {
         auto rigidBody = gameObject->GetComponent<RigidBody>();
         if (!rigidBody) continue;
+
+        if (rigidBody->GravityScale() != 0)
+        {
+            auto &rigidBodyForce = rigidBody->Point();
+            rigidBodyForce.y += GravityScale * rigidBody->GravityScale();
+            rigidBody->AddForce(rigidBodyForce);
+        }
+
         b2Body* body = nullptr;
 
         for (const auto& circleCollider: gameObject->GetComponents<CircleCollider>())
