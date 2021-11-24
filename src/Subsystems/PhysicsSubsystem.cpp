@@ -17,7 +17,7 @@ const int32 VelocityIterations = 24;
 const int32 PositionIterations = 8;
 const int TimeIterations = 60;
 const double PixelScale = 0.5;
-const double GravityScale = 3.0;
+const double GravityScale = 10.0;
 
 PhysicsSubsystem::PhysicsSubsystem() : _contactListener(std::make_unique<ContactListener>()), _physicsWorld(nullptr)
 {
@@ -45,7 +45,7 @@ void PhysicsSubsystem::Update()
 
         if (rigidBody->GravityScale() != 0)
         {
-            auto &rigidBodyForce = rigidBody->Point();
+            auto& rigidBodyForce = rigidBody->Point();
             rigidBodyForce.y += GravityScale * rigidBody->GravityScale();
             rigidBody->AddForce(rigidBodyForce);
         }
