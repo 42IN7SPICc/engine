@@ -4,8 +4,6 @@
 #include <string>
 #include <map>
 #include <memory>
-#include <AudioSource.hpp>
-#include <vector>
 #include "../Models/AudioClip.hpp"
 
 namespace engine
