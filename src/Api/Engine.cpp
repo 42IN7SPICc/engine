@@ -3,6 +3,7 @@
 #include "../Managers/TimeManager.hpp"
 #include "SDL_timer.h"
 #include <stdexcept>
+#include <AudioSource.hpp>
 
 using namespace spic;
 
@@ -10,6 +11,8 @@ const int TARGET_FPS = 60;
 const double TARGET_FRAME_DELAY = 1000.0 / TARGET_FPS;
 
 Engine Engine::instance{};
+
+void StopAllAudioPlayback();
 
 Engine::Engine() : _scenes{}, _config{}, _running{false}
 {
@@ -75,6 +78,7 @@ void Engine::Start()
 
 void Engine::PushScene(const std::shared_ptr<Scene>& scene)
 {
+    StopAllAudioPlayback();
     _scenes.push(scene);
 }
 
@@ -86,10 +90,25 @@ std::shared_ptr<Scene> Engine::PeekScene() const
 
 void Engine::PopScene()
 {
+    StopAllAudioPlayback();
     _scenes.pop();
 }
 
 void Engine::Shutdown()
 {
     _running = false;
+}
+
+void StopAllAudioPlayback()
+{
+    auto objects = GameObject::All(true);
+
+    for (const auto& object: objects)
+    {
+        auto audioSources = object->GetComponents<spic::AudioSource>();
+        for (auto& audioSource: audioSources)
+        {
+            audioSource->Stop();
+        }
+    }
 }
