@@ -4,29 +4,33 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <AudioSource.hpp>
+#include <vector>
 #include "../Models/AudioClip.hpp"
 
-namespace engine {
-    class AudioManager {
-    private:
-        static AudioManager _instance;
-        std::map<std::string, std::shared_ptr<AudioClip>> _audioClips = {};
-        std::map<std::string, int> _channels = {};
+namespace engine
+{
+    class AudioManager
+    {
+        private:
+            static AudioManager _instance;
+            std::map<std::string, std::shared_ptr<AudioClip>> _audioClips = {};
+            std::map<std::string, int> _channels = {};
 
-        static void ChannelCallback(int channelNumber);
+            static void ChannelCallback(int channelNumber);
 
-    public:
-        AudioManager();
+        public:
+            AudioManager();
 
-        void LoadAudioClip(const std::string &path);
+            void LoadAudioClip(const std::string& path);
 
-        bool Contains(const std::string &path) const;
+            bool Contains(const std::string& path) const;
 
-        void Play(const std::string &gameObjectName, const std::string &path, bool loop = false, double volume = 0.5);
+            void Play(const std::string& gameObjectName, const std::string& path, bool loop = false, double volume = 0.5);
 
-        void Stop(const std::string &gameObjectName, const std::string &path);
+            void Stop(const std::string& gameObjectName, const std::string& path);
 
-        static AudioManager &GetInstance();
+            static AudioManager& GetInstance();
     };
 }
 
