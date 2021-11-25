@@ -3,6 +3,7 @@
 #include <AudioSource.hpp>
 #include <GameObject.hpp>
 #include <SDL_mixer.h>
+#include <stdexcept>
 
 void engine::AudioSubsystem::Update()
 {
