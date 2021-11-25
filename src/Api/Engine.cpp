@@ -78,7 +78,7 @@ void Engine::Start()
 
 void Engine::PushScene(const std::shared_ptr<Scene>& scene)
 {
-    StopAllAudioPlayback();
+    if (_currentScene) StopAllAudioPlayback();
     _scenes.push(scene);
 }
 
