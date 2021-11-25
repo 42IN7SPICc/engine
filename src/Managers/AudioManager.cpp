@@ -61,19 +61,6 @@ bool AudioManager::Contains(const std::string& path) const
     return _audioClips.count(path) > 0;
 }
 
-AudioManager::AudioManager()
-{
-    int audioRate = 44100;
-    Uint16 audioFormat = MIX_DEFAULT_FORMAT;
-    int audioChannels = 2;
-    int audioBuffers = 2048;
-
-    if (Mix_OpenAudio(audioRate, audioFormat, audioChannels, audioBuffers) != 0)
-        throw std::runtime_error("SDL_Mixer: Audio could not be initialised");
-
-    Mix_ChannelFinished(&ChannelCallback);
-}
-
 void AudioManager::ChannelCallback(int channelNumber)
 {
     auto audioManager = AudioManager::GetInstance();

@@ -1,6 +1,8 @@
 #include "AudioSubsystem.hpp"
+#include "../Managers/AudioManager.hpp"
 #include <AudioSource.hpp>
 #include <GameObject.hpp>
+#include <SDL_mixer.h>
 
 void engine::AudioSubsystem::Update()
 {
@@ -36,4 +38,17 @@ void engine::AudioSubsystem::StopAllAudioPlayback()
             audioSource->PlayingInScene = false;
         }
     }
+}
+
+engine::AudioSubsystem::AudioSubsystem()
+{
+    int audioRate = 44100;
+    Uint16 audioFormat = MIX_DEFAULT_FORMAT;
+    int audioChannels = 2;
+    int audioBuffers = 2048;
+
+    if (Mix_OpenAudio(audioRate, audioFormat, audioChannels, audioBuffers) != 0)
+        throw std::runtime_error("SDL_Mixer: Audio could not be initialised");
+
+    Mix_ChannelFinished(&engine::AudioManager::ChannelCallback);
 }

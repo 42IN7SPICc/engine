@@ -8,6 +8,8 @@ namespace engine
     class AudioSubsystem : public ISubsystem
     {
         public:
+            AudioSubsystem();
+
             static void StopAllAudioPlayback();
 
             void Update() override;

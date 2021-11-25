@@ -14,11 +14,8 @@ namespace engine
             static AudioManager _instance;
             std::map<std::string, std::shared_ptr<AudioClip>> _audioClips = {};
             std::map<std::string, int> _channels = {};
-
-            static void ChannelCallback(int channelNumber);
-
         public:
-            AudioManager();
+            static void ChannelCallback(int channelNumber);
 
             void LoadAudioClip(const std::string& path);
 
