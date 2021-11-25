@@ -9,5 +9,6 @@
 #include "PhysicsSubsystem.hpp"
 #include "FpsCounterSubsystem.hpp"
 #include "GameSpeedSubsystem.hpp"
+#include "AudioSubsystem.hpp"
 
 #endif //SPIC_ENGINE_SUBSYSTEMS_HPP

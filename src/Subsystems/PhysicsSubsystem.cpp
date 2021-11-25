@@ -45,7 +45,7 @@ void PhysicsSubsystem::Update()
 
         if (rigidBody->GravityScale() != 0)
         {
-            auto &rigidBodyForce = rigidBody->Point();
+            auto& rigidBodyForce = rigidBody->Point();
             rigidBodyForce.y += GravityScale * rigidBody->GravityScale();
             rigidBody->AddForce(rigidBodyForce);
         }

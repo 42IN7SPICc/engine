@@ -6,27 +6,26 @@
 #include <memory>
 #include "../Models/AudioClip.hpp"
 
-namespace engine {
-    class AudioManager {
-    private:
-        static AudioManager _instance;
-        std::map<std::string, std::shared_ptr<AudioClip>> _audioClips = {};
-        std::map<std::string, int> _channels = {};
+namespace engine
+{
+    class AudioManager
+    {
+        private:
+            static AudioManager _instance;
+            std::map<std::string, std::shared_ptr<AudioClip>> _audioClips = {};
+            std::map<std::string, int> _channels = {};
+        public:
+            static void ChannelCallback(int channelNumber);
 
-        static void ChannelCallback(int channelNumber);
+            void LoadAudioClip(const std::string& path);
 
-    public:
-        AudioManager();
+            bool Contains(const std::string& path) const;
 
-        void LoadAudioClip(const std::string &path);
+            void Play(const std::string& gameObjectName, const std::string& path, bool loop = false, double volume = 0.5);
 
-        bool Contains(const std::string &path) const;
+            void Stop(const std::string& gameObjectName, const std::string& path);
 
-        void Play(const std::string &gameObjectName, const std::string &path, bool loop = false, double volume = 0.5);
-
-        void Stop(const std::string &gameObjectName, const std::string &path);
-
-        static AudioManager &GetInstance();
+            static AudioManager& GetInstance();
     };
 }
 

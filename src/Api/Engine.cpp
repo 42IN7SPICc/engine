@@ -3,6 +3,7 @@
 #include "../Managers/TimeManager.hpp"
 #include "SDL_timer.h"
 #include <stdexcept>
+#include <AudioSource.hpp>
 
 using namespace spic;
 
@@ -36,6 +37,7 @@ void Engine::Start()
     auto window = std::make_unique<engine::Window>(windowConfig.title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowConfig.width, windowConfig.height, windowConfig.fullscreen);
 
     std::vector<std::shared_ptr<engine::ISubsystem>> subsystems = {
+            std::make_shared<engine::AudioSubsystem>(),
             std::make_shared<engine::InputSubsystem>(),
             std::make_shared<engine::GameSpeedSubsystem>(),
             std::make_shared<engine::AnimatorSubsystem>(),
@@ -75,6 +77,7 @@ void Engine::Start()
 
 void Engine::PushScene(const std::shared_ptr<Scene>& scene)
 {
+    if (_currentScene) engine::AudioSubsystem::StopAllAudioPlayback();
     _scenes.push(scene);
 }
 
@@ -86,6 +89,7 @@ std::shared_ptr<Scene> Engine::PeekScene() const
 
 void Engine::PopScene()
 {
+    engine::AudioSubsystem::StopAllAudioPlayback();
     _scenes.pop();
 }
 
