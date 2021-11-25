@@ -5,7 +5,8 @@
 using namespace engine;
 using namespace spic;
 
-bool ZoneUtil::InZone(const Point& point, const std::vector<Point>& points) {
+bool ZoneUtil::InZone(const Point& point, const std::vector<Point>& points)
+{
     if (points.empty()) return false;
 
     auto center = GetCenter(points);
@@ -16,7 +17,8 @@ bool ZoneUtil::InZone(const Point& point, const std::vector<Point>& points) {
     return false;
 }
 
-Point ZoneUtil::GetCenter(const std::vector<Point>& points) {
+Point ZoneUtil::GetCenter(const std::vector<Point>& points)
+{
     Point avgPoint{0, 0};
     if (points.empty()) return avgPoint;
 
@@ -33,7 +35,8 @@ Point ZoneUtil::GetCenter(const std::vector<Point>& points) {
     return avgPoint;
 }
 
-double ZoneUtil::GetMaxLength(const std::vector<Point>& points, const Point& center) {
+double ZoneUtil::GetMaxLength(const std::vector<Point>& points, const Point& center)
+{
     double maxLength = 0;
     if (points.empty()) return maxLength;
 
@@ -46,7 +49,8 @@ double ZoneUtil::GetMaxLength(const std::vector<Point>& points, const Point& cen
     return maxLength;
 }
 
-int ZoneUtil::WindPnPoly(const Point& point, const std::vector<Point>& points) {
+int ZoneUtil::WindPnPoly(const Point& point, const std::vector<Point>& points)
+{
     auto result = 0;
     int pointsCount = points.size();
     for (int i = 0; i < pointsCount; ++i)
@@ -67,10 +71,12 @@ int ZoneUtil::WindPnPoly(const Point& point, const std::vector<Point>& points) {
     return result;
 }
 
-double ZoneUtil::GetDistance(const Point& point1, const Point& point2) {
+double ZoneUtil::GetDistance(const Point& point1, const Point& point2)
+{
     return sqrt(pow(point2.x - point1.x, 2) + pow(point2.y - point1.y, 2));
 }
 
-double ZoneUtil::IsLeft(const Point& point1, const Point& point2, const Point& point) {
+double ZoneUtil::IsLeft(const Point& point1, const Point& point2, const Point& point)
+{
     return (point1.x - point.x) * (point2.y - point.y) - (point2.x - point.x) * (point1.y - point.y);
 }
