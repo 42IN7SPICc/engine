@@ -7,10 +7,9 @@ using namespace spic;
 AudioSource::AudioSource(const std::string& audioClip, bool playOnAwake, bool looping, double volume) : audioClip(audioClip),
                                                                                                         playOnAwake(playOnAwake),
                                                                                                         loop(looping),
-                                                                                                        volume(volume)
+                                                                                                        volume(volume),
+                                                                                                        PlayingInScene(false)
 {
-    if (playOnAwake)
-        Play(looping);
 }
 
 void AudioSource::Play(bool looping)
@@ -19,6 +18,7 @@ void AudioSource::Play(bool looping)
     auto parent = GameObject().lock();
 
     engine::AudioManager::GetInstance().Play(parent->Name(), audioClip, looping, volume);
+    PlayingInScene = true;
 }
 
 void AudioSource::Stop()
@@ -27,6 +27,7 @@ void AudioSource::Stop()
     auto parent = GameObject().lock();
 
     engine::AudioManager::GetInstance().Stop(parent->Name(), audioClip);
+    PlayingInScene = false;
 }
 
 double AudioSource::Volume() const
@@ -37,4 +38,14 @@ double AudioSource::Volume() const
 void AudioSource::Volume(double newVolume)
 {
     volume = newVolume;
+}
+
+bool AudioSource::Loop() const
+{
+    return loop;
+}
+
+bool AudioSource::PlayOnAwake() const
+{
+    return playOnAwake;
 }
