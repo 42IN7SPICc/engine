@@ -57,7 +57,7 @@ void Window::RenderText(const std::string& text, const spic::Transform& transfor
             static_cast<Uint8>(color.B() * 255),
             static_cast<Uint8>(color.A() * 255)
     };
-    SDL_Surface* surface = TTF_RenderText_Blended_Wrapped(font->GetFont(), text.c_str(), sdlColor, maxWidth);
+    SDL_Surface* surface = TTF_RenderUTF8_Blended_Wrapped(font->GetFont(), text.c_str(), sdlColor, maxWidth);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer.get(), surface);
 
     auto newTransform = transform;
