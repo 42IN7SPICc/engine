@@ -20,7 +20,7 @@ namespace engine
             /**
              * @brief Create a new cache item for a given texture.
              * @param renderer The renderer to convert the file to a texture.
-             * @param path the path to the texture file.
+             * @param path The path to the texture file.
              */
             void LoadTexture(SDL_Renderer* renderer, const std::string& path);
 
