@@ -10,7 +10,7 @@
 namespace engine
 {
     /**
-     * @brief Coontact listeners to share data within Box2D listeners.
+     * @brief Contact listeners to share data within Box2D listeners.
      */
     class ContactListener : public b2ContactListener
     {
