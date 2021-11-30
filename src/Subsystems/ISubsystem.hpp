@@ -1,10 +1,18 @@
 #ifndef SPIC_ENGINE_ISUBSYSTEM_HPP
 #define SPIC_ENGINE_ISUBSYSTEM_HPP
 
-namespace engine {
-    class ISubsystem {
-    public:
-        virtual void Update() = 0;
+namespace engine
+{
+    /**
+     * @brief Interface for subsystems.
+     */
+    class ISubsystem
+    {
+        public:
+            /**
+             * @brief Triggers every frame to handles changes.
+             */
+            virtual void Update() = 0;
     };
 }
 

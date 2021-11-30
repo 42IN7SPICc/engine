@@ -3,10 +3,18 @@
 
 #include "ISubsystem.hpp"
 
-namespace engine {
-    class InputSubsystem : public ISubsystem {
-    public:
-        void Update() override;
+namespace engine
+{
+    /**
+     * @brief Subsystem to handle Input from the mouse and keyboard.
+     */
+    class InputSubsystem : public ISubsystem
+    {
+        public:
+            /**
+             * @brief Fetches changes in state from the providers and sends them to the InputManager.
+             */
+            void Update() override;
     };
 }
 

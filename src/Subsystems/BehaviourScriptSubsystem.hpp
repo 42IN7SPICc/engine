@@ -3,10 +3,18 @@
 
 #include "ISubsystem.hpp"
 
-namespace engine {
-    class BehaviourScriptSubsystem : public ISubsystem {
-    public:
-        void Update() override;
+namespace engine
+{
+    /**
+     * @brief Subsystem to handle BehaviourScript components.
+     */
+    class BehaviourScriptSubsystem : public ISubsystem
+    {
+        public:
+            /**
+             * @brief Triggers the OnStart method for unstarted scripts and the OnUpdate method for scripts that have been started.
+             */
+            void Update() override;
     };
 }
 
