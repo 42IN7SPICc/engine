@@ -27,7 +27,7 @@ namespace engine
             /**
              * @brief Get a Texture from the cache of textures.
              * @param renderer The renderer to access the texture from.
-             * @param path the path to the texture file.
+             * @param path The path to the texture file.
              * @return The cached texture.
              */
             std::shared_ptr<Texture> GetTexture(SDL_Renderer* renderer, const std::string& path);
