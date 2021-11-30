@@ -27,6 +27,7 @@ jobs:
           publish_dir: html
           external_repository: 42IN7SPICc/engine-docs
           publish_branch: main
+          user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
           commit_message: ${{ github.sha }}
           cname: engine.spic.avans.tk
