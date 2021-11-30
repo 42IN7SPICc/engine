@@ -41,7 +41,7 @@ namespace engine
              * @param gameObject The game object.
              * @param width The width of the body.
              * @param height The height of the body.
-             * @return
+             * @return the Box2D body definition
              */
             b2Body* MakeBody(const spic::RigidBody& rigidBody, spic::GameObject& gameObject, double width, double height);
 
