@@ -3,10 +3,18 @@
 
 #include "ISubsystem.hpp"
 
-namespace engine {
-    class AnimatorSubsystem : public ISubsystem {
-    public:
-        void Update() override;
+namespace engine
+{
+    /**
+     * @brief Subsystem to handle Animator components.
+     */
+    class AnimatorSubsystem : public ISubsystem
+    {
+        public:
+            /**
+             * @brief Updates all the animators to their next frame when needed.
+             */
+            void Update() override;
     };
 }
 

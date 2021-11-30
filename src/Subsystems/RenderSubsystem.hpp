@@ -4,14 +4,26 @@
 #include "ISubsystem.hpp"
 #include "../Models/Window.hpp"
 
-namespace engine {
-    class RenderSubsystem : public ISubsystem {
-    private:
-        Window* _window;
-    public:
-        explicit RenderSubsystem(Window* window);
+namespace engine
+{
+    /**
+     * @brief Subsystem to handle Sprite components and Text objects.
+     */
+    class RenderSubsystem : public ISubsystem
+    {
+        private:
+            Window* _window;
+        public:
+            /**
+             * @brief Constructs a new instance of a RenderSubsystem with a given window.
+             * @param window The window that will be used for rendering.
+             */
+            explicit RenderSubsystem(Window* window);
 
-        void Update() override;
+            /**
+             * @brief Accesses all the active sprites and text objects and renders them on the window.
+             */
+            void Update() override;
     };
 }
 

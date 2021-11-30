@@ -5,15 +5,28 @@
 
 #include <memory>
 
-namespace engine {
-    class Font {
-    private:
-        std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)> _font;
+namespace engine
+{
+    /**
+     * @brief Stores a TTF Font to prevent memory leaks upon shutdown.
+     */
+    class Font
+    {
+        private:
+            std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)> _font;
 
-    public:
-        explicit Font(TTF_Font* font);
+        public:
+            /**
+             * @brief Constructs a new Font with a given font.
+             * @param font The given TTF Font
+             */
+            explicit Font(TTF_Font* font);
 
-        [[nodiscard]] TTF_Font* GetFont() const;
+            /**
+             * @brief Access the TTF Font inside the model.
+             * @return The font that is stored.
+             */
+            [[nodiscard]] TTF_Font* GetFont() const;
     };
 }
 
