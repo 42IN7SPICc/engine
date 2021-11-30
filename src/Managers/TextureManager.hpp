@@ -34,7 +34,7 @@ namespace engine
 
             /**
              * @brief Checks whether a cache item exists for a given path.
-             * @param path the path to the texture file.
+             * @param path The path to the texture file.
              * @return Whether the cache item exists.
              */
             [[nodiscard]] bool Contains(const std::string& path) const;
