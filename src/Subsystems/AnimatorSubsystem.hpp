@@ -12,7 +12,7 @@ namespace engine
     {
         public:
             /**
-             * Updates all the animators to their next frame when needed.
+             * @brief Updates all the animators to their next frame when needed.
              */
             void Update() override;
     };
