@@ -26,7 +26,7 @@ namespace engine
 
             /**
              * @brief Get a Texture from the cache of textures.
-             * @param renderer The render to access the texture from.
+             * @param renderer The renderer to access the texture from.
              * @param path the path to the texture file.
              * @return The cached texture.
              */
