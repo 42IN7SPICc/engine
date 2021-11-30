@@ -9,13 +9,27 @@
 
 namespace engine
 {
+    /**
+     * @brief Coontact listeners to share data within Box2D listeners.
+     */
     class ContactListener : public b2ContactListener
     {
         public:
+            /**
+             * @brief Starts a new physics session for the PhysicsSubsystem.
+             */
             void StartNewPhysicsSession();
 
+            /**
+             * @brief Opens a new contact for the Box2D object.
+             * @param contact the contact to be passed.
+             */
             void BeginContact(b2Contact* contact) override;
 
+            /**
+             * @brief Closes a contact for the Box2D object.
+             * @param contact the contact to be extracted.
+             */
             void EndContact(b2Contact* contact) override;
 
         private:
