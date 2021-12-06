@@ -76,12 +76,8 @@ void InputManager::Update()
 {
     SDL_PumpEvents();
 
-    int x, y;
     _mousePrevious = _mouseCurrent;
-    _mouseCurrent = SDL_GetMouseState(&x, &y);
-
-    _mousePosition->x = x;
-    _mousePosition->y = y;
+    _mouseCurrent = SDL_GetMouseState(nullptr, nullptr);
 
     _keysPrevious = std::move(_keysCurrent);
     int length = 0;
@@ -101,6 +97,9 @@ void InputManager::HandleEvent(const SDL_Event& event)
     {
         case SDL_MOUSEMOTION:
         {
+            _mousePosition->x = event.motion.x;
+            _mousePosition->y = event.motion.y;
+
             std::vector<spic::IMouseListener*> listeners = _mouseListeners;
             for (const auto& listener: listeners)
                 listener->OnMouseMoved();
