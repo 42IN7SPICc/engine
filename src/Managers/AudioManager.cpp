@@ -22,7 +22,7 @@ void AudioManager::LoadAudioClip(const std::string& path)
     Mix_Chunk* chunk = Mix_LoadWAV(path.c_str());
     if (chunk == nullptr)
     {
-        throw SDLMixerException("The Audio API could not the audio file (" + path + ").");
+        throw SDLMixerException("The Audio API could not load the audio file (" + path + ").");
     }
 
     auto audioClip = std::make_shared<AudioClip>(chunk);
