@@ -21,7 +21,7 @@ namespace engine
             std::hash<std::string> _stringHasher = {};
 
             /**
-             * @brief Convert a path and a color to a texture path.
+             * @brief Convert a path and a color to a texture hash.
              * @param path The path to the texture file.
              * @param color The color to use for the overlay.
              * @return The hash of a texture with a color suffix.

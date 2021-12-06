@@ -34,7 +34,7 @@ void TextureManager::LoadTexture(SDL_Renderer* renderer, const std::string& path
 std::shared_ptr<Texture> TextureManager::GetTexture(SDL_Renderer* renderer, const std::string& path, const spic::Color& color)
 {
     auto texturePath = ComputeTexturePath(path, color);
-    if (Contains(path, color))return _textures[texturePath];
+    if (Contains(path, color)) return _textures[texturePath];
 
     LoadTexture(renderer, path, color);
     return _textures[texturePath];
