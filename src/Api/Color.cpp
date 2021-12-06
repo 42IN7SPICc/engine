@@ -2,6 +2,10 @@
 
 using namespace spic;
 
+Color::Color(double red, double green, double blue) : Color(red, green, blue, 1)
+{
+}
+
 const Color& Color::purple()
 {
     return Color::_purple;
@@ -53,4 +57,14 @@ double Color::B() const
 double Color::A() const
 {
     return a;
+}
+
+bool Color::operator==(const Color& rhs) const
+{
+    return r == rhs.r && g == rhs.g && b == rhs.b && a == rhs.a;
+}
+
+bool Color::operator!=(const Color& rhs) const
+{
+    return !(rhs == *this);
 }
