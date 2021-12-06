@@ -14,7 +14,10 @@ namespace engine
         public:
             explicit EngineException(const std::string& message, const std::string& innerMessage = "");
 
-            [[nodiscard]] const char* what() const noexcept override;
+            const char* what() const throw()
+            {
+                return _message.c_str();
+            }
     };
 }
 
