@@ -1,9 +1,12 @@
 #include "AudioSubsystem.hpp"
-#include "../Managers/AudioManager.hpp"
+
 #include <AudioSource.hpp>
 #include <GameObject.hpp>
+
+#include "../Exceptions/SDLMixerException.hpp"
+#include "../Managers/AudioManager.hpp"
+
 #include <SDL_mixer.h>
-#include <stdexcept>
 
 void engine::AudioSubsystem::Update()
 {
@@ -49,7 +52,7 @@ engine::AudioSubsystem::AudioSubsystem()
     int audioBuffers = 2048;
 
     if (Mix_OpenAudio(audioRate, audioFormat, audioChannels, audioBuffers) != 0)
-        throw std::runtime_error("SDL_Mixer: Audio could not be initialised");
+        throw SDLMixerException("The Audio API could not be initialized.");
 
     Mix_ChannelFinished(&engine::AudioManager::ChannelCallback);
 }
