@@ -23,17 +23,20 @@ Window::Window(const std::string& title, int xpos, int ypos, int width, int heig
     }
     else
     {
-        _window.reset(SDL_CreateWindow(title.c_str(), xpos, ypos, width, height, SDL_WINDOW_SHOWN));
+        _window.reset(SDL_CreateWindow(title.c_str(), xpos, ypos, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE));
     }
 
     if (!_window) throw std::runtime_error("SDL2 could not initialize a window");
 
-    _renderer.reset(SDL_CreateRenderer(_window.get(), -1, 0));
+    _renderer.reset(SDL_CreateRenderer(_window.get(), -1, SDL_RENDERER_ACCELERATED));
 
     if (!_renderer) throw std::runtime_error("SDL2 could not initialize a renderer");
 
     if (SDL_SetRenderDrawColor(_renderer.get(), 0, 0, 0, 255) != 0)
         throw std::runtime_error(SDL_GetError());
+
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    SDL_RenderSetLogicalSize(_renderer.get(), width, height);
 }
 
 void Window::Render(const std::string& texturePath, const spic::Transform& transform, const SDL_RendererFlip& flip)
@@ -101,6 +104,11 @@ void Window::SwapBuffers()
 void Window::Clear()
 {
     SDL_RenderClear(_renderer.get());
+}
+
+void Window::RenderScale(float* xScale, float* yScale) const
+{
+    SDL_RenderGetScale(_renderer.get(), xScale, yScale);
 }
 
 #pragma clang diagnostic pop
