@@ -82,6 +82,13 @@ namespace engine
              * @brief Clear the window before rendering all the textures and text.
              */
             void Clear();
+
+            /**
+             * @brief Has 2 out parameters that return the y and x scale
+             * @param xScale out parameter for x scale
+             * @param yScale out parameter for y scale
+             */
+            void RenderScale(float* xScale, float* yScale) const;
     };
 }
 
