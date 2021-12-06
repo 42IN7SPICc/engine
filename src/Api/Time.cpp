@@ -14,7 +14,7 @@ double Time::TimeScale() {
 
 void Time::DeltaTime(double newDeltaTime) {
     // stub for now
-    // this may not be done from the game
+    // This will not be used by the engine, because the TimeManager handles the delta time of the game.
 }
 
 void Time::TimeScale(double newTimeScale) {
