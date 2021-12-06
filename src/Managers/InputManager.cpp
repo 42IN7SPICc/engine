@@ -76,9 +76,8 @@ void InputManager::Update()
 {
     SDL_PumpEvents();
 
-    int x, y;
     _mousePrevious = _mouseCurrent;
-    _mouseCurrent = SDL_GetMouseState(&x, &y);
+    _mouseCurrent = SDL_GetMouseState(nullptr, nullptr);
 
     _keysPrevious = std::move(_keysCurrent);
     int length = 0;
