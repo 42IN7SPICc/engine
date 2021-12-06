@@ -1,6 +1,10 @@
-#include <stdexcept>
 #include "AudioManager.hpp"
+
 #include "Debug.hpp"
+
+#include "../Exceptions/SDLMixerException.hpp"
+
+#include <stdexcept>
 
 #define MAX_VOLUME 0.75
 
@@ -18,7 +22,7 @@ void AudioManager::LoadAudioClip(const std::string& path)
     Mix_Chunk* chunk = Mix_LoadWAV(path.c_str());
     if (chunk == nullptr)
     {
-        throw std::runtime_error("SDL_Mixer: Audio file could not be loaded");
+        throw SDLMixerException("The Audio API could not load the audio file (" + path + ").");
     }
 
     auto audioClip = std::make_shared<AudioClip>(chunk);
