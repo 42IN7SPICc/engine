@@ -36,9 +36,9 @@ Window::Window(const std::string& title, int xpos, int ypos, int width, int heig
         throw std::runtime_error(SDL_GetError());
 }
 
-void Window::Render(const std::string& texturePath, const spic::Transform& transform, const SDL_RendererFlip& flip)
+void Window::Render(const std::string& texturePath, const spic::Transform& transform, const SDL_RendererFlip& flip, const spic::Color& color)
 {
-    auto texture = _textureManager->GetTexture(_renderer.get(), texturePath);
+    auto texture = _textureManager->GetTexture(_renderer.get(), texturePath, color);
     SDL_FRect rect{};
     rect.w = texture->Width() * transform.scale;
     rect.h = texture->Height() * transform.scale;
