@@ -3,6 +3,10 @@
 using namespace spic;
 
 const Color& Color::purple() {
+Color::Color(double red, double green, double blue) : Color(red, green, blue, 1)
+{
+}
+
     return Color::_purple;
 }
 
