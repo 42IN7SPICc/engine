@@ -8,7 +8,7 @@ Scene::Scene() : _contents{}
 
 void Scene::RenderScene()
 {
-    // Stub method
+    // This will not be used by the engine, because the RenderSubsystem handles the rendering of the scene.
 }
 
 std::vector<std::shared_ptr<GameObject>>& Scene::Contents()

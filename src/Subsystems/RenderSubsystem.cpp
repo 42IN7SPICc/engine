@@ -56,7 +56,7 @@ void engine::RenderSubsystem::Update()
         {
             auto flip = static_cast<SDL_RendererFlip>(sprite->FlipX() && sprite->FlipY() ? SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL : sprite->FlipX() ? SDL_FLIP_HORIZONTAL : sprite->FlipY() ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
 
-            _window->Render(sprite->Texture(), sprite->GameObject().lock()->AbsoluteTransform(), flip);
+            _window->Render(sprite->Texture(), sprite->GameObject().lock()->AbsoluteTransform(), flip, sprite->Color());
         }
 
         for (const auto& gameObject: layer.second)

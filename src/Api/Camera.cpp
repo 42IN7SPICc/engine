@@ -1,9 +1,9 @@
 #include "Camera.hpp"
 
 spic::Camera::Camera(const std::string& name, int layer, const Color& backgroundColor, double aspectWidth, double aspectHeight) : GameObject(name, "camera", layer),
-                                                                                                                                                          backgroundColor(backgroundColor),
-                                                                                                                                                          aspectHeight(aspectHeight),
-                                                                                                                                                          aspectWidth(aspectWidth)
+                                                                                                                                  backgroundColor(backgroundColor),
+                                                                                                                                  aspectHeight(aspectHeight),
+                                                                                                                                  aspectWidth(aspectWidth)
 {
 
 }

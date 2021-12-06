@@ -41,8 +41,9 @@ namespace engine
              * @param texturePath The path to the texture.
              * @param transform The location where the texture needs to be placed.
              * @param flip In which directions the textures needs to be flipped (horizontal, vertical, both).
+             * @param color The color to render over the texture (transparent to disable).
              */
-            void Render(const std::string& texturePath, const spic::Transform& transform, const SDL_RendererFlip& flip);
+            void Render(const std::string& texturePath, const spic::Transform& transform, const SDL_RendererFlip& flip, const spic::Color& color = spic::Color::transparent());
 
             /**
              * @brief Render a string of text on the window at a given location.

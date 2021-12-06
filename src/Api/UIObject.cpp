@@ -2,21 +2,28 @@
 
 using namespace spic;
 
-UIObject::UIObject(const std::string& name, const std::string& tag, int layer, double width, double height) : GameObject(name, tag, layer), width{width}, height{height} {
+UIObject::UIObject(const std::string& name, const std::string& tag, int layer, double width, double height) : GameObject(name, tag, layer),
+                                                                                                              width{width},
+                                                                                                              height{height}
+{
 }
 
-double UIObject::Width() const {
+double UIObject::Width() const
+{
     return width;
 }
 
-void UIObject::Width(double newWidth) {
+void UIObject::Width(double newWidth)
+{
     width = newWidth;
 }
 
-double UIObject::Height() const {
+double UIObject::Height() const
+{
     return height;
 }
 
-void UIObject::Height(double newHeight) {
+void UIObject::Height(double newHeight)
+{
     height = newHeight;
 }
