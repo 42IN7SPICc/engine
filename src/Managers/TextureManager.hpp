@@ -22,11 +22,12 @@ namespace engine
 
             /**
              * @brief Convert a path and a color to a texture hash.
+             * @warning There's a small chance that there will be hash collisions. Visually confirm all color settings before release
              * @param path The path to the texture file.
              * @param color The color to use for the overlay.
              * @return The hash of a texture with a color suffix.
              */
-            [[nodiscard]] size_t ComputeTexturePath(std::string path, const spic::Color& color) const;
+            [[nodiscard]] size_t ComputeTextureHash(std::string path, const spic::Color& color) const;
 
         public:
             /**

@@ -28,12 +28,12 @@ void TextureManager::LoadTexture(SDL_Renderer* renderer, const std::string& path
     }
 
     auto texture = std::make_shared<Texture>(tempSurface, tempTexture);
-    _textures.insert_or_assign(ComputeTexturePath(path, color), texture);
+    _textures.insert_or_assign(ComputeTextureHash(path, color), texture);
 }
 
 std::shared_ptr<Texture> TextureManager::GetTexture(SDL_Renderer* renderer, const std::string& path, const spic::Color& color)
 {
-    auto texturePath = ComputeTexturePath(path, color);
+    auto texturePath = ComputeTextureHash(path, color);
     if (Contains(path, color)) return _textures[texturePath];
 
     LoadTexture(renderer, path, color);
@@ -42,10 +42,10 @@ std::shared_ptr<Texture> TextureManager::GetTexture(SDL_Renderer* renderer, cons
 
 bool TextureManager::Contains(const std::string& path, const spic::Color& color) const
 {
-    return _textures.count(ComputeTexturePath(path, color)) > 0;
+    return _textures.count(ComputeTextureHash(path, color)) > 0;
 }
 
-size_t TextureManager::ComputeTexturePath(std::string path, const spic::Color& color) const
+size_t TextureManager::ComputeTextureHash(std::string path, const spic::Color& color) const
 {
     path += static_cast<char>(color.R() * 255);
     path += static_cast<char>(color.G() * 255);
