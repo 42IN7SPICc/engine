@@ -5,7 +5,7 @@
 #include <cmath>
 #include <SDL.h>
 #include "Window.hpp"
-#include "../Errors/SDL2RuntimeError.hpp"
+#include "../Exceptions/SDLException.hpp"
 
 using namespace engine;
 
@@ -14,12 +14,12 @@ Window::Window(const std::string& title, int xpos, int ypos, int width, int heig
                                                                                                        _textureManager(new TextureManager),
                                                                                                        _fontManager(new FontManager)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) throw SDL2RuntimeError("The Video API could not be initialized.");
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) throw SDLException("The Video API could not be initialized.");
 
     if (fullscreen)
     {
         SDL_DisplayMode DM{};
-        if (SDL_GetDesktopDisplayMode(0, &DM) != 0) throw SDL2RuntimeError("The Video API could not determine the display mode of the desktop.");
+        if (SDL_GetDesktopDisplayMode(0, &DM) != 0) throw SDLException("The Video API could not determine the display mode of the desktop.");
         _window.reset(SDL_CreateWindow(title.c_str(), 0, 0, DM.w, DM.h, SDL_WINDOW_BORDERLESS));
     }
     else
@@ -27,14 +27,14 @@ Window::Window(const std::string& title, int xpos, int ypos, int width, int heig
         _window.reset(SDL_CreateWindow(title.c_str(), xpos, ypos, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE));
     }
 
-    if (!_window) throw SDL2RuntimeError("The Video API could not initialize a window.");
+    if (!_window) throw SDLException("The Video API could not initialize a window.");
 
     _renderer.reset(SDL_CreateRenderer(_window.get(), -1, SDL_RENDERER_ACCELERATED));
 
-    if (!_renderer) throw SDL2RuntimeError("The Video API could not initialize a renderer.");
+    if (!_renderer) throw SDLException("The Video API could not initialize a renderer.");
 
     if (SDL_SetRenderDrawColor(_renderer.get(), 0, 0, 0, 255) != 0)
-        throw SDL2RuntimeError("The Video API could not set the draw color.");
+        throw SDLException("The Video API could not set the draw color.");
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_RenderSetLogicalSize(_renderer.get(), width, height);
