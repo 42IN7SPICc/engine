@@ -52,7 +52,7 @@ bool Input::GetMouseButtonUp(MouseButton which)
 
 double Input::GetAxis()
 {
-    return 0; // TODO
+    return 0; // The method is missing a parameter to fetch the wanted axis, because this is missing this method will always return 0.
 }
 
 void Input::RegisterKeyListener(IKeyListener& listener)
