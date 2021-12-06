@@ -17,15 +17,17 @@ namespace engine
     class TextureManager
     {
         private:
-            std::map<std::string, std::shared_ptr<Texture>> _textures = {};
+            std::map<size_t, std::shared_ptr<Texture>> _textures = {};
+            std::hash<std::string> _stringHasher = {};
 
             /**
-             * @brief Convert a path and a color to a texture path.
+             * @brief Convert a path and a color to a texture hash.
+             * @warning There's a small chance that there will be hash collisions. Visually confirm all color settings before release
              * @param path The path to the texture file.
              * @param color The color to use for the overlay.
-             * @return The path to a texture with a color suffix.
+             * @return The hash of a texture with a color suffix.
              */
-            static std::string ComputeTexturePath(const std::string& path, const spic::Color& color);
+            [[nodiscard]] size_t ComputeTextureHash(std::string path, const spic::Color& color) const;
 
         public:
             /**
