@@ -8,9 +8,7 @@ namespace engine
     class SDLTTFException : public EngineException
     {
         public:
-            SDLTTFException(const std::string& message);
-
-            std::string InnerMessage() override;
+            explicit SDLTTFException(const std::string& message);
     };
 }
 

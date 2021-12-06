@@ -12,11 +12,9 @@ namespace engine
             std::string _message;
 
         public:
-            EngineException(const std::string& message);
+            explicit EngineException(const std::string& message, const std::string& innerMessage = "");
 
-            const char* what() const override;
-
-            virtual std::string InnerMessage() = 0;
+            [[nodiscard]] const char* what() const noexcept override;
     };
 }
 

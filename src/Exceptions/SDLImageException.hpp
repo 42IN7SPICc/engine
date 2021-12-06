@@ -9,8 +9,6 @@ namespace engine
     {
         public:
             explicit SDLImageException(const std::string& message);
-
-            std::string InnerMessage() override;
     };
 }
 

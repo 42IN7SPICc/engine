@@ -2,11 +2,6 @@
 
 #include <SDL_error.h>
 
-engine::SDLException::SDLException(const std::string& message) : EngineException(message)
+engine::SDLException::SDLException(const std::string& message) : EngineException(message, SDL_GetError())
 {
-}
-
-std::string engine::SDLException::InnerMessage()
-{
-    return SDL_GetError();
 }

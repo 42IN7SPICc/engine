@@ -2,11 +2,6 @@
 
 #include "SDL_ttf.h"
 
-engine::SDLTTFException::SDLTTFException(const std::string& message) : EngineException(message)
+engine::SDLTTFException::SDLTTFException(const std::string& message) : EngineException(message, TTF_GetError())
 {
-}
-
-std::string engine::SDLTTFException::InnerMessage()
-{
-    return TTF_GetError();
 }

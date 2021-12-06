@@ -8,9 +8,7 @@ namespace engine
     class SDLMixerException : public EngineException
     {
         public:
-            SDLMixerException(const std::string& message);
-
-            std::string InnerMessage() override;
+            explicit SDLMixerException(const std::string& message);
     };
 }
 
