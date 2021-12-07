@@ -1,6 +1,8 @@
 #ifndef SPIC_ENGINE_AUDIOSUBSYSTEM_HPP
 #define SPIC_ENGINE_AUDIOSUBSYSTEM_HPP
 
+#include <memory>
+#include <Scene.hpp>
 #include "ISubsystem.hpp"
 
 namespace engine
@@ -10,6 +12,9 @@ namespace engine
      */
     class AudioSubsystem : public ISubsystem
     {
+        private:
+            std::shared_ptr<spic::Scene> _previousScene;
+
         public:
             /**
              * @brief Constructs a new instance of a AudioSubsystem.
@@ -17,12 +22,7 @@ namespace engine
             AudioSubsystem();
 
             /**
-             * @brief Stops all audio playback for all AudioSource components currently playing.
-             */
-            static void StopAllAudioPlayback();
-
-            /**
-            * @brief Stops all audio playback for all AudioSource components currently playing.
+            * @brief Pauses all audio playback for all AudioSource components currently playing.
             */
             static void PauseAllAudioPlayback();
 

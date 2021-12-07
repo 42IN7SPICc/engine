@@ -7,10 +7,28 @@
 #include "../Managers/AudioManager.hpp"
 
 #include <SDL_mixer.h>
+#include <Engine.hpp>
 
 void engine::AudioSubsystem::Update()
 {
     auto objects = spic::GameObject::All();
+    auto currentScene = spic::Engine::Instance().PeekScene();
+    if (_previousScene && _previousScene != currentScene)
+    {
+        for (const auto& gameObject: _previousScene->Contents())
+        {
+            auto found = std::find(objects.begin(), objects.end(), gameObject);
+            if (found == objects.end())
+            {
+                for (const auto& audioSource: gameObject->GetComponents<spic::AudioSource>())
+                {
+                    if (audioSource->PlayingInScene)
+                        audioSource->Stop();
+                }
+            }
+        }
+    }
+    _previousScene = currentScene;
 
     for (const auto& object: objects)
     {
@@ -27,21 +45,6 @@ void engine::AudioSubsystem::Update()
                 audioSource->Stop();
                 audioSource->PlayingInScene = false;
             }
-        }
-    }
-}
-
-void engine::AudioSubsystem::StopAllAudioPlayback()
-{
-    auto objects = spic::GameObject::All(true);
-
-    for (const auto& object: objects)
-    {
-        auto audioSources = object->GetComponents<spic::AudioSource>();
-        for (auto& audioSource: audioSources)
-        {
-            audioSource->Stop();
-            audioSource->PlayingInScene = false;
         }
     }
 }

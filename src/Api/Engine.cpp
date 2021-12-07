@@ -3,7 +3,6 @@
 #include "../Managers/TimeManager.hpp"
 #include "SDL_timer.h"
 #include <stdexcept>
-#include <AudioSource.hpp>
 
 using namespace spic;
 
@@ -77,7 +76,7 @@ void Engine::Start()
 
 void Engine::PushScene(const std::shared_ptr<Scene>& scene)
 {
-    if (_currentScene) engine::AudioSubsystem::StopAllAudioPlayback();
+    if (_currentScene) engine::AudioSubsystem::PauseAllAudioPlayback();
     _scenes.push(scene);
 }
 
@@ -89,7 +88,6 @@ std::shared_ptr<Scene> Engine::PeekScene() const
 
 void Engine::PopScene()
 {
-    engine::AudioSubsystem::StopAllAudioPlayback();
     _scenes.pop();
 }
 
