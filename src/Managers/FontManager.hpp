@@ -21,7 +21,7 @@ namespace engine
 
         public:
             /**
-             * @brief Contructs a new FontManager.
+             * @brief Constructs a new FontManager.
              */
             FontManager();
 
@@ -47,6 +47,26 @@ namespace engine
              * @return Whether the cache item exists.
              */
             [[nodiscard]] bool Contains(const std::string& path, int size) const;
+
+            /**
+             * @brief Deleted copy assignment operator
+             */
+            FontManager& operator=(const FontManager& manager) = delete;
+
+            /**
+             * @brief Deleted move assignment operator
+             */
+            FontManager& operator=(FontManager&& manager) = delete;
+
+            /**
+             * @brief Deleted copy constructor
+             */
+            FontManager(const FontManager& manager) = delete;
+
+            /**
+             * @brief Deleted move constructor
+             */
+            FontManager(FontManager&& manager) = delete;
     };
 }
 

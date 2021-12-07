@@ -66,14 +66,29 @@ namespace engine
              */
             static AudioManager& GetInstance();
 
+            /**
+            * @brief Constructs a new AudioManager.
+            */
             AudioManager() = default;
 
+            /**
+            * @brief Deleted copy assignment operator
+            */
             AudioManager& operator=(const AudioManager& manager) = delete;
 
+            /**
+            * @brief Deleted move assignment operator
+            */
             AudioManager& operator=(AudioManager&& manager) = delete;
 
+            /**
+            * @brief Deleted copy constructor
+            */
             AudioManager(const AudioManager& manager) = delete;
 
+            /**
+            * @brief Deleted move constructor
+            */
             AudioManager(AudioManager&& manager) = delete;
     };
 }
