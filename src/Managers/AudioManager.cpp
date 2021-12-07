@@ -8,8 +8,6 @@
 #include <sstream>
 
 #define MAX_VOLUME 0.6
-#define FADE_IN_DURATION 1000
-#define FADE_OUT_DURATION 1000
 
 using namespace engine;
 
