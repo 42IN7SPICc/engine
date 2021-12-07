@@ -18,7 +18,6 @@ void AudioSource::Play(bool looping)
     auto parent = GameObject().lock();
 
     engine::AudioManager::GetInstance().Play(parent->Name(), audioClip, looping, volume);
-    PlayingInScene = true;
 }
 
 void AudioSource::Stop()
@@ -27,7 +26,6 @@ void AudioSource::Stop()
     auto parent = GameObject().lock();
 
     engine::AudioManager::GetInstance().Stop(parent->Name(), audioClip);
-    PlayingInScene = false;
 }
 
 double AudioSource::Volume() const
@@ -48,4 +46,13 @@ bool AudioSource::Loop() const
 bool AudioSource::PlayOnAwake() const
 {
     return playOnAwake;
+}
+
+void AudioSource::Pause()
+{
+    if (GameObject().expired()) return;
+    auto parent = GameObject().lock();
+
+    engine::AudioManager::GetInstance().Pause(parent->Name(), audioClip);
+    PlayingInScene = false;
 }

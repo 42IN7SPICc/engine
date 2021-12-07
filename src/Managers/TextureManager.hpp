@@ -54,6 +54,31 @@ namespace engine
              * @return Whether the cache item exists.
              */
             [[nodiscard]] bool Contains(const std::string& path, const spic::Color& color) const;
+
+            /**
+            * @brief Constructs a new TextureManager.
+            */
+            TextureManager() = default;
+
+            /**
+            * @brief Deleted copy assignment operator
+            */
+            TextureManager& operator=(const TextureManager& manager) = delete;
+
+            /**
+            * @brief Deleted move assignment operator
+            */
+            TextureManager& operator=(TextureManager&& manager) = delete;
+
+            /**
+            * @brief Deleted copy constructor
+            */
+            TextureManager(const TextureManager& manager) = delete;
+
+            /**
+            * @brief Deleted move constructor
+            */
+            TextureManager(TextureManager&& manager) = delete;
     };
 }
 

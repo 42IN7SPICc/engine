@@ -54,10 +54,42 @@ namespace engine
             void Stop(const std::string& gameObjectName, const std::string& path);
 
             /**
+             * @brief Stops a AudioClip from playing at a given GameObject.
+             * @param gameObjectName The name of the GameObject.
+             * @param path The path to the audio file.
+             */
+            void Pause(const std::string& gameObjectName, const std::string& path);
+
+            /**
              * @brief Get the instance of the AudioManager.
              * @return The instance of the AudioManager.
              */
             static AudioManager& GetInstance();
+
+            /**
+            * @brief Constructs a new AudioManager.
+            */
+            AudioManager() = default;
+
+            /**
+            * @brief Deleted copy assignment operator
+            */
+            AudioManager& operator=(const AudioManager& manager) = delete;
+
+            /**
+            * @brief Deleted move assignment operator
+            */
+            AudioManager& operator=(AudioManager&& manager) = delete;
+
+            /**
+            * @brief Deleted copy constructor
+            */
+            AudioManager(const AudioManager& manager) = delete;
+
+            /**
+            * @brief Deleted move constructor
+            */
+            AudioManager(AudioManager&& manager) = delete;
     };
 }
 

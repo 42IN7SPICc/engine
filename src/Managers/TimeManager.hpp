@@ -45,6 +45,26 @@ namespace engine
              */
             static TimeManager& GetInstance();
 
+            /**
+            * @brief Deleted copy assignment operator
+            */
+            TimeManager& operator=(const TimeManager& manager) = delete;
+
+            /**
+            * @brief Deleted move assignment operator
+            */
+            TimeManager& operator=(TimeManager&& manager) = delete;
+
+            /**
+            * @brief Deleted copy constructor
+            */
+            TimeManager(const TimeManager& manager) = delete;
+
+            /**
+            * @brief Deleted move constructor
+            */
+            TimeManager(TimeManager&& manager) = delete;
+
         private:
             static TimeManager _instance;
             uint64_t _currentTick = -1;

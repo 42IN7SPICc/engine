@@ -140,6 +140,26 @@ namespace engine
              * @return The int matching the mouse button.
              */
             static Uint8 ToKey(const spic::Input::MouseButton& button);
+
+            /**
+            * @brief Deleted copy assignment operator
+            */
+            InputManager& operator=(const InputManager& manager) = delete;
+
+            /**
+            * @brief Deleted move assignment operator
+            */
+            InputManager& operator=(InputManager&& manager) = delete;
+
+            /**
+            * @brief Deleted copy constructor
+            */
+            InputManager(const InputManager& manager) = delete;
+
+            /**
+            * @brief Deleted move constructor
+            */
+            InputManager(InputManager&& manager) = delete;
     };
 }
 
