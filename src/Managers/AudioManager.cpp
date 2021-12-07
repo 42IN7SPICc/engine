@@ -5,8 +5,11 @@
 #include "../Exceptions/SDLMixerException.hpp"
 
 #include <stdexcept>
+#include <sstream>
 
-#define MAX_VOLUME 0.75
+#define MAX_VOLUME 0.6
+#define FADE_IN_DURATION 1000
+#define FADE_OUT_DURATION 1000
 
 using namespace engine;
 
@@ -38,7 +41,31 @@ void AudioManager::Play(const std::string& gameObjectName, const std::string& pa
         volume = MAX_VOLUME;
 
     std::string channelName = getChannelName(gameObjectName, path);
-    int channelNumber = Mix_PlayChannel(-1, _audioClips[path]->Chunk(), loop ? -1 : 0);
+    int channelNumber{-1};
+    auto channel = _channels.find(channelName);
+    if (channel != _channels.end())
+    {
+        channelNumber = channel->second;
+    }
+
+    if (channelNumber == -1)
+    {
+        channelNumber = Mix_PlayChannel(-1, _audioClips[path]->Chunk(), loop ? -1 : 0);
+    }
+    else if (Mix_Paused(channelNumber) > 0)
+    {
+        Mix_Resume(channelNumber);
+    }
+
+
+    if (channelNumber == -1)
+    {
+        std::stringstream ss{};
+        ss << "Mix_PlayChannel ";
+        ss << Mix_GetError();
+        spic::Debug::LogError(ss.str());
+        return;
+    }
 
     Mix_Volume(channelNumber, (int) (128 * volume));
 
@@ -55,6 +82,16 @@ void AudioManager::Stop(const std::string& gameObjectName, const std::string& pa
     Mix_HaltChannel(channelNumber);
 }
 
+void AudioManager::Pause(const std::string& gameObjectName, const std::string& path)
+{
+    std::string channelName = getChannelName(gameObjectName, path);
+    auto channel = _channels.find(channelName);
+    if (channel == _channels.end()) return;
+
+    int channelNumber = channel->second;
+    Mix_Pause(channelNumber);
+}
+
 AudioManager& AudioManager::GetInstance()
 {
     return _instance;
@@ -67,7 +104,7 @@ bool AudioManager::Contains(const std::string& path) const
 
 void AudioManager::ChannelCallback(int channelNumber)
 {
-    auto audioManager = AudioManager::GetInstance();
+    auto& audioManager = AudioManager::GetInstance();
     std::erase_if(audioManager._channels, [channelNumber](auto& item) {
         auto const&[key, value] = item;
         return value == channelNumber;

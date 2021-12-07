@@ -20,10 +20,12 @@ void engine::AudioSubsystem::Update()
             if (audioSource->Active() && audioSource->PlayOnAwake() && !audioSource->PlayingInScene)
             {
                 audioSource->Play(audioSource->Loop());
+                audioSource->PlayingInScene = true;
             }
             else if (!audioSource->Active() && audioSource->PlayingInScene)
             {
                 audioSource->Stop();
+                audioSource->PlayingInScene = false;
             }
         }
     }
@@ -39,6 +41,21 @@ void engine::AudioSubsystem::StopAllAudioPlayback()
         for (auto& audioSource: audioSources)
         {
             audioSource->Stop();
+            audioSource->PlayingInScene = false;
+        }
+    }
+}
+
+void engine::AudioSubsystem::PauseAllAudioPlayback()
+{
+    auto objects = spic::GameObject::All();
+
+    for (const auto& object: objects)
+    {
+        auto audioSources = object->GetComponents<spic::AudioSource>();
+        for (auto& audioSource: audioSources)
+        {
+            audioSource->Pause();
             audioSource->PlayingInScene = false;
         }
     }

@@ -22,6 +22,11 @@ namespace engine
             static void StopAllAudioPlayback();
 
             /**
+            * @brief Stops all audio playback for all AudioSource components currently playing.
+            */
+            static void PauseAllAudioPlayback();
+
+            /**
              * @brief Starts all AudioSource that need to be started during this update.
              */
             void Update() override;
