@@ -6,6 +6,9 @@
 
 namespace engine
 {
+    /**
+     * @brief An implementation of the mouse listener for buttons.
+     */
     class ButtonMouseListener : public spic::IMouseListener
     {
         public:
