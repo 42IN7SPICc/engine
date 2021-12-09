@@ -5,9 +5,16 @@
 
 namespace engine
 {
+    /**
+     * @brief An exception that handles errors for SDL TTF.
+     */
     class SDLTTFException : public EngineException
     {
         public:
+            /**
+             * @brief Generates a new font exception with a given message.
+             * @param message The message describing the error.
+             */
             explicit SDLTTFException(const std::string& message);
     };
 }
