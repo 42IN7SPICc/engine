@@ -28,6 +28,10 @@ namespace engine
              * @return The instance of the debug lines vector.
              */
             static std::vector<DebugLine>& Lines();
+
+            /**
+             * @brief Clearing pending lines
+             */
             static void Clear();
 
         private:
