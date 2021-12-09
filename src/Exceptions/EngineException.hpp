@@ -6,14 +6,26 @@
 
 namespace engine
 {
+    /**
+     * @brief An exception to throw when something errors in the engine.
+     */
     class EngineException : public std::exception
     {
         private:
             std::string _message;
 
         public:
+            /**
+             * @brief Constructs a new instance of an exception with a message and innermessage
+             * @param message The message describing the error.
+             * @param innerMessage The inner message for developers (empty to disable).
+             */
             explicit EngineException(const std::string& message, const std::string& innerMessage = "");
 
+            /**
+             * @brief The what part of the exception.
+             * @return The message of the exception.
+             */
             const char* what() const throw()
             {
                 return _message.c_str();

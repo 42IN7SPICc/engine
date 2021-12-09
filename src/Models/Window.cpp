@@ -112,4 +112,11 @@ void Window::RenderScale(float* xScale, float* yScale) const
     SDL_RenderGetScale(_renderer.get(), xScale, yScale);
 }
 
+void Window::RenderLine(double fromX, double fromY, double toX, double toY, const spic::Color& color)
+{
+    SDL_SetRenderDrawColor(_renderer.get(), color.R() * 255, color.G() * 255, color.B() * 255, color.A() * 255);
+    SDL_RenderDrawLine(_renderer.get(), fromX, fromY, toX, toY);
+    SDL_SetRenderDrawColor(_renderer.get(), 0, 0, 0, 255);
+}
+
 #pragma clang diagnostic pop

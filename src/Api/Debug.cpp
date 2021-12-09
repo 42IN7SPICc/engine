@@ -1,12 +1,12 @@
 #include "Debug.hpp"
+#include "../Structs/DebugLines.hpp"
 #include <iostream>
-#include <chrono>
 
 using namespace spic;
 
 void Debug::DrawLine(const Point& start, const Point& end, const Color& color)
 {
-    // TODO: Cannot be implemented if the render subsystem is not done
+    engine::DebugLines::Lines().push_back(engine::DebugLine{start, end, color});
 }
 
 void Debug::Log(const std::string& message, const std::string& caller, const std::string& file, int line)

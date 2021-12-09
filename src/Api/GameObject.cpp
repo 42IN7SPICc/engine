@@ -133,7 +133,7 @@ bool GameObject::IsActiveInWorld() const
 
     for (const auto& object: All())
     {
-        if (object->name == this->name)
+        if (object.get() == this)
         {
             return true;
         }
