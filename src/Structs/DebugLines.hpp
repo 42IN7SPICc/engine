@@ -12,12 +12,6 @@ namespace engine
      */
     struct DebugLine
     {
-        DebugLine(const spic::Point& from, const spic::Point& to, const spic::Color& color) : from(from),
-                                                                                              to(to),
-                                                                                              color(color)
-        {
-        }
-
         spic::Point from;
         spic::Point to;
         spic::Color color;
@@ -26,7 +20,7 @@ namespace engine
     /**
      * @brief A struct containing all lines to be drawn
      */
-    struct DebugLines
+    class DebugLines
     {
         public:
             /**
