@@ -4,6 +4,7 @@
 #include "GameObject.hpp"
 #include "Sprite.hpp"
 #include "Text.hpp"
+#include "../Structs/DebugLines.hpp"
 
 #include <algorithm>
 #include <map>
@@ -67,5 +68,12 @@ void engine::RenderSubsystem::Update()
                 _window->RenderText(textObject->Content(), textObject->AbsoluteTransform(), textObject->Font(), textObject->Size(), textObject->TextAlignment(), textObject->TextColor(), textObject->Width());
             }
         }
+
+        for (auto& line: engine::DebugLines::Lines())
+        {
+            _window->RenderLine(line.from.x, line.from.y, line.to.x, line.to.y, line.color);
+        }
+
+        engine::DebugLines::Clear();
     }
 }
