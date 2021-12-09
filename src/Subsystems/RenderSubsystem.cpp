@@ -32,8 +32,7 @@ void engine::RenderSubsystem::Update()
         if (!cameraObject)
         {
             auto camera = std::dynamic_pointer_cast<Camera>(gameObject);
-            if (camera)
-                cameraObject = camera;
+            if (camera) cameraObject = camera;
         }
 
         if (!objectLayers.contains(layer))
