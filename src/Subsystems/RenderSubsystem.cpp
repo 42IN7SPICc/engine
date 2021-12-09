@@ -1,5 +1,6 @@
 #include "RenderSubsystem.hpp"
 
+#include "Camera.hpp"
 #include "Engine.hpp"
 #include "GameObject.hpp"
 #include "Sprite.hpp"
@@ -21,10 +22,19 @@ void engine::RenderSubsystem::Update()
     Engine& engine = Engine::Engine::Instance();
     auto scene = engine.PeekScene();
 
+    std::shared_ptr<Camera> cameraObject;
+
     std::map<int, std::vector<std::shared_ptr<GameObject>>> objectLayers{};
     for (const auto& gameObject: GameObject::All())
     {
         int layer = gameObject->Layer();
+
+        if (!cameraObject)
+        {
+            auto camera = std::dynamic_pointer_cast<Camera>(gameObject);
+            if (camera)
+                cameraObject = camera;
+        }
 
         if (!objectLayers.contains(layer))
         {
