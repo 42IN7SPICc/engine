@@ -85,12 +85,11 @@ void engine::RenderSubsystem::Update()
                 _window->RenderText(textObject->Content(), textObject->AbsoluteTransform() + cameraPoint, textObject->Font(), textObject->Size(), textObject->TextAlignment(), textObject->TextColor(), textObject->Width());
             }
         }
-
-        for (auto& line: engine::DebugLines::Lines())
-        {
-            _window->RenderLine(line.from.x, line.from.y, line.to.x, line.to.y, line.color);
-        }
-
-        engine::DebugLines::Clear();
     }
+
+    for (auto& line: engine::DebugLines::Lines())
+    {
+        _window->RenderLine(line.from.x, line.from.y, line.to.x, line.to.y, line.color);
+    }
+    engine::DebugLines::Clear();
 }
