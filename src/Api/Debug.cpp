@@ -6,7 +6,7 @@ using namespace spic;
 
 void Debug::DrawLine(const Point& start, const Point& end, const Color& color)
 {
-    engine::DebugLines::Lines().emplace_back(start, end, color);
+    engine::DebugLines::Lines().push_back(engine::DebugLine{start, end, color});
 }
 
 void Debug::Log(const std::string& message, const std::string& caller, const std::string& file, int line)
