@@ -42,6 +42,14 @@ void engine::RenderSubsystem::Update()
         objectLayers[layer].push_back(gameObject);
     }
 
+    Point cameraPoint{0, 0};
+    if (cameraObject)
+    {
+        cameraPoint = cameraObject->AbsoluteTransform().position;
+        cameraPoint.x -= cameraObject->AspectWidth() / 2;
+        cameraPoint.y -= cameraObject->AspectHeight() / 2;
+    }
+
     for (const auto& layer: objectLayers)
     {
         std::vector<std::shared_ptr<Sprite>> sprites{};
@@ -66,7 +74,7 @@ void engine::RenderSubsystem::Update()
         {
             auto flip = static_cast<SDL_RendererFlip>(sprite->FlipX() && sprite->FlipY() ? SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL : sprite->FlipX() ? SDL_FLIP_HORIZONTAL : sprite->FlipY() ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
 
-            _window->Render(sprite->Texture(), sprite->GameObject().lock()->AbsoluteTransform(), flip, sprite->Color());
+            _window->Render(sprite->Texture(), sprite->GameObject().lock()->AbsoluteTransform() + cameraPoint, flip, sprite->Color());
         }
 
         for (const auto& gameObject: layer.second)
@@ -74,7 +82,7 @@ void engine::RenderSubsystem::Update()
             auto textObject = std::dynamic_pointer_cast<Text>(gameObject);
             if (textObject)
             {
-                _window->RenderText(textObject->Content(), textObject->AbsoluteTransform(), textObject->Font(), textObject->Size(), textObject->TextAlignment(), textObject->TextColor(), textObject->Width());
+                _window->RenderText(textObject->Content(), textObject->AbsoluteTransform() + cameraPoint, textObject->Font(), textObject->Size(), textObject->TextAlignment(), textObject->TextColor(), textObject->Width());
             }
         }
 
