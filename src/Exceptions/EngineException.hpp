@@ -16,7 +16,7 @@ namespace engine
 
         public:
             /**
-             *
+             * @brief Constructs a new instance of an exception with a message and innermessage
              * @param message The message describing the error.
              * @param innerMessage The inner message for developers (empty to disable).
              */
