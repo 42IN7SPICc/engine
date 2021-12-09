@@ -58,6 +58,16 @@ namespace engine
             void RenderText(const std::string& text, const spic::Transform& transform, const std::string& fontPath, int size, spic::Alignment alignment, spic::Color color, double maxWidth);
 
             /**
+             * @brief Render a line on the window between points.
+             * @param fromX The first x coord
+             * @param fromY The first y coord
+             * @param toX The seconds x coord
+             * @param toY The second y coord
+             * @param color The color of the line
+             */
+            void RenderLine(double fromX, double fromY, double toX, double toY, const spic::Color& color);
+
+            /**
              * @brief Render a string of the on the window at a given location.
              * @param text The content of the text.
              * @param x The X position of the text.
