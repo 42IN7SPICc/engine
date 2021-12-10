@@ -13,11 +13,12 @@
 using namespace engine;
 using namespace spic;
 
-const int32 VelocityIterations = 24;
-const int32 PositionIterations = 8;
+const float TimeStep = 1.0f / 60.0f;
+const int32 VelocityIterations = 12;
+const int32 PositionIterations = 4;
 const int TimeIterations = 60;
 const double PixelScale = 0.5;
-const double GravityScale = 3.0;
+const double GravityScale = 10.0;
 
 PhysicsSubsystem::PhysicsSubsystem() : _contactListener(std::make_unique<ContactListener>()), _physicsWorld(nullptr)
 {
@@ -37,6 +38,7 @@ void PhysicsSubsystem::Update()
 
     std::vector<std::tuple<b2Body*, std::shared_ptr<GameObject>>> newObjectLocations{};
     std::map<std::shared_ptr<GameObject>, Transform> oldTransforms{};
+    auto timeMultiplier = spic::Time::DeltaTime() * spic::Time::TimeScale();
 
     for (const auto& gameObject: GameObject::All())
     {
@@ -46,7 +48,7 @@ void PhysicsSubsystem::Update()
         if (rigidBody->GravityScale() != 0)
         {
             auto& rigidBodyForce = rigidBody->Point();
-            rigidBodyForce.y += GravityScale * rigidBody->GravityScale();
+            rigidBodyForce.y += timeMultiplier * GravityScale * rigidBody->GravityScale();
             rigidBody->AddForce(rigidBodyForce);
         }
 
@@ -82,7 +84,7 @@ void PhysicsSubsystem::Update()
     //run physics simulation
     for (short i = 0; i < TimeIterations; ++i)
     {
-        _physicsWorld->Step(static_cast<float>(spic::Time::DeltaTime() * spic::Time::TimeScale()), VelocityIterations, PositionIterations);
+        _physicsWorld->Step(TimeStep, VelocityIterations, PositionIterations);
     }
 
     //update location of game objects
