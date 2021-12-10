@@ -12,7 +12,8 @@ using namespace engine;
 Window::Window(const std::string& title, int xpos, int ypos, int width, int height, bool fullscreen) : _window(nullptr, &SDL_DestroyWindow),
                                                                                                        _renderer(nullptr, &SDL_DestroyRenderer),
                                                                                                        _textureManager(new TextureManager),
-                                                                                                       _fontManager(new FontManager)
+                                                                                                       _fontManager(new FontManager),
+                                                                                                       _backgroundColor(spic::Color::black())
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) throw SDLException("The Video API could not be initialized.");
 
@@ -33,8 +34,7 @@ Window::Window(const std::string& title, int xpos, int ypos, int width, int heig
 
     if (!_renderer) throw SDLException("The Video API could not initialize a renderer.");
 
-    if (SDL_SetRenderDrawColor(_renderer.get(), 0, 0, 0, 255) != 0)
-        throw SDLException("The Video API could not set the draw color.");
+    RenderColor(spic::Color::black());
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_RenderSetLogicalSize(_renderer.get(), width, height);
@@ -104,7 +104,9 @@ void Window::SwapBuffers()
 
 void Window::Clear()
 {
+    RenderColor(_backgroundColor);
     SDL_RenderClear(_renderer.get());
+    RenderColor(spic::Color::black());
 }
 
 void Window::RenderScale(float* xScale, float* yScale) const
@@ -114,9 +116,22 @@ void Window::RenderScale(float* xScale, float* yScale) const
 
 void Window::RenderLine(double fromX, double fromY, double toX, double toY, const spic::Color& color)
 {
-    SDL_SetRenderDrawColor(_renderer.get(), color.R() * 255, color.G() * 255, color.B() * 255, color.A() * 255);
+    RenderColor(color);
     SDL_RenderDrawLine(_renderer.get(), fromX, fromY, toX, toY);
-    SDL_SetRenderDrawColor(_renderer.get(), 0, 0, 0, 255);
+    RenderColor(spic::Color::black());
+}
+
+void Window::RenderColor(const spic::Color& color)
+{
+    if (SDL_SetRenderDrawColor(_renderer.get(), color.R() * 255, color.G() * 255, color.B() * 255, color.A() * 255) != 0)
+    {
+        throw SDLException("The Video API could not set the draw color.");
+    }
+}
+
+void Window::BackgroundColor(const spic::Color& backgroundColor)
+{
+    _backgroundColor = backgroundColor;
 }
 
 #pragma clang diagnostic pop

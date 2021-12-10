@@ -48,6 +48,12 @@ void engine::RenderSubsystem::Update()
         cameraPoint = cameraObject->AbsoluteTransform().position;
         cameraPoint.x -= cameraObject->AspectWidth() / 2;
         cameraPoint.y -= cameraObject->AspectHeight() / 2;
+
+        _window->BackgroundColor(cameraObject->BackgroundColor());
+    }
+    else
+    {
+        _window->BackgroundColor(spic::Color::black());
     }
 
     for (const auto& layer: objectLayers)

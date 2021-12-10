@@ -23,6 +23,7 @@ namespace engine
             std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> _renderer;
             std::unique_ptr<TextureManager> _textureManager;
             std::unique_ptr<FontManager> _fontManager;
+            spic::Color _backgroundColor;
 
         public:
             /**
@@ -94,11 +95,23 @@ namespace engine
             void Clear();
 
             /**
+             * @brief Set the render color of the sdl renderer.
+             * @param color The color to render.
+             */
+            void RenderColor(const spic::Color& color);
+
+            /**
              * @brief Has 2 out parameters that return the y and x scale
              * @param xScale out parameter for x scale
              * @param yScale out parameter for y scale
              */
             void RenderScale(float* xScale, float* yScale) const;
+
+            /**
+             * @brief Change the background color of the window.
+             * @param backgroundColor The background color to use.
+             */
+            void BackgroundColor(const spic::Color& backgroundColor);
     };
 }
 
