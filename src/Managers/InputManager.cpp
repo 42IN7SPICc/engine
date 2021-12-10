@@ -1,5 +1,8 @@
 #include "InputManager.hpp"
 
+#include "Camera.hpp"
+#include "GameObject.hpp"
+
 #include <algorithm>
 
 using namespace engine;
@@ -99,6 +102,20 @@ void InputManager::HandleEvent(const SDL_Event& event)
         {
             _mousePosition->x = event.motion.x;
             _mousePosition->y = event.motion.y;
+
+            std::shared_ptr<Camera> cameraObject;
+            for (const auto& gameObject: GameObject::All())
+            {
+                auto camera = std::dynamic_pointer_cast<Camera>(gameObject);
+                if (camera)
+                {
+                    Point cameraPoint = camera->AbsoluteTransform().position;
+                    cameraPoint.x -= camera->AspectWidth() / 2;
+                    cameraPoint.y -= camera->AspectHeight() / 2;
+                    _mousePosition->operator-=(cameraPoint);
+                    break;
+                }
+            }
 
             std::vector<spic::IMouseListener*> listeners = _mouseListeners;
             for (const auto& listener: listeners)
