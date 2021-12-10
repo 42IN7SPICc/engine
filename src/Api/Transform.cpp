@@ -30,7 +30,7 @@ Transform& Transform::operator-=(const Transform& rhs)
     return *this;
 }
 
-Transform spic::operator+(Transform lhs, const Point& rhs)
+Transform operator+(Transform lhs, const Point& rhs)
 {
     lhs.position += rhs;
     return lhs;
