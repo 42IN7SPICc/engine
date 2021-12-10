@@ -38,10 +38,10 @@ void PhysicsSubsystem::Update()
 
     std::vector<std::tuple<b2Body*, std::shared_ptr<GameObject>>> newObjectLocations{};
     std::map<std::shared_ptr<GameObject>, Transform> oldTransforms{};
+    auto timeMultiplier = spic::Time::DeltaTime() * spic::Time::TimeScale();
 
     for (const auto& gameObject: GameObject::All())
     {
-        auto timeMultiplier = spic::Time::DeltaTime() * spic::Time::TimeScale();
         auto rigidBody = gameObject->GetComponent<RigidBody>();
         if (!rigidBody) continue;
 
