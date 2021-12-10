@@ -12,7 +12,8 @@ using namespace engine;
 Window::Window(const std::string& title, int xpos, int ypos, int width, int height, bool fullscreen) : _window(nullptr, &SDL_DestroyWindow),
                                                                                                        _renderer(nullptr, &SDL_DestroyRenderer),
                                                                                                        _textureManager(new TextureManager),
-                                                                                                       _fontManager(new FontManager)
+                                                                                                       _fontManager(new FontManager),
+                                                                                                       _backgroundColor(spic::Color::black())
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) throw SDLException("The Video API could not be initialized.");
 
