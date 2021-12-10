@@ -14,8 +14,8 @@ using namespace engine;
 using namespace spic;
 
 const float TimeStep = 1.0f / 60.0f;
-const int32 VelocityIterations = 24;
-const int32 PositionIterations = 8;
+const int32 VelocityIterations = 12;
+const int32 PositionIterations = 4;
 const int TimeIterations = 60;
 const double PixelScale = 0.5;
 const double GravityScale = 10.0;
