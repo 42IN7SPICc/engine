@@ -2,13 +2,13 @@
 
 using namespace spic;
 
-Transform operator+(Transform lhs, const Transform& rhs)
+Transform spic::operator+(Transform lhs, const Transform& rhs)
 {
     lhs += rhs;
     return lhs;
 }
 
-Transform operator-(Transform lhs, const Transform& rhs)
+Transform spic::operator-(Transform lhs, const Transform& rhs)
 {
     lhs -= rhs;
     return lhs;
@@ -30,7 +30,7 @@ Transform& Transform::operator-=(const Transform& rhs)
     return *this;
 }
 
-Transform operator+(Transform lhs, const Point& rhs)
+Transform spic::operator+(Transform lhs, const Point& rhs)
 {
     lhs.position += rhs;
     return lhs;
