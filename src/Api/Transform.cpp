@@ -2,13 +2,13 @@
 
 using namespace spic;
 
-Transform spic::operator+(Transform lhs, const Transform& rhs)
+Transform operator+(Transform lhs, const Transform& rhs)
 {
     lhs += rhs;
     return lhs;
 }
 
-Transform spic::operator-(Transform lhs, const Transform& rhs)
+Transform operator-(Transform lhs, const Transform& rhs)
 {
     lhs -= rhs;
     return lhs;

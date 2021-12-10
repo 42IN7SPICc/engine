@@ -2,13 +2,13 @@
 
 using namespace spic;
 
-Point spic::operator+(Point lhs, const Point& rhs)
+Point operator+(Point lhs, const Point& rhs)
 {
     lhs += rhs;
     return lhs;
 }
 
-Point spic::operator-(Point lhs, const Point& rhs)
+Point operator-(Point lhs, const Point& rhs)
 {
     lhs -= rhs;
     return lhs;
