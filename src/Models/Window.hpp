@@ -95,6 +95,12 @@ namespace engine
             void Clear();
 
             /**
+             * @brief Set the render color of the sdl renderer.
+             * @param color The color to render.
+             */
+            void RenderColor(const spic::Color& color);
+
+            /**
              * @brief Has 2 out parameters that return the y and x scale
              * @param xScale out parameter for x scale
              * @param yScale out parameter for y scale
