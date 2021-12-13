@@ -79,7 +79,8 @@ void PhysicsSubsystem::Update()
         _physicsObjects[gameObject] = body;
 
         auto location = rigidBody->Point();
-        body->ApplyLinearImpulse(b2Vec2((float) location.x, (float) location.y), body->GetWorldCenter(), true);
+        body->SetLinearVelocity(b2Vec2((float) location.x, (float) location.y));
+        //body->ApplyLinearImpulse(b2Vec2((float) location.x, (float) location.y), body->GetWorldCenter(), true);
 
         newObjectLocations.emplace_back(std::make_tuple(body, gameObject));
         oldTransforms.insert(std::make_pair(gameObject, gameObject->AbsoluteTransform()));
