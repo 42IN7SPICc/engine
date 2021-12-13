@@ -1,4 +1,5 @@
 #include "Managers/FileManager.hpp"
+#include "../Utils/StringUtil.hpp"
 
 #include <iostream>
 #include <fstream>
