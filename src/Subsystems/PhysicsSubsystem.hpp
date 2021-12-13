@@ -20,6 +20,7 @@ namespace engine
             std::hash<std::string> _hasher = {};
             std::unique_ptr<ContactListener> _contactListener = {};
             std::unique_ptr<b2World> _physicsWorld = {};
+            std::map<std::shared_ptr<spic::GameObject>, b2Body*> _physicsObjects;
 
             /**
              * @brief Converts a body type to a Box2D body type.

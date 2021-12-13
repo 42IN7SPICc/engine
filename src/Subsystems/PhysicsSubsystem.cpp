@@ -20,8 +20,10 @@ const int TimeIterations = 60;
 const double PixelScale = 0.5;
 const double GravityScale = 10.0;
 
-PhysicsSubsystem::PhysicsSubsystem() : _contactListener(std::make_unique<ContactListener>()), _physicsWorld(nullptr)
+PhysicsSubsystem::PhysicsSubsystem() : _contactListener(std::make_unique<ContactListener>()), _physicsObjects({})
 {
+    const b2Vec2 gravity (0.0f, 0.0f);
+    _physicsWorld = std::make_unique<b2World>(gravity);
 }
 
 void PhysicsSubsystem::Update()
@@ -30,8 +32,6 @@ void PhysicsSubsystem::Update()
     // The reason for this is because of the complex implementation of Box2D inside the SPIC API
     // We needed a lot of extra variables and function to get updated correctly working.
     // The only problem with the current setup is a little performance loss, and some physics inaccuracy
-    const b2Vec2 gravity(0.0f, 0.0f);
-    _physicsWorld = std::make_unique<b2World>(gravity);
 
     _contactListener->StartNewPhysicsSession();
     _physicsWorld->SetContactListener(_contactListener.get());
@@ -52,27 +52,31 @@ void PhysicsSubsystem::Update()
             rigidBody->AddForce(rigidBodyForce);
         }
 
-        b2Body* body = nullptr;
+        b2Body* body = _physicsObjects[gameObject];
 
-        for (const auto& circleCollider: gameObject->GetComponents<CircleCollider>())
-        {
-            body = MakeBody(*rigidBody, *gameObject, circleCollider->Radius() * 2, circleCollider->Radius() * 2);
-            b2CircleShape circleShape{};
-            circleShape.m_radius = static_cast<float>(circleCollider->Radius() * PixelScale);
+        if(body == nullptr) {
+            for (const auto& circleCollider: gameObject->GetComponents<CircleCollider>())
+            {
+                body = MakeBody(*rigidBody, *gameObject, circleCollider->Radius() * 2, circleCollider->Radius() * 2);
+                b2CircleShape circleShape{};
+                circleShape.m_radius = static_cast<float>(circleCollider->Radius() * PixelScale);
 
-            double area = rigidBody->Type() != BodyType::staticBody ? ((circleCollider->Radius() * circleCollider->Radius()) * 2) : 0.0f;
-            AddPhysicsToShape(body, &circleShape, rigidBody, circleCollider, area);
+                double area = rigidBody->Type() != BodyType::staticBody ? ((circleCollider->Radius() * circleCollider->Radius()) * 2) : 0.0f;
+                AddPhysicsToShape(body, &circleShape, rigidBody, circleCollider, area);
+            }
+
+            for (const auto& boxCollider: gameObject->GetComponents<BoxCollider>())
+            {
+                body = MakeBody(*rigidBody, *gameObject, boxCollider->Width(), boxCollider->Height());
+                b2PolygonShape boxShape{};
+                boxShape.SetAsBox(static_cast<float>(boxCollider->Width() / 2.0 * PixelScale), static_cast<float>(boxCollider->Height() / 2.0 * PixelScale));
+
+                double area = rigidBody->Type() != BodyType::staticBody ? (boxCollider->Width() * boxCollider->Height()) : 0.0f;
+                AddPhysicsToShape(body, &boxShape, rigidBody, boxCollider, area);
+            }
         }
 
-        for (const auto& boxCollider: gameObject->GetComponents<BoxCollider>())
-        {
-            body = MakeBody(*rigidBody, *gameObject, boxCollider->Width(), boxCollider->Height());
-            b2PolygonShape boxShape{};
-            boxShape.SetAsBox(static_cast<float>(boxCollider->Width() / 2.0 * PixelScale), static_cast<float>(boxCollider->Height() / 2.0 * PixelScale));
-
-            double area = rigidBody->Type() != BodyType::staticBody ? (boxCollider->Width() * boxCollider->Height()) : 0.0f;
-            AddPhysicsToShape(body, &boxShape, rigidBody, boxCollider, area);
-        }
+        _physicsObjects[gameObject] = body;
 
         auto location = rigidBody->Point();
         body->ApplyLinearImpulse(b2Vec2((float) location.x, (float) location.y), body->GetWorldCenter(), true);

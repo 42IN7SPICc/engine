@@ -34,5 +34,5 @@ add_dependencies(${PROJECT_NAME_TESTS} ${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME_TESTS} PRIVATE ${PROJECT_NAME} GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
 gtest_discover_tests(${PROJECT_NAME_TESTS})
 
-add_executable(${PROJECT_NAME}-exec main.cpp)
+add_executable(${PROJECT_NAME}-exec main.cpp PhysicsBehaviour.cpp)
 target_link_libraries(${PROJECT_NAME}-exec ${PROJECT_NAME})
