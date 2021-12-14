@@ -22,7 +22,7 @@ Window::Window(const std::string& title, int xpos, int ypos, int width, int heig
         SDL_DisplayMode DM{};
         if (SDL_GetDesktopDisplayMode(0, &DM) != 0) throw SDLException("The Video API could not determine the display mode of the desktop.");
 #ifdef __linux__
-        _window.reset(SDL_CreateWindow(title.c_str(), 0, 0, DM.w, DM.h, SDL_WINDOW_FULLSCREEN));
+        _window.reset(SDL_CreateWindow(title.c_str(), 0, 0, DM.w, DM.h, SDL_WINDOW_FULLSCREEN_DESKTOP));
 #else
         _window.reset(SDL_CreateWindow(title.c_str(), 0, 0, DM.w, DM.h, SDL_WINDOW_BORDERLESS));
 #endif
