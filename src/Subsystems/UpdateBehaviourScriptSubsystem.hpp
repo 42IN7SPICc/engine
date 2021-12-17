@@ -5,6 +5,9 @@
 
 namespace engine
 {
+    /**
+     * @brief Handles updates for the behaviour script components.
+     */
     class UpdateBehaviourScriptSubsystem : public BehaviourScriptSubsystem
     {
         protected:
