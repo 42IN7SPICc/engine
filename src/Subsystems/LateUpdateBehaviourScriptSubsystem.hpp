@@ -5,6 +5,9 @@
 
 namespace engine
 {
+    /**
+     * @brief Handles late updates for the behaviour script components.
+     */
     class LateUpdateBehaviourScriptSubsystem : public BehaviourScriptSubsystem
     {
         protected:
