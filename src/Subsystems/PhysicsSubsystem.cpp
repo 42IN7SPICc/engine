@@ -28,8 +28,9 @@ void PhysicsSubsystem::Update()
 {
     // Currently, all the gameObject and the PhysicsWorld get rebuild every Update tick.
     // The reason for this is because of the complex implementation of Box2D inside the SPIC API
-    // We needed a lot of extra variables and function to get updated correctly working.
-    // The only problem with the current setup is a little performance loss, and some physics inaccuracy
+    // Alongside with the undesirable behavior of keeping the state in its current form.
+    // For more information refer to the documentation
+    // The only problem with the current setup is a little performance loss.
     const b2Vec2 gravity(0.0f, 0.0f);
     _physicsWorld = std::make_unique<b2World>(gravity);
 
@@ -97,14 +98,14 @@ void PhysicsSubsystem::Update()
         {
             gameObject->Transform().position.x += (body->GetPosition().x / PixelScale) - transform.position.x;
             gameObject->Transform().position.y += (body->GetPosition().y / PixelScale) - transform.position.y;
-            gameObject->Transform().rotation = (body->GetAngle() * 180 / b2_pi);// - transform.rotation;
+            gameObject->Transform().rotation = (body->GetAngle() * 180 / b2_pi);
         }
 
         for (const auto& circleCollider: gameObject->GetComponents<CircleCollider>())
         {
             gameObject->Transform().position.x += (body->GetPosition().x / PixelScale) - transform.position.x;
             gameObject->Transform().position.y += (body->GetPosition().y / PixelScale) - transform.position.y;
-            gameObject->Transform().rotation = (body->GetAngle() * 180 / b2_pi);// - transform.rotation;
+            gameObject->Transform().rotation = (body->GetAngle() * 180 / b2_pi);
         }
 
         auto rigidBody = gameObject->GetComponent<RigidBody>();
