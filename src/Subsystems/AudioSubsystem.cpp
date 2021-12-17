@@ -8,6 +8,7 @@
 
 #include <SDL_mixer.h>
 #include <Engine.hpp>
+#include <functional>
 
 void engine::AudioSubsystem::Update()
 {
@@ -22,7 +23,8 @@ void engine::AudioSubsystem::Update()
             {
                 for (const auto& audioSource: gameObject->GetComponents<spic::AudioSource>())
                 {
-                    audioSource->Stop();
+                    if (audioSource->PlayingInScene)
+                        audioSource->Stop();
                 }
             }
         }
@@ -64,6 +66,25 @@ void engine::AudioSubsystem::PauseAllAudioPlayback()
             audioSource->PlayingInScene = false;
         }
     }
+}
+
+void engine::AudioSubsystem::StopAllAudioPlayback(const std::shared_ptr<spic::Scene>& scene)
+{
+    std::function<void(const std::vector<std::shared_ptr<spic::GameObject>>&)> recursiveLoop;
+    recursiveLoop = [&recursiveLoop](const std::vector<std::shared_ptr<spic::GameObject>>& children) {
+        for (const auto& item: children)
+        {
+            auto audioSources = item->GetComponents<spic::AudioSource>();
+            for (auto& audioSource: audioSources)
+            {
+                audioSource->Stop();
+                audioSource->PlayingInScene = false;
+            }
+            recursiveLoop(item->Children());
+        }
+    };
+
+    recursiveLoop(scene->Contents());
 }
 
 engine::AudioSubsystem::AudioSubsystem()
