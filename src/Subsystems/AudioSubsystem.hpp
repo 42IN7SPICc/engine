@@ -29,8 +29,9 @@ namespace engine
             /**
              * @brief Stops all audio playback for all AudioSource components in the active scene.
              * @param scene to process audio components on
+             * @param destinationScene scene we're transitioning to
              */
-            static void StopAllAudioPlayback(const std::shared_ptr<spic::Scene>& scene);
+            static void StopAllAudioPlayback(const std::shared_ptr<spic::Scene>& scene, const std::shared_ptr<spic::Scene>& destinationScene);
 
             /**
              * @brief Starts all AudioSource that need to be started during this update.
