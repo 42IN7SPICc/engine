@@ -68,17 +68,36 @@ void engine::AudioSubsystem::PauseAllAudioPlayback()
     }
 }
 
-void engine::AudioSubsystem::StopAllAudioPlayback(const std::shared_ptr<spic::Scene>& scene)
+void engine::AudioSubsystem::StopAllAudioPlayback(const std::shared_ptr<spic::Scene>& scene, const std::shared_ptr<spic::Scene>& destinationScene)
 {
-    std::function<void(const std::vector<std::shared_ptr<spic::GameObject>>&)> recursiveLoop;
-    recursiveLoop = [&recursiveLoop](const std::vector<std::shared_ptr<spic::GameObject>>& children) {
+    std::function<bool(const std::shared_ptr<spic::AudioSource>&, const std::vector<std::shared_ptr<spic::GameObject>>&)> recursiveFind;
+    recursiveFind = [&recursiveFind](const std::shared_ptr<spic::AudioSource>& target, const std::vector<std::shared_ptr<spic::GameObject>>& children) {
         for (const auto& item: children)
         {
             auto audioSources = item->GetComponents<spic::AudioSource>();
             for (auto& audioSource: audioSources)
             {
-                audioSource->Stop();
-                audioSource->PlayingInScene = false;
+                if (target == audioSource)
+                    return true;
+            }
+            recursiveFind(target, item->Children());
+        }
+
+        return false;
+    };
+
+    std::function<void(const std::vector<std::shared_ptr<spic::GameObject>>&)> recursiveLoop;
+    recursiveLoop = [&recursiveLoop, &recursiveFind, &destinationScene](const std::vector<std::shared_ptr<spic::GameObject>>& children) {
+        for (const auto& item: children)
+        {
+            auto audioSources = item->GetComponents<spic::AudioSource>();
+            for (auto& audioSource: audioSources)
+            {
+                if (!recursiveFind(audioSource, destinationScene->Contents()))
+                {
+                    audioSource->Stop();
+                    audioSource->PlayingInScene = false;
+                }
             }
             recursiveLoop(item->Children());
         }

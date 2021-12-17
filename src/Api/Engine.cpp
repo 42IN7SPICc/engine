@@ -3,6 +3,7 @@
 #include "../Managers/TimeManager.hpp"
 #include "SDL_timer.h"
 #include <stdexcept>
+#include <iostream>
 
 using namespace spic;
 
@@ -61,6 +62,7 @@ void Engine::Start()
             subsystem->Update();
         }
         window->SwapBuffers();
+        std::flush(std::cout);
 
         float elapsedMs = (SDL_GetPerformanceCounter() - start) / static_cast<float>(SDL_GetPerformanceFrequency()) * 1000.0f; // NOLINT(cppcoreguidelines-narrowing-conversions)
         if (TARGET_FRAME_DELAY > elapsedMs)
@@ -89,8 +91,17 @@ std::shared_ptr<Scene> Engine::PeekScene() const
 
 void Engine::PopScene()
 {
-    if (_currentScene) engine::AudioSubsystem::StopAllAudioPlayback(_scenes.top());
+    auto poppedScene = _scenes.top();
     _scenes.pop();
+
+    std::shared_ptr<spic::Scene> destinationScene{};
+
+    if (!_scenes.empty())
+        destinationScene = _scenes.top();
+    else
+        destinationScene = std::make_shared<spic::Scene>();
+
+    engine::AudioSubsystem::StopAllAudioPlayback(poppedScene, destinationScene);
 }
 
 void Engine::Shutdown()
