@@ -58,7 +58,10 @@ void engine::AudioSubsystem::PauseAllAudioPlayback()
         auto audioSources = object->GetComponents<spic::AudioSource>();
         for (auto& audioSource: audioSources)
         {
-            audioSource->Pause();
+            if (audioSource->Loop())
+                audioSource->Pause();
+            else
+                audioSource->Stop();
             audioSource->PlayingInScene = false;
         }
     }
