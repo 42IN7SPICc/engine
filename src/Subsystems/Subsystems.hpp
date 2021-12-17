@@ -3,7 +3,8 @@
 
 #include "ISubsystem.hpp"
 #include "AnimatorSubsystem.hpp"
-#include "BehaviourScriptSubsystem.hpp"
+#include "UpdateBehaviourScriptSubsystem.hpp"
+#include "LateUpdateBehaviourScriptSubsystem.hpp"
 #include "InputSubsystem.hpp"
 #include "RenderSubsystem.hpp"
 #include "PhysicsSubsystem.hpp"
