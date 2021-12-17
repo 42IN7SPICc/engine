@@ -12,9 +12,6 @@ namespace engine
      */
     class AudioSubsystem : public ISubsystem
     {
-        private:
-            std::shared_ptr<spic::Scene> _previousScene;
-
         public:
             /**
              * @brief Constructs a new instance of a AudioSubsystem.
