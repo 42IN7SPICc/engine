@@ -22,8 +22,7 @@ void engine::AudioSubsystem::Update()
             {
                 for (const auto& audioSource: gameObject->GetComponents<spic::AudioSource>())
                 {
-                    if (audioSource->PlayingInScene)
-                        audioSource->Stop();
+                    audioSource->Stop();
                 }
             }
         }
