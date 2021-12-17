@@ -40,8 +40,9 @@ void Engine::Start()
             std::make_shared<engine::InputSubsystem>(),
             std::make_shared<engine::GameSpeedSubsystem>(),
             std::make_shared<engine::AnimatorSubsystem>(),
-            std::make_shared<engine::BehaviourScriptSubsystem>(),
+            std::make_shared<engine::UpdateBehaviourScriptSubsystem>(),
             std::make_shared<engine::PhysicsSubsystem>(),
+            std::make_shared<engine::LateUpdateBehaviourScriptSubsystem>(),
             std::make_shared<engine::RenderSubsystem>(window.get()),
             std::make_shared<engine::FpsCounterSubsystem>(window.get())
     };
