@@ -13,23 +13,6 @@
 void engine::AudioSubsystem::Update()
 {
     auto objects = spic::GameObject::All();
-    auto currentScene = spic::Engine::Instance().PeekScene();
-    if (_previousScene && _previousScene != currentScene)
-    {
-        for (const auto& gameObject: _previousScene->Contents())
-        {
-            auto found = std::find(objects.begin(), objects.end(), gameObject);
-            if (found == objects.end())
-            {
-                for (const auto& audioSource: gameObject->GetComponents<spic::AudioSource>())
-                {
-                    if (audioSource->PlayingInScene)
-                        audioSource->Stop();
-                }
-            }
-        }
-    }
-    _previousScene = currentScene;
 
     for (const auto& object: objects)
     {
