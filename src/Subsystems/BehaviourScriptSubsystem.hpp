@@ -3,6 +3,10 @@
 
 #include "ISubsystem.hpp"
 
+#include "BehaviourScript.hpp"
+
+#include <memory>
+
 namespace engine
 {
     /**
@@ -15,6 +19,13 @@ namespace engine
              * @brief Triggers the OnStart method for unstarted scripts and the OnUpdate method for scripts that have been started.
              */
             void Update() override;
+
+        protected:
+            /**
+             * @brief Handles the stuff to be done for a script in the current BehaviourScriptSubsystem.
+             * @param behaviourScript The script to handle.
+             */
+            virtual void Handle(const std::shared_ptr<spic::BehaviourScript>& behaviourScript) = 0;
     };
 }
 
