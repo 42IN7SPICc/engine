@@ -88,6 +88,7 @@ std::shared_ptr<Scene> Engine::PeekScene() const
 
 void Engine::PopScene()
 {
+    if (_currentScene) engine::AudioSubsystem::StopAllAudioPlayback(_scenes.top());
     _scenes.pop();
 }
 
