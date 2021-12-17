@@ -17,12 +17,7 @@ void BehaviourScriptSubsystem::Update()
             {
                 if (!behaviourScript->GameObject().expired())
                 {
-                    if (!behaviourScript->Started())
-                    {
-                        behaviourScript->Started(true);
-                        behaviourScript->OnStart();
-                    }
-                    behaviourScript->OnUpdate();
+                    Handle(behaviourScript);
                 }
                 else
                 {
